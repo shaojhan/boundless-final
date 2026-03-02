@@ -1,0 +1,12 @@
+:root {
+    --white: rgba(255, 255, 255, 1);
+    --primary-light: rgba(24, 161, 255, 1);
+    --primary: rgba(21, 129, 204, 1);
+    ---font-family: "Oswald", Helvetica;
+    ---font-weight: 400;
+    ---font-size: 36px;
+    ---letter-spacing: 0px;
+    ---line-height: normal;
+    ---font-style: normal;
+  }
+  

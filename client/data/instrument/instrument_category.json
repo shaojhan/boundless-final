@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "parent_id": "",
+    "name": "吉他"
+  },
+  {
+    "id": 2,
+    "parent_id": "",
+    "name": "貝斯"
+  },
+  {
+    "id": 3,
+    "parent_id": "",
+    "name": "鍵盤樂器"
+  },
+  {
+    "id": 4,
+    "parent_id": "",
+    "name": "打擊樂器"
+  },
+  {
+    "id": 5,
+    "parent_id": "",
+    "name": "管樂器"
+  },
+  {
+    "id": 6,
+    "parent_id": "",
+    "name": "弓弦樂器"
+  },
+  {
+    "id": 7,
+    "parent_id": "",
+    "name": "音響設備"
+  },
+  {
+    "id": 8,
+    "parent_id": 1,
+    "name": "木吉他"
+  },
+  {
+    "id": 9,
+    "parent_id": 1,
+    "name": "電吉他"
+  },
+  {
+    "id": 10,
+    "parent_id": 2,
+    "name": "木貝斯"
+  },
+  {
+    "id": 11,
+    "parent_id": 2,
+    "name": "電貝斯"
+  },
+  {
+    "id": 12,
+    "parent_id": 3,
+    "name": "直立式鋼琴"
+  },
+  {
+    "id": 13,
+    "parent_id": 3,
+    "name": "平台式鋼琴"
+  },
+  {
+    "id": 14,
+    "parent_id": 3,
+    "name": "數位鋼琴"
+  },
+  {
+    "id": 15,
+    "parent_id": 4,
+    "name": "傳統鼓"
+  },
+  {
+    "id": 16,
+    "parent_id": 4,
+    "name": "電子鼓"
+  },
+  {
+    "id": 17,
+    "parent_id": 4,
+    "name": "銅鈸"
+  },
+  {
+    "id": 18,
+    "parent_id": 5,
+    "name": "長笛"
+  },
+  {
+    "id": 19,
+    "parent_id": 5,
+    "name": "薩克斯風"
+  },
+  {
+    "id": 20,
+    "parent_id": 5,
+    "name": "小號"
+  },
+  {
+    "id": 21,
+    "parent_id": 5,
+    "name": "長號"
+  },
+  {
+    "id": 22,
+    "parent_id": 5,
+    "name": "上低音號"
+  },
+  {
+    "id": 23,
+    "parent_id": 6,
+    "name": "大提琴"
+  },
+  {
+    "id": 24,
+    "parent_id": 6,
+    "name": "中提琴"
+  },
+  {
+    "id": 25,
+    "parent_id": 6,
+    "name": "小提琴"
+  },
+  {
+    "id": 26,
+    "parent_id": 7,
+    "name": "音箱頭"
+  },
+  {
+    "id": 27,
+    "parent_id": 7,
+    "name": "箱體"
+  },
+  {
+    "id": 28,
+    "parent_id": 7,
+    "name": "Combo音箱"
+  }
+]

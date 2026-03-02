@@ -1,0 +1,204 @@
+.row {
+  --primary: #1581cc;
+  --light-primary: #18a1ff;
+  --deep-primary: #124365;
+  --dark: #1d1d1d;
+  --secondary: #666666;
+  --body: #b9b9b9;
+  --yellow: #faad14;
+  --red: #ec3f3f;
+  --back: rgba(185, 185, 185, 0.3);
+}
+.jamMain {
+  padding: 0;
+  margin-bottom: 60px;
+  @media screen and (max-width: 576px) {
+    margin-bottom: 0;
+  }
+}
+.jamTitle {
+  color: var(--deep-primary);
+  font-size: 24px;
+  font-weight: bold;
+}
+.jamLeft {
+  background-color: var(--back);
+  padding: 16px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  @media screen and (max-width: 576px) {
+    margin-inline: 20px;
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+}
+.jamLeftSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  @media screen and (max-width: 576px) {
+    gap: 12px;
+  }
+}
+
+.formItem {
+  padding-inline: 14px;
+  @media screen and (max-width: 576px) {
+    gap: 8px;
+  }
+}
+.itemTitle {
+  padding: 0;
+  color: var(--deep-primary);
+  font-size: 16px;
+  font-weight: bold;
+}
+.itemInputWrapper {
+  padding: 0;
+}
+.itemInput {
+  width: 50%;
+  @media screen and (max-width: 576px) {
+    width: 100%;
+  }
+}
+.itemInputPostcode {
+  width: 10%;
+  @media screen and (max-width: 576px) {
+    width: 20%;
+  }
+}
+.selectGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  @media screen and (max-width: 576px) {
+    width: 100%;
+    gap: 4px;
+  }
+}
+.plusBtnWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 8px;
+}
+.plusBtn {
+  color: #18a1ff;
+  cursor: pointer;
+  &:hover {
+    color: #1581cc;
+  }
+}
+.textArea {
+  // resize: none;
+  width: 80%;
+  height: 300px;
+  @media screen and (max-width: 576px) {
+    height: 500px;
+    width: 100%;
+  }
+}
+.warningText {
+  color: #ec3f3f;
+  font-weight: 500;
+}
+// ----------------- 發起須知 -----------------
+.jamRightWrapper {
+  padding-inline: 20px 0;
+  padding-bottom: 30px;
+  @media screen and (max-width: 576px) {
+    padding-inline: 0;
+  }
+}
+.jamRight {
+  background-color: var(--back);
+  padding: 16px;
+  border-radius: 10px;
+  @media screen and (max-width: 576px) {
+    margin-inline: 20px;
+  }
+}
+.rules {
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  color: var(--dark);
+  & li {
+    margin-bottom: 5px;
+  }
+}
+.point {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+// ----------------------------- 資訊頁面
+.cardBadge {
+  color: #fff;
+  padding-inline: 10px;
+  padding-block: 4px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+.degree {
+  background-color: #666666;
+}
+.player {
+  background-color: #18a1ff;
+}
+.genere {
+  background-color: #faad14;
+}
+
+.infoText {
+  padding: 0;
+  color: var(--dark);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.noticeText {
+  margin-top: 6px;
+  padding: 0;
+  color: var(--dark);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.userPhotoWrapper {
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+.userPhoto {
+  object-fit: cover;
+}
+.userPhotoDefault {
+  width: 32px;
+  height: 32px;
+  background-color: #1581cc;
+  overflow: hidden;
+  position: relative;
+}
+.userDefaultIcon {
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - 12px);
+}
+.memberName {
+  font-size: 16px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  text-decoration: underline;
+  flex: 1 0 0;
+}

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `user` MODIFY COLUMN `password` VARCHAR(100) NOT NULL;

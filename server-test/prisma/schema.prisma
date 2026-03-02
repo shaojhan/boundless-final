@@ -1,0 +1,501 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Article {
+  id             Int       @id @default(autoincrement())
+  auid           String    @db.VarChar(16)
+  title          String    @db.VarChar(40)
+  content        String    @db.Text
+  img            String    @db.VarChar(100)
+  category_id    Int
+  user_id        Int
+  state          Int       @db.TinyInt
+  created_time   DateTime  @default(now())
+  valid          Int       @default(1) @db.TinyInt
+  updated_time   DateTime?
+  published_time DateTime?
+
+  category ArticleCategory  @relation(fields: [category_id], references: [id])
+  author   User             @relation(fields: [user_id], references: [id])
+  comments ArticleComment[]
+
+  @@map("article")
+}
+
+model ArticleCategory {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(4)
+  articles Article[]
+
+  @@map("article_category")
+}
+
+model ArticleComment {
+  id           Int       @id @default(autoincrement())
+  article_id   Int
+  user_id      Int
+  content      String    @db.Text
+  likes        Int
+  created_time DateTime
+  updated_time DateTime?
+  valid        Int       @db.TinyInt
+
+  article      Article             @relation(fields: [article_id], references: [id])
+  commenter    User                @relation(fields: [user_id], references: [id])
+  commentLikes ArticleCommentLike[]
+
+  @@map("article_comment")
+}
+
+model ArticleCommentLike {
+  id                 Int       @id @default(autoincrement())
+  article_comment_id Int
+  user_id            Int
+  created_time       DateTime
+  updated_time       DateTime?
+  valid              Int       @db.TinyInt
+
+  comment ArticleComment @relation(fields: [article_comment_id], references: [id])
+  user    User           @relation(fields: [user_id], references: [id])
+
+  @@map("article_comment_like")
+}
+
+model Brand {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(20)
+  valid    Int       @default(1) @db.TinyInt
+  products Product[]
+
+  @@map("brand")
+}
+
+model Category {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  parent_id  Int?
+  created_at DateTime
+  updated_at DateTime
+
+  parent   Category?  @relation("CategoryHierarchy", fields: [parent_id], references: [id])
+  children Category[] @relation("CategoryHierarchy")
+
+  @@map("category")
+}
+
+model Color {
+  id            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(255)
+  created_at    DateTime
+  updated_at    DateTime
+  productColors ProductColor[]
+
+  @@map("color")
+}
+
+model Coupon {
+  id                 Int      @id @default(autoincrement())
+  user_id            Int
+  coupon_template_id Int
+  created_time       DateTime
+  valid              Int      @default(1) @db.TinyInt
+
+  user           User           @relation(fields: [user_id], references: [id])
+  couponTemplate CouponTemplate @relation(fields: [coupon_template_id], references: [id])
+
+  @@map("coupon")
+}
+
+model CouponTemplate {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(20)
+  discount     Float
+  kind         Int       @db.TinyInt
+  type         Int       @db.TinyInt
+  coupon_code  String    @db.VarChar(12)
+  requirement  Int?
+  created_time DateTime
+  onshelf_time DateTime
+  left_time    Int?
+  limit_time   DateTime?
+  valid        Int       @default(1) @db.TinyInt
+  coupons      Coupon[]
+
+  @@map("coupon_template")
+}
+
+model Favorite {
+  id         Int      @id @default(autoincrement())
+  pid        Int
+  uid        Int
+  created_at DateTime
+  updated_at DateTime
+
+  product Product @relation(fields: [pid], references: [id])
+  user    User    @relation(fields: [uid], references: [id])
+
+  @@map("favorite")
+}
+
+model Genre {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(10)
+
+  @@map("genre")
+}
+
+model InstrumentCategory {
+  id        Int    @id @default(autoincrement())
+  parent_id Int?
+  name      String @db.VarChar(10)
+
+  parent   InstrumentCategory?  @relation("InstrumentCategoryHierarchy", fields: [parent_id], references: [id])
+  children InstrumentCategory[] @relation("InstrumentCategoryHierarchy")
+  products Product[]
+
+  @@map("instrument_category")
+}
+
+model Jam {
+  id             Int       @id @default(autoincrement())
+  juid           String    @unique @db.VarChar(16)
+  former         String    @db.VarChar(30)
+  member         String?   @default("[]") @db.VarChar(200)
+  name           String?   @db.VarChar(100)
+  cover_img      String?   @db.VarChar(60)
+  introduce      String?   @db.Text
+  works_link     String?   @db.Text
+  title          String    @db.VarChar(100)
+  description    String    @db.Text
+  degree         Int       @db.TinyInt
+  genre          String    @db.VarChar(12)
+  players        String    @db.VarChar(12)
+  region         String    @db.VarChar(12)
+  band_condition String?   @db.Text
+  created_time   DateTime  @default(now())
+  updated_time   DateTime?
+  formed_time    DateTime?
+  state          Int       @default(0) @db.TinyInt
+  valid          Int       @default(1) @db.TinyInt
+
+  applies JamApply[]
+
+  @@map("jam")
+}
+
+model JamApply {
+  id           Int      @id @default(autoincrement())
+  juid         String   @db.VarChar(16)
+  former_uid   String   @db.VarChar(16)
+  applier_uid  String   @db.VarChar(16)
+  applier_play Int
+  message      String   @db.Text
+  state        Int      @default(0)
+  created_time DateTime @default(now())
+  valid        Int      @default(1) @db.TinyInt
+
+  jam Jam @relation(fields: [juid], references: [juid])
+
+  @@map("jam_apply")
+}
+
+model LessonCategory {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(6)
+  valid    Int       @default(1) @db.TinyInt
+  products Product[]
+
+  @@map("lesson_category")
+}
+
+model OrderItem {
+  id         Int    @id @default(autoincrement())
+  order_id   Int
+  product_id Int
+  quantity   Int
+  ouid       String @db.VarChar(16)
+
+  orderTotal OrderTotal @relation(fields: [ouid], references: [ouid])
+  product    Product    @relation(fields: [product_id], references: [id])
+
+  @@map("order_item")
+}
+
+model OrderTotal {
+  id                   Int      @id @default(autoincrement())
+  user_id              String   @db.VarChar(20)
+  payment              Int
+  transportation_state String   @db.VarChar(6)
+  phone                String   @db.VarChar(10)
+  discount             Int      @db.TinyInt
+  postcode             Int
+  country              String   @db.VarChar(60)
+  township             String   @db.VarChar(60)
+  address              String   @db.VarChar(60)
+  created_time         DateTime
+  ouid                 String   @unique @db.VarChar(16)
+
+  orderItems OrderItem[]
+
+  @@map("order_total")
+}
+
+model Otp {
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  email         String   @db.VarChar(255)
+  token         String   @db.VarChar(255)
+  exp_timestamp BigInt
+  created_at    DateTime
+  updated_at    DateTime
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("otp")
+}
+
+model Player {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(10)
+
+  @@map("player")
+}
+
+model Product {
+  id                     Int      @id @default(autoincrement())
+  puid                   String?  @db.VarChar(12)
+  type                   Int?
+  name                   String?  @db.VarChar(50)
+  price                  Int?
+  discount               Decimal? @db.Decimal(2, 1)
+  discount_state         Int?
+  instrument_category_id Int?
+  lesson_category_id     Int?
+  brand_id               Int?
+  teacher_id             Int?
+  img                    String?  @db.VarChar(150)
+  img_small              String?  @db.VarChar(50)
+  info                   String?  @db.VarChar(572)
+  outline                String?  @db.VarChar(552)
+  achievement            String?  @db.VarChar(306)
+  suitable               String?  @db.VarChar(197)
+  homework               Int?
+  length                 Int?
+  specs                  String?  @db.VarChar(347)
+  stock                  Int?
+  sales                  Int?
+  created_time           String?  @db.VarChar(19)
+  onshelf_time           String?  @db.VarChar(19)
+  updated_time           String?  @db.VarChar(19)
+  valid                  Int?
+
+  instrumentCategory InstrumentCategory? @relation(fields: [instrument_category_id], references: [id])
+  lessonCategory     LessonCategory?     @relation(fields: [lesson_category_id], references: [id])
+  brand              Brand?              @relation(fields: [brand_id], references: [id])
+  teacher            TeacherInfo?        @relation(fields: [teacher_id], references: [id])
+  colors             ProductColor[]
+  reviews            ProductReview[]
+  sizes              ProductSize[]
+  tags               ProductTag[]
+  favorites          Favorite[]
+  orderItems         OrderItem[]
+  purchaseItems      PurchaseItem[]
+
+  @@map("product")
+}
+
+model ProductColor {
+  id         Int      @id @default(autoincrement())
+  pid        Int
+  cid        Int
+  created_at DateTime
+  updated_at DateTime
+
+  product Product @relation(fields: [pid], references: [id])
+  color   Color   @relation(fields: [cid], references: [id])
+
+  @@map("product_color")
+}
+
+model ProductReview {
+  id           Int       @id @default(autoincrement())
+  product_id   Int
+  user_id      Int
+  content      String?   @db.Text
+  stars        Int       @db.TinyInt
+  likes        Int?
+  created_time DateTime
+  updated_time DateTime?
+  valid        Int       @default(1) @db.TinyInt
+
+  productRef Product             @relation(fields: [product_id], references: [id])
+  user       User               @relation(fields: [user_id], references: [id])
+  likedBy    ProductReviewLike[] @relation("ProductReviewLikeToReview")
+
+  @@map("product_review")
+}
+
+model ProductReviewLike {
+  id           Int       @id @default(autoincrement())
+  review_id    Int
+  user_id      Int
+  created_time DateTime
+  updated_time DateTime?
+  valid        Int       @default(1) @db.TinyInt
+
+  review ProductReview @relation("ProductReviewLikeToReview", fields: [review_id], references: [id])
+  user   User          @relation(fields: [user_id], references: [id])
+
+  @@map("product_review_like")
+}
+
+model ProductSize {
+  id         Int      @id @default(autoincrement())
+  pid        Int
+  sid        Int
+  created_at DateTime
+  updated_at DateTime
+
+  product Product @relation(fields: [pid], references: [id])
+  size    Size    @relation(fields: [sid], references: [id])
+
+  @@map("product_size")
+}
+
+model ProductTag {
+  id         Int      @id @default(autoincrement())
+  pid        Int
+  tid        Int
+  created_at DateTime
+  updated_at DateTime
+
+  product Product @relation(fields: [pid], references: [id])
+  tag     Tag     @relation(fields: [tid], references: [id])
+
+  @@map("product_tag")
+}
+
+model PurchaseItem {
+  id         Int      @id @default(autoincrement())
+  order_id   String   @db.VarChar(255)
+  product_id Int
+  quantity   Int?
+  created_at DateTime
+  updated_at DateTime
+
+  purchaseOrder PurchaseOrder @relation(fields: [order_id], references: [id])
+  product       Product       @relation(fields: [product_id], references: [id])
+
+  @@map("purchase_item")
+}
+
+model PurchaseOrder {
+  id             String    @id @db.VarChar(255)
+  user_id        Int
+  amount         Int?
+  transaction_id String?   @db.VarChar(255)
+  payment        String?   @db.VarChar(255)
+  shipping       String?   @db.VarChar(255)
+  status         String?   @db.VarChar(255)
+  order_info     String?   @db.Text
+  reservation    String?   @db.Text
+  confirm        String?   @db.Text
+  return_code    String?   @db.VarChar(255)
+  created_at     DateTime
+  updated_at     DateTime
+
+  user          User           @relation(fields: [user_id], references: [id])
+  purchaseItems PurchaseItem[]
+
+  @@map("purchase_order")
+}
+
+model Size {
+  id           Int           @id @default(autoincrement())
+  name         String        @db.VarChar(255)
+  created_at   DateTime
+  updated_at   DateTime
+  productSizes ProductSize[]
+
+  @@map("size")
+}
+
+model Tag {
+  id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar(255)
+  created_at  DateTime
+  updated_at  DateTime
+  productTags ProductTag[]
+
+  @@map("tag")
+}
+
+model TeacherInfo {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(25)
+  img      String    @db.VarChar(100)
+  info     String    @db.Text
+  valid    Int       @default(1) @db.TinyInt
+  products Product[]
+
+  @@map("teacher_info")
+}
+
+model User {
+  id              Int       @id @default(autoincrement())
+  uid             String    @unique @db.VarChar(16)
+  name            String    @db.VarChar(25)
+  email           String    @db.VarChar(50)
+  password        String    @db.VarChar(100)
+  phone           String?   @db.VarChar(10)
+  postcode        Int?
+  country         String?   @db.VarChar(20)
+  township        String?   @db.VarChar(20)
+  address         String?   @db.VarChar(100)
+  birthday        DateTime  @db.Date
+  genre_like      String?   @db.VarChar(10)
+  play_instrument String?   @db.VarChar(10)
+  info            String?   @db.VarChar(500)
+  img             String?   @db.VarChar(100)
+  gender          String?   @db.VarChar(10)
+  nickname        String?   @db.VarChar(100)
+  google_uid      String?   @db.VarChar(100)
+  photo_url       String?   @db.VarChar(255)
+  privacy         String?   @db.VarChar(100)
+  my_lesson       String?   @db.VarChar(100)
+  my_jam          String?   @db.VarChar(16)
+  created_time    DateTime
+  updated_time    DateTime
+  valid           Int       @default(1)
+
+  articles            Article[]
+  articleComments     ArticleComment[]
+  articleCommentLikes ArticleCommentLike[]
+  coupons             Coupon[]
+  favorites           Favorite[]
+  otps                Otp[]
+  productReviews      ProductReview[]
+  productReviewLikes  ProductReviewLike[]
+  purchaseOrders      PurchaseOrder[]
+  refreshTokens       RefreshToken[]
+
+  @@map("user")
+}
+
+model RefreshToken {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique @db.VarChar(255)
+  user_id    Int
+  expires_at DateTime
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("refresh_token")
+}

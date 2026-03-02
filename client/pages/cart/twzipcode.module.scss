@@ -1,0 +1,12 @@
+.form_label{
+    color: var(--Text-Secondary---Grey2, #6F7482);
+}
+.postcode{
+    @media screen and (max-width: 576px) {
+        height: 80px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+        text-align: center;
+      }
+}

@@ -1,0 +1,63 @@
+@import '../globals.scss';
+
+.instrument-card {
+  width: 100%;
+  max-width: 240px;
+  border-radius: 5px;
+  border: 1px solid $secondary;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+.instrument-image-container {
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 1.33;
+  width: 100%;
+  max-width: 220px;
+  padding-inline: 10px;
+  & img{
+    width: 100%;
+    height: 166px;
+    object-fit: contain;
+  }
+}
+.instrument-image,
+.verification-icon {
+  // width: 100%;
+  // height: auto;
+}
+.verification-icon {
+  width: 20px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.instrument-info {
+  display: flex;
+  flex-direction: column;
+  color: #1d1d1d;
+  padding: 14px 12px;
+}
+.instrument-title {
+  font-weight: bold;
+  margin: 0;
+  font-size: 16px;
+  font-family: Noto Sans TC, sans-serif;
+}
+.instrument-price {
+  margin-top: 11px;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: Noto Sans TC, sans-serif;
+}
+.instrument-sold {
+  color: #5a5a5a;
+  margin-top: 46px;
+  font-size: 14px;
+  font-family: Noto Sans TC, sans-serif;
+}

@@ -1,0 +1,11 @@
+.couponImage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-left: 16px;
+}
+@media screen and (max-width: 576px) {
+  .couponImage {
+    padding: 0;
+  }
+}/*# sourceMappingURL=userCoupon.module.css.map */

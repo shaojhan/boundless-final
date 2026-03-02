@@ -1,0 +1,62 @@
+.recruitCard {
+  width: 525px;
+  height: -moz-fit-content;
+  height: fit-content;
+  border: 1px solid #b9b9b9;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 16px;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (max-width: 576px) {
+  .recruitCard {
+    width: 100%;
+  }
+}
+
+.cardBadge {
+  color: #fff;
+  padding-inline: 8px;
+  padding-block: 3px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  max-height: 27px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.degree {
+  background-color: #5a5a5a;
+}
+
+.player {
+  background-color: #18a1ff;
+}
+
+.genere {
+  background-color: #faad14;
+}
+
+.former {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userPhotoWrapper {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.userPhoto {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}/*# sourceMappingURL=recruit-card.module.css.map */

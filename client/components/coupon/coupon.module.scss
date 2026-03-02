@@ -1,0 +1,21 @@
+.couponCard {
+  width: 340px;
+  // width: 100%;
+  // width: 350px;
+  background-color: #fff;
+  border-radius: 8px;
+  @media screen and (max-width: 576px) {
+    min-width: 250px;
+    margin: 0;
+    padding: 0;
+  }
+}
+.couponImg {
+  border-right: dashed gray;
+  border-width: 4px;
+  @media screen and (max-width: 576px) {
+    margin: 0;
+    padding: 0;
+    border-width: 0px;
+  }
+}

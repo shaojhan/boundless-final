@@ -1,0 +1,31 @@
+:root {
+    --primary: rgba(21, 129, 204, 1);
+    --dark: rgba(29, 29, 29, 1);
+    --secondary: rgba(90, 90, 90, 1);
+    --discount-red: rgba(236, 63, 63, 1);
+    --white: rgba(255, 255, 255, 1);
+    --primary-deep: rgba(18, 67, 101, 1);
+    --primary-light: rgba(24, 161, 255, 1);
+    --body: rgba(185, 185, 185, 1);
+    --sidebar-gray: rgba(207, 207, 207, 0.37);
+    ---font-family: "Oswald", Helvetica;
+    ---font-weight: 400;
+    ---font-size: 36px;
+    ---letter-spacing: 0px;
+    ---line-height: normal;
+    ---font-style: normal;
+    --p-font-family: "Noto Sans TC", Helvetica;
+    --p-font-weight: 400;
+    --p-font-size: 16px;
+    --p-letter-spacing: 0px;
+    --p-line-height: normal;
+    --p-font-style: normal;
+    --small-font-family: "Noto Sans TC", Helvetica;
+    --small-font-weight: 400;
+    --small-font-size: 14px;
+    --small-letter-spacing: 0px;
+    --small-line-height: normal;
+    --small-font-style: normal;
+    --shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  }
+  

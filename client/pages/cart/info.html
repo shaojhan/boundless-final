@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Boundless</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- google字體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      :root {
+        --primary: #1581cc;
+        --light-primary: #18a1ff;
+        --deep-primary: #124365;
+        --dark: #1d1d1d;
+        --secondary: #5a5a5a;
+        --body: #b9b9b9;
+        --yellow: #faad14;
+        --red: #ec3f3f;
+      }
+
+      body {
+        font-family: "Noto Sans TC", sans-serif;
+
+        & ul {
+          list-style: none;
+          margin: 0;
+        }
+
+        & a {
+          text-decoration: none;
+        }
+      }
+
+      /* --------------- header & navbar --------------- */
+      header {
+        background-color: var(--primary);
+        height: 60px;
+        padding: 10px 35px;
+        .logo {
+          max-width: 180px;
+        }
+        .logo-mb {
+          max-width: 30px;
+        }
+
+        @media screen and (max-width: 576px) {
+          padding-inline: 20px;
+        }
+      }
+
+      nav {
+        flex: 1;
+        max-width: 660px;
+      }
+
+      nav a {
+        display: block;
+        padding: 5px 12px;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 500;
+        &:hover {
+          color: var(--deep-primary);
+          background-color: #fff;
+        }
+      }
+
+      .navbar-mb {
+        color: #fff;
+      }
+
+      /* --------------- container --------------- */
+      .container {
+        min-height: calc(100vh);
+        width: 1920px;
+        padding: 60px 60px 110px 60px;
+        min-height: 912px;
+        gap: 10px;
+      }
+
+      /* --------------- footer --------------- */
+      footer {
+        background-color: #000;
+        color: #fff;
+        width: 100%;
+        height: 45px;
+        font-size: 16px;
+      }
+      /* ----------------  cart ------------------ */
+      .cart-process {
+        padding: 8px 40px;
+        margin-bottom: 20px;
+      }
+      .cart-main {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .active {
+        background: var(--primary-light, #18a1ff);
+      }
+      .inactive {
+        background: var(--body, #b9b9b9);
+      }
+      .ball {
+        color: #fff;
+        text-align: center;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        font-family: "Noto Sans TC";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+      .h5 {
+        color: #000;
+        /* h5 */
+        font-family: "Noto Sans TC";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+      .h3 {
+        font-family: "Noto Sans TC";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+      .h6 {
+        font-family: "Noto Sans TC";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+      .carttext {
+        font-family: "Noto Sans TC";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+      .discount {
+        color: var(--primary);
+      }
+      .total {
+        border-radius: 10px;
+        border: 1px solid var(--primary);
+        padding: 20px;
+        align-self: stretch;
+      }
+      .cart-btn {
+        width: 100%;
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
+        border-radius: 5px;
+        .btn {
+          width: 100%;
+          padding: 14px 0px !important;
+        }
+      }
+      .cart-lesson {
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+        width: 100%;
+      }
+      .cart-instrument {
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+        width: 100%;
+      }
+      .cart-title {
+        color: var(--white, #fff);
+        font-family: "Noto Sans TC";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        background-color: var(--body);
+        max-width: 880px;
+        padding: 5px 12px;
+      }
+      .consumer-info-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px;
+      }
+      .address-location{
+        display: flex;
+        /* width: 664px; */
+        align-items: flex-start;
+        align-content: flex-start;
+        gap: 12px 45px;
+        flex-wrap: wrap;
+      }
+      .credit-card-info{
+        .minussign::before {
+              content: "\2212";
+              color: #000;
+            /* sidebar-font */
+              font-family: "Noto Sans TC";
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 700;
+              line-height: normal;
+            }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- header 頂部導覽列 -->
+    <header
+      class="w-100 sticky-top d-flex justify-content-between align-items-center"
+    >
+      <a href=""
+        ><img class="logo d-none d-sm-block" src="logo.svg" alt=""
+      /></a>
+      <a href=""><img class="logo-mb d-sm-none" src="logo_mb.svg" alt="" /></a>
+
+      <nav>
+        <ul class="navbar d-none d-sm-flex justify-content-between flex-row">
+          <li><a href="">探索課程</a></li>
+          <li><a href="">樂器商城</a></li>
+          <li><a href="">Let's JAM!</a></li>
+          <li><a href="">樂友論壇</a></li>
+          <li class="ms-3">
+            <a href=""><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
+          </li>
+          <li><a href="">登入/註冊</a></li>
+        </ul>
+        <!-- 手機toogle navbar -->
+        <div
+          class="navbar-mb d-sm-none d-flex justify-content-end align-items-center"
+        >
+          <a href="" class="p-0 me-3"
+            ><i class="fa-solid fa-cart-shopping fa-xl"></i
+          ></a>
+          <i class="fa-solid fa-bars fa-2xl ms-3"></i>
+        </div>
+      </nav>
+    </header>
+    <!-- End header -->
+
+    <!-- contnet -->
+    <div class="container">
+      <div><h2>購物車</h2></div>
+      <div class="d-flex justify-content-between cart-process">
+        <div class="d-flex align-items-center" style="gap: 10px">
+          <div
+            class="ball d-flex align-items-center justify-content-center inactive"
+          >
+            1
+          </div>
+          <div class="h5">確認/修改訂單</div>
+        </div>
+        <div class="d-flex align-items-center" style="gap: 10px">
+          <div
+            class="ball d-flex align-items-center justify-content-center active"
+          >
+            2
+          </div>
+          <div class="h5">填寫訂單資料</div>
+        </div>
+        <div class="d-flex align-items-center" style="gap: 10px">
+          <div
+            class="ball d-flex align-items-center justify-content-center inactive"
+          >
+            3
+          </div>
+          <div class="h5">結帳確認</div>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="w-100 p-0 cart-main" style="height: 100vh">
+          <div class="consumer-info">
+            <div class="cart-title">寄送資訊</div>
+            <div class="consumer-info-group">
+              <div class="row g-3 align-items-center">
+                <label for="name" class="col-form-label col-sm-2 h6"
+                  >購買者姓名</label
+                >
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="name" />
+                </div>
+              </div>
+              <div class="row g-3 align-items-center">
+                <label for="phone" class="col-form-label col-sm-2 h6"
+                  >電話號碼</label
+                >
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="phone" />
+                </div>
+              </div>
+              <div class="row g-3 align-items-center">
+                <label for="email" class="col-form-label col-sm-2 h6"
+                  >電子信箱</label
+                >
+                <div class="col-sm-5">
+                  <input type="text" class="form-control" id="email" />
+                </div>
+              </div>
+              <div class="row g-3">
+                <label for="address" class="col-form-label col-sm-2 h6"
+                  >寄送地址</label
+                >
+                <div class="address-location col-sm-10">
+                  <div class="col-sm-3">
+                    <label for="country" class="form-label">縣/市</label>
+                    <select class="form-select" name="country" id="country">
+                      <option value="" selected>台北市</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-3">
+                    <label for="district" class="form-label">區/鎮/鄉</label>
+                    <select class="form-select" name="district" id="district">
+                      <option value="" selected>中正區</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-7">
+                    <label for="addressinfo" class="form-label">詳細地址</label>
+                    <input type="text" class="form-control" id="addressinfo"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cart-instrument credit-card-info">
+            <div class="cart-title">付款資訊</div>
+            <div class="consumer-info-group">
+              <div class="row g-3 align-items-center">
+                <label for="name" class="col-form-label col-sm-2 h6"
+                  >持卡人姓名</label
+                >
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="name" placeholder="Ex:HSIANG-AN, YANG"/>
+                </div>
+              </div>
+              <div class="row g-3 align-items-center">
+                <label for="credit-card-number" class="col-form-label col-sm-2 h6" 
+                  >信用卡卡號</label
+                >
+                <div class="creditcard" style="width: 5rem;">
+                  <input type="text" class="form-control" id="credit-card-number" maxlength="4" style="text-align: center;"/>
+                </div>
+                <span class="w-auto minussign"></span>
+                <div class="creditcard" style="width: 5rem;">
+                  <input type="text" class="form-control" id="credit-card-number" maxlength="4" style="text-align: center;"/>
+                </div>
+                <span class="w-auto minussign"></span>
+                <div class="creditcard" style="width: 5rem;">
+                  <input type="text" class="form-control" id="credit-card-number" maxlength="4" style="text-align: center;"/>
+                </div>
+                <span class="w-auto minussign"></span>
+                <div class="creditcard" style="width: 5rem;">
+                  <input type="text" class="form-control" id="credit-card-number" maxlength="4" style="text-align: center;"/>
+                </div>
+              </div>
+              <div class="row g-3 align-items-center">
+                <label for="email" class="col-form-label col-sm-2 h6"
+                  >有效期限</label
+                >
+                <div class="" style="width: 5rem;">
+                  <input type="text" class="form-control" id="expiration-date" placeholder="MM" maxlength="2" min="1" max="12" style="text-align: center;"/>
+                </div>
+                <span class="w-auto minussign"></span>
+                <div class="" style="width: 5rem;">
+                  <input type="text" class="form-control" id="expiration-date" placeholder="YY" maxlength="2" style="text-align: center;"/>
+                </div>
+              </div>
+              <div class="row g-3 align-items-center">
+                <label for="3-number" class="col-form-label col-sm-2 h6"
+                  >背面末三碼</label
+                >
+                <div class="" style="width: 5rem;">
+                  <input type="text" class="form-control" style="text-align: center;" id="3-number" maxlength="3"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="position-sticky top-0"
+          style="height: 100vh; padding-inline: 20px; flex: 0 0 440px"
+        >
+          <div
+            class="d-flex flex-column position-sticky"
+            style="gap: 20px; top: 110px"
+          >
+            <div class="total d-flex flex-column" style="gap: 20px">
+              <div class="d-flex justify-content-between carttext">
+                <div>商品數量</div>
+                <div>樂器*3 課程*2</div>
+              </div>
+              <div class="d-flex justify-content-between carttext">
+                <div>原價合計</div>
+                <div>NT $864000</div>
+              </div>
+              <div class="d-flex justify-content-between carttext discount">
+                <div>折扣合計</div>
+                <div>-NT $3400</div>
+              </div>
+              <div class="d-flex justify-content-between h3">
+                <div>合計</div>
+                <div>NT $790000</div>
+              </div>
+            </div>
+            <div class="cart-btn">
+              <div class="btn btn-primary">結帳</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End content -->
+
+    <footer class="d-flex align-items-center justify-content-center">
+      Copyright © 2023 Boundless. All rights reserved.
+    </footer>
+
+    <script>
+
+    </script>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

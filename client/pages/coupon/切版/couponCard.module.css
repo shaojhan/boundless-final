@@ -1,0 +1,9 @@
+.couponCard {
+  width: 300px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+.couponCard img {
+  border-right: dashed gray;
+  border-width: 4px;
+}

@@ -1,0 +1,101 @@
+.common-pagination {
+    display: flex;
+    width: 1320px;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 0px 345px 0px 0px;
+    position: relative;
+  }
+  
+  .common-pagination .common-page-previous {
+    width: 36px;
+    position: relative;
+    height: 32px;
+  }
+  
+  .common-pagination .common-page-number {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .common-pagination .div-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 32px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 3px;
+    overflow: hidden;
+    transform: rotate(-180deg);
+    position: relative;
+    height: 32px;
+  }
+  
+  .common-pagination .text-wrapper {
+    position: relative;
+    width: fit-content;
+    margin-top: -4.5px;
+    margin-bottom: -2.5px;
+    transform: rotate(180deg);
+    font-family: "Noto Sans-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .common-pagination .element {
+    color: #000000;
+    position: relative;
+    width: fit-content;
+    margin-top: -4.5px;
+    margin-bottom: -2.5px;
+    margin-left: -2.5px;
+    margin-right: -2.5px;
+    transform: rotate(180deg);
+    font-family: "Noto Sans-Regular", Helvetica;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .common-pagination .element-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 32px;
+    height: 32px;
+    gap: 10px;
+    padding: 10px;
+    background-color: var(--primary-light);
+    border-radius: 3px;
+    overflow: hidden;
+    transform: rotate(-180deg);
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .common-pagination .div {
+    color: var(--white);
+    position: relative;
+    width: fit-content;
+    margin-top: -4.5px;
+    margin-bottom: -2.5px;
+    margin-left: -2.5px;
+    margin-right: -2.5px;
+    transform: rotate(180deg);
+    font-family: "Noto Sans-Regular", Helvetica;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  

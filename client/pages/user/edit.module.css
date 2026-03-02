@@ -1,0 +1,179 @@
+.row {
+  --primary: #1581cc;
+  --light-primary: #18a1ff;
+  --deep-primary: #124365;
+  --dark: #1d1d1d;
+  --secondary: #5a5a5a;
+  --body: #b9b9b9;
+  --yellow: #faad14;
+  --red: #ec3f3f;
+  --back: rgba(185, 185, 185, 0.3);
+}
+
+.jamTitle {
+  color: var(--deep-primary);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.jamLeft {
+  background-color: var(--back);
+  padding: 16px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+@media screen and (max-width: 576px) {
+  .jamLeft {
+    margin-inline: 20px;
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+}
+
+.formItem {
+  padding-inline: 14px;
+}
+@media screen and (max-width: 576px) {
+  .formItem {
+    gap: 8px;
+  }
+}
+
+.itemTitle {
+  padding: 0;
+  color: var(--deep-primary);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.itemInputWrapper {
+  padding: 0;
+}
+
+.itemInput {
+  width: 50%;
+}
+@media screen and (max-width: 576px) {
+  .itemInput {
+    width: 100%;
+  }
+}
+.itemInputPostcode {
+  width: 10%;
+  @media screen and (max-width: 576px) {
+    width: 20%;
+  }
+}
+
+.selectGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 576px) {
+  .selectGroup {
+    width: 100%;
+    gap: 4px;
+  }
+}
+
+.plusBtnWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 8px;
+}
+
+.plusBtn {
+  color: #18a1ff;
+  cursor: pointer;
+}
+.plusBtn:hover {
+  color: #1581cc;
+}
+
+.textArea {
+  resize: none;
+  height: 120px;
+}
+@media screen and (max-width: 576px) {
+  .textArea {
+    height: 210px;
+  }
+}
+
+.warningText {
+  color: #ec3f3f;
+  font-weight: 500;
+}
+
+.jamRightWrapper {
+  padding-inline: 20px 0;
+  padding-bottom: 30px;
+}
+@media screen and (max-width: 576px) {
+  .jamRightWrapper {
+    padding-inline: 0;
+  }
+}
+
+.jamRight {
+  background-color: var(--back);
+  padding: 16px;
+  border-radius: 10px;
+}
+@media screen and (max-width: 576px) {
+  .jamRight {
+    margin-inline: 20px;
+  }
+}
+
+.rules {
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  color: var(--dark);
+}
+.rules li {
+  margin-bottom: 5px;
+}
+
+.point {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.cardBadge {
+  color: #fff;
+  padding-inline: 10px;
+  padding-block: 4px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+.degree {
+  background-color: #5a5a5a;
+}
+
+.player {
+  background-color: #18a1ff;
+}
+
+.genere {
+  background-color: #faad14;
+}
+
+.infoText {
+  padding: 0;
+  color: var(--dark);
+}/*# sourceMappingURL=jam.module.css.map */

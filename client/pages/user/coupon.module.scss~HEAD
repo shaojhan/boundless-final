@@ -1,0 +1,25 @@
+// .couponContentBG {
+//   background-color: #b9b9b94d;
+//   border-radius: 6px;
+//   padding-inline: 6px;
+//   @media screen and (max-width: 576px) {
+//     margin: 20px 20px 20px 0;
+//   }
+// }
+
+// .couponTitle {
+//   display: flex;
+//   color: #124365;
+//   align-items: flex-start;
+//   padding: 20px 0 0 20px;
+// }
+// .couponImage {
+//   display: flex;
+//   flex-wrap: wrap;
+//   // justify-content: space-between;
+//   //  justify-content:flex-start;
+//   margin-left: 16px;
+//   @media screen and (max-width: 576px) {
+//     padding: 0 ;
+//   }
+// }

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Boundless</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- google字體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/pages/coupon/userCoupon.css">
+  </head>
+
+  <body>
+    <!-- header 頂部導覽列 -->
+    <header
+      class="w-100 sticky-top d-flex justify-content-between align-items-center"
+    >
+      <a href=""
+        ><img class="logo d-none d-sm-block" src="logo.svg" alt=""
+      /></a>
+      <a href=""><img class="logo-mb d-sm-none" src="logo_mb.svg" alt="" /></a>
+
+      <nav>
+        <ul class="navbar d-none d-sm-flex justify-content-between flex-row">
+          <li><a href="">探索課程</a></li>
+          <li><a href="">樂器商城</a></li>
+          <li><a href="">Let's JAM!</a></li>
+          <li><a href="">樂友論壇</a></li>
+          <li class="ms-3">
+            <a href=""><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
+          </li>
+          <li><a href="">登入/註冊</a></li>
+        </ul>
+        <!-- 手機toogle navbar -->
+        <div
+          class="navbar-mb d-sm-none d-flex justify-content-end align-items-center"
+        >
+          <a href="" class="p-0 me-3"
+            ><i class="fa-solid fa-cart-shopping fa-xl"></i
+          ></a>
+          <i class="fa-solid fa-bars fa-2xl ms-3"></i>
+        </div>
+      </nav>
+    </header>
+    <!-- End header -->
+
+    <!-- contnet -->
+    <div class="container">
+      <div class="row">
+        <div
+          class="col-sm-3"
+          style="background-color: rgb(221, 221, 221); height: 100vh"
+        >
+          <!------------------user------------------>
+          <div class="userBar">
+            <div class="userNavbar">
+              <div class="userInfo">
+                <div class="userphoto">
+                  <img src="/public/coupon/Ellipse 13.png" alt="" />
+                </div>
+                <div class="userCamera">
+                  <img src="/public/coupon/CameraFill.png" alt="" />
+                </div>
+                <div class="userInfoText">
+                  <h6>帕魯</h6>
+                  <h6>PalWorld樂團</h6>
+                </div>
+              </div>
+              <div class="userList">
+                <ul>
+                  <li></li>
+                  <li>會員資訊</li>
+                  <li>我的樂團</li>
+                  <li>我的訂單</li>
+                  <li>我的文章</li>
+                  <li>我的收藏</li>
+                  <li>我的優惠券</li>
+                  <li>我的課程</li>
+                  <li>我的訊息</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-sm-9"
+          style="background-color: rgb(255, 255, 255); height: 100vh"
+        >
+          <!------------------coupon------------------>
+          <div class="indexIcon">會員中心-我的優惠券</div>
+          <div class="couponContent">
+            <div class="couponSlogan">
+              <h3>我的優惠券</h3>
+              <div class="couponType me-20">
+                <div class="btn">全部</div>
+                <div class="btn">樂器</div>
+                <div class="btn">課程</div>
+              </div>
+              <div class="couponLimit">
+                排序：
+                <div class="btn">折扣幅度</div>
+                <div class="btn">即將到期</div>
+              </div>
+            </div>
+            <div class="couponList d-flex">
+              <!------------------coupon------------------>
+            </div>
+          </div>
+
+          <!------------------coupon------------------>
+        </div>
+      </div>
+    </div>
+    <!-- End content -->
+
+    <footer class="d-flex align-items-center justify-content-center">
+      Copyright © 2023 Boundless. All rights reserved.
+    </footer>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

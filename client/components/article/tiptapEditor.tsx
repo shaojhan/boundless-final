@@ -100,6 +100,7 @@ const MenuBar = ({ editor }) => {
 
 export const Tiptap = ({ setDescription, initialContent }) => {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [StarterKit, Underline],
     content: '',
     onUpdate: ({ editor }) => {

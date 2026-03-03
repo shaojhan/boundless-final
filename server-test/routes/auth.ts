@@ -98,4 +98,19 @@ router.post('/refresh', async (req, res) => {
   });
 });
 
+/**
+ * POST /api/auth/logout
+ *
+ * 不需要 access token；refreshToken cookie path = '/api/auth' 所以這裡能收到。
+ * 從 DB 刪除 refresh token，再清除 cookie。
+ */
+router.post('/logout', async (req, res) => {
+  const incomingRefreshToken: string | undefined = req.cookies?.refreshToken;
+  if (incomingRefreshToken) {
+    await deleteRefreshToken(incomingRefreshToken);
+  }
+  res.clearCookie('refreshToken', { ...REFRESH_COOKIE_OPTIONS, maxAge: 0 });
+  return res.status(200).json({ status: 'success', message: '已登出' });
+});
+
 export default router;

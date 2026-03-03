@@ -32,9 +32,8 @@ export function useAuth() {
 
   const handleLogout = async () => {
     try {
-      await authFetch('/api/user/logout', {
+      await authFetch('/api/auth/logout', {
         method: 'POST',
-        body: JSON.stringify(null),
       })
     } catch {
       // server 呼叫失敗仍清除 client 狀態

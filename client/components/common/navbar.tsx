@@ -61,7 +61,7 @@ export default function Navbar({
       })
       .then(() =>
         setTimeout(() => {
-          router.push(`/`).then(() => window.location.reload())
+          router.push(`/`)
         }, 2000),
       )
   }
@@ -187,8 +187,8 @@ export default function Navbar({
             </Link>
             {}
             <div
-              onClick={() => {
-                handleLogout()
+              onClick={async () => {
+                await handleLogout()
                 logoutFirebase()
                 logoutAlert()
               }}

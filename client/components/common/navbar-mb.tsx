@@ -38,7 +38,7 @@ export default function NavbarMb() {
       })
       .then(() =>
         setTimeout(() => {
-          router.push(`/`).then(() => window.location.reload())
+          router.push(`/`)
         }, 2000),
       )
   }
@@ -88,8 +88,8 @@ export default function NavbarMb() {
         <div
           className="mm-item"
           style={{ color: '#1581cc' }}
-          onClick={() => {
-            handleLogout()
+          onClick={async () => {
+            await handleLogout()
             logoutFirebase()
             logoutAlert()
           }}

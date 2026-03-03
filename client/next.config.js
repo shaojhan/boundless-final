@@ -5,7 +5,6 @@ const nextConfig = {
     silenceDeprecations: ['import'],
   },
   images: {
-    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'via.placeholder.com' },
       { protocol: 'http', hostname: 'localhost', port: '3005' },

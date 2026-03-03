@@ -141,37 +141,27 @@ export default function InstrumentDetailPage() {
         >
           <NavbarMb />
         </div>
+        {/* 麵包屑 */}
+        <div
+          className="breadcrumb-wrapper-ns"
+          style={{ paddingBlock: '20px' }}
+        >
+          <ul className="flex items-center flex-wrap p-0 m-0">
+            <IoHome size={20} />
+            <Link href="/instrument">
+              <li style={{ marginLeft: '8px' }}>樂器商城</li>
+            </Link>
+            <FaChevronRight />
+            <li style={{ marginLeft: '10px' }}>
+              {InstrumentDetail.category_name}
+            </li>
+            <FaChevronRight />
+            <li style={{ marginLeft: '10px' }}>{InstrumentDetail.name}</li>
+          </ul>
+        </div>
+
         <div className="flex flex-wrap -mx-3">
-          {/* 麵包屑 */}
-          <div
-            className="breadcrumb-wrapper-ns"
-            style={{ paddingBlock: '20px' }}
-          >
-            <ul className="flex items-center flex-wrap p-0 m-0">
-              <IoHome size={20} />
-              <Link href="/instrument">
-                <li style={{ marginLeft: '8px' }}>樂器商城</li>
-              </Link>
-              <FaChevronRight />
-              <li style={{ marginLeft: '10px' }}>
-                {InstrumentDetail.category_name}
-              </li>
-              <FaChevronRight />
-              <li style={{ marginLeft: '10px' }}>{InstrumentDetail.name}</li>
-
-              {InstrumentDetail && InstrumentDetail.length > 0 && (
-                <ul>
-                  {InstrumentDetail[0].outline
-                    .split('\n')
-                    .map((line, index) => (
-                      <li key={index}>{line}</li>
-                    ))}
-                </ul>
-              )}
-            </ul>
-          </div>
-
-          <div className="w-full px-6 sm:w-1/2 px-6">
+          <div className="w-full px-6 sm:w-1/2">
             {/* 主內容 */}
             <main className="content" style={{ paddingInline: '0' }}>
               <div>
@@ -524,7 +514,7 @@ export default function InstrumentDetailPage() {
 
       <style jsx>{`
         * {
-          box-sizing: -box;
+          box-sizing: border-box;
         }
         :root {
           --primary: #1581cc;
@@ -660,13 +650,15 @@ export default function InstrumentDetailPage() {
      
      .pic-Con{
         display:flex;
-     flex-direction:column;
-          justify-content:center;
-          align-items:center;
+        flex-direction:column;
+        justify-content:center;
+        align-items:stretch;
+        width: 100%;
      }
      .main-Pic{
       height:550px;
-      width:550px;
+      width:100%;
+      max-width:550px;
       border-radius: 10px;
       border: 1px solid #b9b9b9;
       overflow: hidden;
@@ -678,7 +670,6 @@ export default function InstrumentDetailPage() {
      .sub-Pic-Con{
         display:flex;
         width: 100%;
-        max-width: 550px;
         align-items: center;
         gap: 10px;
         padding-top:20px;

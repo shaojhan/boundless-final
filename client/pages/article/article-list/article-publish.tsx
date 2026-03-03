@@ -158,7 +158,7 @@ export default function Publish() {
         </div>
         <div className="flex flex-wrap -mx-3">
           {/* 麵包屑 */}
-          <div className="breadcrumb-wrapper-ns">
+          <div className="breadcrumb-wrapper-ns w-full">
             <ul className="flex items-center p-0 m-0">
               <IoHome size={20} />
               <li style={{ marginLeft: '8px' }}>樂友論壇</li>
@@ -170,7 +170,7 @@ export default function Publish() {
               <li style={{ marginLeft: '10px' }}>文章發布</li>
             </ul>
           </div>
-          <div className="">
+          <div className="w-full">
             {/* 主內容 */}
             {/* XLg */}
             <div className="x-lg text-right pb-6">

@@ -93,8 +93,7 @@ export default function CourseCard({
         <style jsx>{`
           .course-card {
             width: 240px;
-            height: 403px;
-
+            min-height: 403px;
             border-radius: 5px;
             border: 1px solid #b9b9b9;
             background-color: #fff;
@@ -115,7 +114,7 @@ export default function CourseCard({
           .course-image {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             object-position: center;
           }
           .icon-image {
@@ -139,6 +138,7 @@ export default function CourseCard({
             display: flex;
             flex-direction: column;
             gap: 6px;
+            flex: 1;
             color: #1d1d1d;
             font-weight: 400;
             padding: 14px 12px;
@@ -147,11 +147,20 @@ export default function CourseCard({
             font-size: 16px;
             font-family: Noto Sans TC, sans-serif;
             margin: 0;
+            line-height: 1.35;
+            min-height: 44px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
           }
           .course-instructor {
             font-size: 14px;
             color: #5a5a5a;
             margin-bottom: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           .duration-time {
             display: flex;
@@ -165,13 +174,14 @@ export default function CourseCard({
             justify-content: end;
             gap: 5px;
             font-size: 14px;
+            margin-top: auto;
           }
 
           .course-price {
             font-size: 18px;
             font-family: Noto Sans TC, sans-serif;
             font-weight: 700;
-            height: 60px;
+            min-height: 36px;
           }
           .enrolled-students {
             text-align: right;

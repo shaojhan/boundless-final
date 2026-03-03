@@ -63,7 +63,7 @@ export default function InstrumentCard({
           .product-card {
             max-width: 240px;
             width: 240px;
-            height: 350px; /* 保證卡片高度和內容一致 */
+            min-height: 350px; /* 保證卡片高度和內容一致 */
             border-radius: 5px;
             border: 1px solid #b9b9b9;
             background-color: #fff;
@@ -102,6 +102,7 @@ export default function InstrumentCard({
             display: flex;
             flex-direction: column;
             gap: 6px;
+            flex: 1;
             color: #1d1d1d;
             font-weight: 400;
             padding: 14px 12px;
@@ -110,18 +111,25 @@ export default function InstrumentCard({
             font-size: 16px;
             font-family: Noto Sans TC, sans-serif;
             margin: 0;
+            line-height: 1.35;
+            min-height: 44px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
           }
           .product-price {
             font-size: 18px;
             font-family: Noto Sans TC, sans-serif;
             font-weight: 700;
-            height: 60px;
+            min-height: 36px;
           }
           .product-sold {
             color: #5a5a5a;
             text-align: right;
             font-size: 14px;
             font-family: Noto Sans TC, sans-serif;
+            margin-top: auto;
              {
               /* margin-top: 46px; */
             }

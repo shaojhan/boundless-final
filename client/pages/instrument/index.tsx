@@ -797,7 +797,7 @@ export default function Test({ onSearch: _onSearch }) {
                       .slice(0, 4) // Get top 4 courses */
                       .map((v, i) => {
                         return (
-                          <div className="" key={i}>
+                          <div className="hot-instrument-card-item" key={i}>
                             {/* 寫discount的判斷式 */}
                             <Card
                               id={v.id}
@@ -834,7 +834,7 @@ export default function Test({ onSearch: _onSearch }) {
                       sales,
                     } = v
                     return (
-                      <div className="mb-6" key={id}>
+                      <div className="instrument-card-item" key={id}>
                         <Card
                           id={id}
                           puid={puid}
@@ -864,7 +864,7 @@ export default function Test({ onSearch: _onSearch }) {
                       sales,
                     } = v
                     return (
-                      <div key={id} className="mb-6">
+                      <div key={id} className="instrument-card-item">
                         <Card
                           id={id}
                           puid={puid}
@@ -898,29 +898,39 @@ export default function Test({ onSearch: _onSearch }) {
           display: block;
         }
         .instrument-card-group {
-          display: flex;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 240px));
+          justify-content: start;
           margin-block: 30px;
-          gap: 35px;
-          flex-wrap: wrap;
+          gap: 24px;
+        }
+        .instrument-card-item,
+        .hot-instrument-card-item {
+          width: 240px;
         }
 
         .hot-instrument-card {
           margin-block: 30px;
-          gap: 10px;
-          display: flex;
-          justify-content: space-between;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 240px));
+          justify-content: start;
+          gap: 24px;
         }
         @media screen and (max-width: 576px) {
           .hot-instrument-card {
-            flex-wrap: wrap;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
           }
           .instrument-card-group {
-            gap: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
           }
-          .hot-instrument-card > :global(div) {
-            flex-basis: calc(
-              40% - 40px
-            ); /* Two cards in a row with a 10px gap */
+          .instrument-card-item,
+          .hot-instrument-card-item {
+            width: 100%;
           }
         }
       `}</style>

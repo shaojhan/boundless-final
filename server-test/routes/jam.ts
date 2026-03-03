@@ -172,7 +172,7 @@ router.get('/allJam', async (req, res) => {
 });
 
 // 組團資訊頁，獲得單筆資料
-router.get('/singleJam/:juid/:uid?', async (req, res) => {
+router.get('/singleJam/:juid{/:uid}', async (req, res) => {
   const juid = req.params.juid;
   // 檢查該樂團是否已經成團，條件: 未解散(valid=1)，已成團(state=1)
   const [checkFormed] = await db

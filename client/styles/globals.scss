@@ -1,9 +1,8 @@
 // 引入google字體
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap');
-// Tailwind CSS
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// Tailwind CSS v4
+@config '../tailwind.config.js';
+@import 'tailwindcss';
 
 // 全站配色 colors
 $primary: #1581cc;

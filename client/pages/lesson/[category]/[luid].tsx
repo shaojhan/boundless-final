@@ -85,29 +85,27 @@ export default function LessonDetailPage() {
         >
           <NavbarMb />
         </div>
+        {/* 麵包屑 */}
+        <div
+          className="breadcrumb-wrapper-ns"
+          style={{ paddingBlock: '20px' }}
+        >
+          <ul className="flex items-center p-0 m-0 flex-wrap">
+            <IoHome size={20} />
+            <Link href="/lesson">
+              <li style={{ marginLeft: '8px' }}>探索課程</li>
+            </Link>
+            <FaChevronRight />
+            <li style={{ marginLeft: '10px' }}>
+              {LessonDetail.lesson_category_name}
+            </li>
+            <FaChevronRight />
+            <li style={{ marginLeft: '10px' }}>{LessonDetail.name}</li>
+          </ul>
+        </div>
+
         <div className="flex flex-wrap -mx-3">
-          {/* 麵包屑 */}
-          <div
-            className="breadcrumb-wrapper-ns"
-            style={{ paddingBlock: '20px' }}
-          >
-            <ul className="flex items-center p-0 m-0 flex-wrap">
-              <IoHome size={20} />
-              <Link href="/lesson">
-                <li style={{ marginLeft: '8px' }}>探索課程</li>
-              </Link>
-              <FaChevronRight />
-
-              <li style={{ marginLeft: '10px' }}>
-                {LessonDetail.lesson_category_name}
-              </li>
-
-              <FaChevronRight />
-
-              <li style={{ marginLeft: '10px' }}>{LessonDetail.name}</li>
-            </ul>
-          </div>
-          <div className="w-full px-6 sm:w-1/2 px-6 p-0">
+          <div className="w-full px-6 sm:w-1/2">
             {/* 主內容 */}
             <main className="content">
               <div>
@@ -462,7 +460,7 @@ export default function LessonDetailPage() {
 
       <style jsx>{`
         * {
-          box-sizing: -box;
+          box-sizing: border-box;
         }
         :root {
           --primary: #1581cc;

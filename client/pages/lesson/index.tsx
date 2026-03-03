@@ -631,7 +631,7 @@ export default function LessonList() {
                       length,
                     } = v
                     return (
-                      <div className="mb-6" key={id}>
+                      <div className="lesson-card-item" key={id}>
                         {isSmallScreen ? (
                           <Cardrwd
                             lesson_category_id={lesson_category_name}
@@ -685,7 +685,7 @@ export default function LessonList() {
                       length,
                     } = v
                     return (
-                      <div key={id}>
+                      <div className="lesson-card-item" key={id}>
                         {isSmallScreen ? (
                           <Cardrwd
                             lesson_category_id={lesson_category_name}
@@ -738,16 +738,22 @@ export default function LessonList() {
           padding-inline: 22px;
         }
         .lesson-card-group {
-          display: flex;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 240px));
+          justify-content: start;
           margin-block: 30px;
-          gap: 20px;
-          flex-wrap: wrap;
+          gap: 24px;
+        }
+        .lesson-card-item,
+        .hot-lesson-card {
+          width: 240px;
         }
         .hot-lesson-card-group {
           margin-block: 30px;
-          gap: 10px;
-          display: flex;
-          justify-content: space-between;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 240px));
+          justify-content: start;
+          gap: 24px;
         }
         @media screen and (max-width: 576px) {
           .content {
@@ -758,8 +764,14 @@ export default function LessonList() {
             display: none;
           }
           .lesson-card-group {
-            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 16px;
+          }
+          .lesson-card-item,
+          .hot-lesson-card {
+            width: 100%;
           }
         }
       `}</style>

@@ -1,13 +1,12 @@
 import { apiBaseUrl } from '@/configs'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import Footer from '@/components/common/footer'
 import Link from 'next/link'
 import Head from 'next/head'
 // 會員認證
 import { useAuth } from '@/hooks/user/use-auth'
-//google登入
-import useFirebase from '@/hooks/user/use-firebase'
+import { useGoogleLogin } from '@react-oauth/google'
 import GoogleLogo from '@/components/icons/google-logo'
 
 // sweetalert
@@ -61,7 +60,7 @@ export default function Test() {
       toast.error(`使用者帳號或密碼錯誤。`)
     }
   }
-  const { handleLogout, handleLoginSuccess } = useAuth()
+  const { handleLoginSuccess } = useAuth()
 
   //----------------------------sweetalert--------------------------------------
   //登入 跳轉 還沒加入判定 應該要先判斷再跳轉
@@ -102,65 +101,30 @@ export default function Test() {
   }
 
   // ----------------------google登入  ----------------------
-  /*   Google Login(Firebase)登入用，providerData為登入後得到的資料  */
-  const googleLogin = async (providerData = {}) => {
-    try {
-      const response = await fetch(`${apiBaseUrl}/google-login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(providerData), // 將 providerData 轉為 JSON 字串並加入請求主體
-      })
-
-      if (!response.ok) {
-        console.error('Error during fetch')
+  // ---------------------- Google OAuth 登入 ----------------------
+  const loginGooglePopup = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const response = await fetch(`${apiBaseUrl}/google-login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ accessToken: tokenResponse.access_token }),
+        })
+        const data = await response.json()
+        if (data.status === 'success') {
+          handleLoginSuccess(data.token, data.user)
+          googleloginAlert()
+        } else {
+          toast.error('Google 登入失敗')
+        }
+      } catch (error) {
+        console.error('Google login error:', error)
+        toast.error('Google 登入失敗')
       }
-
-      const data = await response.json()
-      return data
-    } catch (error) {
-      console.error('Error during fetch:', error)
-      throw error
-    }
-  }
-  //------------------------------------------------
-  // loginGoogleRedirect無callback，要改用initApp在頁面初次渲染後監聽google登入狀態
-  const { logoutFirebase, loginGoogleRedirect, initApp } = useFirebase()
-  //   const { auth, setAuth } = useAuth()
-
-  // 處理google登入後，要向伺服器進行登入動作
-  const callbackGoogleLoginRedirect = async (providerData) => {
-    // 如果目前react(next)已經登入中，不需要再作登入動作
-    // if (auth.isAuth) return
-
-    // 向伺服器進行登入動作
-    const res = await googleLogin(providerData)
-    if (res.status === 'success') {
-      handleLoginSuccess(res.token, res.user)
-      googleloginAlert()
-    } else {
-      toast.error(`登入失敗`)
-    }
-  }
-
-  // 這裡要設定initApp，讓這個頁面能監聽firebase的google登入狀態
-  useEffect(() => {
-    initApp(callbackGoogleLoginRedirect)
-  }, [])
-
-  // 處理google登出
-  const _handlegooogleLogout = async (_res?, _req?) => {
-    // firebase logout(注意，這並不會登出google帳號，是登出firebase的帳號)
-    logoutFirebase()
-
-    handleLogout()
-  }
-  // useEffect(() => {
-  //   logoutFirebase()
-  //   handleLogout()
-  // }, [])
+    },
+    onError: () => toast.error('Google 登入失敗'),
+  })
 
   return (
     <>
@@ -238,7 +202,7 @@ export default function Test() {
               </button>
               <button
                 className="btn btn-primary"
-                onClick={() => loginGoogleRedirect(() => {})}
+                onClick={() => loginGooglePopup()}
               >
                 Google登入
               </button>
@@ -250,7 +214,7 @@ export default function Test() {
               </button> */}
               <button
                 className="login-google-API"
-                onClick={() => loginGoogleRedirect(() => {})}
+                onClick={() => loginGooglePopup()}
               >
                 {/* <div className="google-icon">圖</div> */}
                 <GoogleLogo />

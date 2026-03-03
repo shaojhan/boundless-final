@@ -9,13 +9,9 @@ import withReactContent from 'sweetalert2-react-content'
 
 // 會員認證hook
 import { useAuth } from '@/hooks/user/use-auth'
-//google登入
-import useFirebase from '@/hooks/user/use-firebase'
 import { useAvatarImage } from '@/hooks/useAvatarImage'
 
 export default function NavbarMb() {
-  const { logoutFirebase } = useFirebase()
-
   // ----------------------會員登入狀態 & 會員資料獲取  ----------------------
   //從hook 獲得使用者登入的資訊  儲存在變數LoginUserData裡面
   const { LoginUserData, handleLogout } = useAuth()
@@ -90,7 +86,6 @@ export default function NavbarMb() {
           style={{ color: '#1581cc' }}
           onClick={async () => {
             await handleLogout()
-            logoutFirebase()
             logoutAlert()
           }}
         >

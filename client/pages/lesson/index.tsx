@@ -406,7 +406,7 @@ export default function LessonList() {
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="flex sm:hidden b-btn b-btn-body"
+                    className="b-btn b-btn-body"
                     role="presentation"
                     style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}

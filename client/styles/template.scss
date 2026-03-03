@@ -224,6 +224,7 @@ header {
 
 .top-function-flex {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   @media screen and (max-width: 576px) {
     flex-direction: column;
@@ -269,6 +270,13 @@ header {
 }
 
 .search-sidebarBtn {
+  // Hide the sidebar-toggle button on desktop — SCSS overrides Tailwind sm:hidden
+  // because .b-btn { display: flex } (unlayered) outweighs @layer utilities
+  @media screen and (min-width: 576px) {
+    & > .b-btn {
+      display: none;
+    }
+  }
   @media screen and (max-width: 576px) {
     width: 100%;
     display: flex;
@@ -277,7 +285,7 @@ header {
 }
 .search {
   width: 300px;
-  border: 1px soild $body;
+  border: 1px solid $body;
   border-radius: 5px;
   @media screen and (max-width: 576px) {
     width: 270px;

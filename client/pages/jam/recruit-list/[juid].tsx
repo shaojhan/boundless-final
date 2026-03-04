@@ -536,7 +536,7 @@ export default function Info() {
     try {
       const res = await fetch(
         // 加入uid是為了檢查該使用者是否有申請此樂團，以及其申請狀態
-        `/jam/singleJam/${juid}/${LoginUserData.uid}`,
+        `${apiBaseUrl}/jam/singleJam/${juid}/${LoginUserData.uid}`,
       )
       // res.json()是解析res的body的json格式資料，得到JS的資料格式
       const data = await res.json()

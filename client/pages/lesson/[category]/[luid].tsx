@@ -544,16 +544,17 @@ export default function LessonDetailPage() {
 
         /* prodBriefingArea */
         .prodBriefingArea {
-          width: 660px;
-          height: 394px;
+          width: 100%;
+          aspect-ratio: 660 / 394;
           padding: 0px;
           border-radius: 10px;
           overflow: hidden;
         }
         .prodImg {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
           padding: 0px;
-
-          background-color: #ff9595;
           border-radius: 10px;
         }
 

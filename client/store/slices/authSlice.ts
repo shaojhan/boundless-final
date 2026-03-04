@@ -15,6 +15,7 @@ interface AuthState {
   user: User | null
   loginUserData: Record<string, unknown>
   status: AuthStatus
+  lastAuthTime?: number // not persisted — triggers UserDataFetcher after actual auth
 }
 
 export const restoreSession = createAsyncThunk(
@@ -49,11 +50,13 @@ const authSlice = createSlice({
     user: null,
     loginUserData: {},
     status: 'initializing',
+    lastAuthTime: undefined,
   } as AuthState,
   reducers: {
     loginSuccess(state, action: PayloadAction<{ user: User }>) {
       state.user = action.payload.user
       state.status = 'authenticated'
+      state.lastAuthTime = Date.now()
     },
     logout(state) {
       state.user = null

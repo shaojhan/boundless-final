@@ -1,0 +1,320 @@
+.bg-register {
+  display: flex;
+  max-width: 1920px;
+  height: calc(100vh - 45px);
+  position: relative;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(180deg, #119eff 0.25%, #0985f7 0.26%, #65befb 69.38%);
+  overflow: hidden;
+}
+
+.bg-register-cloud1 {
+  width: 2166px;
+  height: 483px;
+  position: absolute;
+  right: -182px;
+  bottom: -202px;
+  fill: #fff;
+}
+
+.bg-register-cloud2 {
+  width: 2166px;
+  height: 483px;
+  position: absolute;
+  right: -182px;
+  bottom: -132px;
+  fill: #fff;
+}
+
+.bg-register-cloud3 {
+  width: 2166px;
+  height: 483px;
+  position: absolute;
+  right: -182px;
+  bottom: -232px;
+  fill: #fff;
+}
+
+.bg-register-cloud4 {
+  width: 2166px;
+  height: 483px;
+  position: absolute;
+  right: 782px;
+  bottom: -202px;
+  fill: #fff;
+}
+
+.bg-register-cloud5 {
+  width: 2166px;
+  height: 483px;
+  position: absolute;
+  right: 1182px;
+  bottom: -202px;
+  fill: #fff;
+}
+
+.register-wrap {
+  display: flex;
+  max-width: 1440px;
+  padding-top: 80px;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 5;
+
+  .register-logo {
+    display: flex;
+    width: 279px;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+
+    .register-logoSvg {
+      width: 279px;
+      height: 45px;
+      flex-shrink: 0;
+      fill: #fff;
+    }
+  }
+
+  .register-logoText {
+    color: #fff;
+    font-family: 'Noto Sans TC';
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .register-form {
+    display: flex;
+    width: 380px;
+    max-width: 380px;
+    padding: 20px 18px;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+
+    .register-titleText {
+      color: #0d3652;
+      font-family: 'Noto Sans TC';
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    .register-google-API {
+      display: flex;
+      height: 38px;
+      max-width: 700px;
+      padding: 3px 5px;
+      align-items: center;
+      gap: 70px;
+      align-self: stretch;
+      border-radius: 5px;
+      border: 1px solid #5a5a5a;
+      background: #fff;
+
+      .google-text {
+        color: #5a5a5a;
+        font-family: 'Noto Sans TC';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+    }
+
+    .hr-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      align-self: stretch;
+
+      .hr-text {
+        color: #5a5a5a;
+        font-family: 'Noto Sans TC';
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+      .hr-line {
+        width: 100px;
+        height: 1px;
+        background: #5a5a5a;
+      }
+    }
+
+    .registerByEmail-form {
+      display: flex;
+      max-width: 840px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 16px;
+      align-self: stretch;
+      border-radius: 10px;
+
+      .registerByEmail-form-box {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        align-self: stretch;
+        color: #000;
+        font-family: 'Noto Sans TC';
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+
+        .registerByEmail-input {
+          display: flex;
+          height: 38px;
+          max-width: 700px;
+          padding: 3px 5px;
+          align-items: center;
+          gap: 10px;
+          align-self: stretch;
+          border-radius: 5px;
+          border: 1px solid #5a5a5a;
+          background: #fff;
+        }
+
+        .registerByEmail-input-password {
+          display: flex;
+          height: 38px;
+          max-width: 700px;
+          padding: 3px 5px;
+          align-items: center;
+          gap: 10px;
+          align-self: stretch;
+          border-radius: 5px;
+          border: 1px solid #5a5a5a;
+          background: #fff;
+          justify-content: space-between;
+        }
+      }
+
+      .password-box {
+        position: relative;
+      }
+
+      .svg-icon {
+        position: absolute;
+        right: 10px;
+        top: 65%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        fill: #999;
+        cursor: pointer;
+      }
+
+      .registerByEmail-forget {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+        align-self: stretch;
+        color: #1581cc;
+        font-family: 'Noto Sans TC';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        text-decoration-line: underline;
+      }
+
+      .registerByEmail-submit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+
+        .btn-submit {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          align-self: stretch;
+          border-radius: 5px;
+          background: #18a1ff;
+          color: #fff;
+          padding: 6px 38px;
+          font-family: 'Noto Sans TC';
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: normal;
+        }
+      }
+    }
+  }
+}
+
+.moveeffect1 {
+  animation-name: moveAni1;
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.moveeffect2 {
+  animation-name: moveAni2;
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.moveeffect3 {
+  animation-name: moveAni3;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.moveeffect4 {
+  animation-name: moveAni3;
+  animation-duration: 25s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes moveAni1 {
+  0% { transform: translateX(0%); opacity: 1; }
+  48% { transform: translateX(-100%); opacity: 0.8; }
+  49% { transform: translateX(-100%); opacity: 0; }
+  50% { transform: translateX(100%); opacity: 0; }
+  51% { transform: translateX(100%); opacity: 1; }
+  52% { transform: translateX(100%); opacity: 0.8; }
+  100% { transform: translateX(0%); opacity: 1; }
+}
+
+@keyframes moveAni2 {
+  0% { transform: translateX(100%); opacity: 1; }
+  48% { transform: translateX(0%); opacity: 0.8; }
+  96% { transform: translateX(-100%); opacity: 0.9; }
+  97% { transform: translateX(-100%); opacity: 0; }
+  98% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(100%); opacity: 1; }
+}
+
+@keyframes moveAni3 {
+  0% { transform: translateX(0%); opacity: 0.95; }
+  50% { transform: translateX(-100%); opacity: 0.7; }
+  51% { transform: translateX(-100%); opacity: 0; }
+  52% { transform: translateX(100%); opacity: 0; }
+  53% { transform: translateX(100%); opacity: 1; }
+  54% { transform: translateX(100%); opacity: 0.8; }
+  100% { transform: translateX(0%); opacity: 0.95; }
+}

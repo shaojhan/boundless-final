@@ -16,9 +16,9 @@ export default function LessonCouponDropdowns({
   const select = () => {
     if (typeof localStorage !== 'undefined') {
       const stored = localStorage.getItem('LessonCouponRaw')
-      return stored ?? 'Default'
+      return stored ?? 'none'
     }
-    return 'Default'
+    return 'none'
   }
 
   return (
@@ -32,9 +32,7 @@ export default function LessonCouponDropdowns({
           handleLessonSelector(e.target.value)
         }}
       >
-        <option value={'Default'} disabled>
-          請選擇折價券
-        </option>
+        <option value="none">不使用折價券</option>
         {coupons}
       </select>
     </>

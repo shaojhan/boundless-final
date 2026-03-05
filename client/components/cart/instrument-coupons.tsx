@@ -16,9 +16,9 @@ export default function InstrumentCouponDropdowns({
   const select = () => {
     if (typeof localStorage !== 'undefined') {
       const stored = localStorage.getItem('InstrumentCouponRaw')
-      return stored ?? 'Default'
+      return stored ?? 'none'
     }
-    return 'Default'
+    return 'none'
   }
 
   return (
@@ -31,9 +31,7 @@ export default function InstrumentCouponDropdowns({
           handleInstrumentSelector(e.target.value)
         }}
       >
-        <option value={'Default'} disabled>
-          請選擇折價券
-        </option>
+        <option value="none">不使用折價券</option>
         {coupons}
       </select>
     </>

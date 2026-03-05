@@ -1,10 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
-import CouponData from '@/data/cart/coupons.json'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { CartItem } from '@/store/slices/cartSlice'
+import { useAuth } from '@/hooks/user/use-auth'
+import CouponClass from '@/API/Coupon'
+import type { CouponItem } from '@/types/api'
 import {
   addInstrumentItem as addInstrumentItemAction,
   addLessonItem as addLessonItemAction,
@@ -53,11 +56,19 @@ export function useCart() {
   const _instrumentDiscount = useSelector(selectCalcInstrumentDiscount)
   const _totalDiscount = useSelector(selectCalcTotalDiscount)
 
-  // 靜態優惠券清單（從 JSON 讀取，不進 Redux）
-  const lessonCoupons = CouponData.filter((v: { kind: number }) => v.kind === 2)
-  const instrumentCoupons = CouponData.filter(
-    (v: { kind: number }) => v.kind === 1,
-  )
+  // 從 API 取得登入使用者個人持有的有效折價券
+  const { LoginUserData } = useAuth()
+  const [lessonCoupons, setLessonCoupons] = useState<CouponItem[]>([])
+  const [instrumentCoupons, setInstrumentCoupons] = useState<CouponItem[]>([])
+
+  useEffect(() => {
+    if (!LoginUserData?.id) return
+    CouponClass.FindAll(LoginUserData.id).then((data) => {
+      const valid = data.filter((c) => c.valid === 1)
+      setLessonCoupons(valid.filter((c) => c.kind === 2))
+      setInstrumentCoupons(valid.filter((c) => c.kind === 1))
+    })
+  }, [LoginUserData?.id])
 
   // ── Actions ──────────────────────────────────────────────────────────────
 
@@ -94,6 +105,13 @@ export function useCart() {
   }
 
   const handleLessonSelector = (raw: string) => {
+    if (raw === 'none') {
+      localStorage.removeItem('LessonCouponRaw')
+      localStorage.removeItem('LessonCoupon')
+      localStorage.removeItem('LessonCouponCUID')
+      dispatch(setLessonDiscountAction(0))
+      return
+    }
     const { discount, cuid } = JSON.parse(raw) as { discount: number; cuid: number }
     localStorage.setItem('LessonCouponRaw', raw)
     localStorage.setItem('LessonCoupon', String(discount))
@@ -102,6 +120,13 @@ export function useCart() {
   }
 
   const handleInstrumentSelector = (raw: string) => {
+    if (raw === 'none') {
+      localStorage.removeItem('InstrumentCouponRaw')
+      localStorage.removeItem('InstrumentCoupon')
+      localStorage.removeItem('InstrumentCouponCUID')
+      dispatch(setInstrumentDiscountAction(0))
+      return
+    }
     const { discount, cuid } = JSON.parse(raw) as { discount: number; cuid: number }
     localStorage.setItem('InstrumentCouponRaw', raw)
     localStorage.setItem('InstrumentCoupon', String(discount))

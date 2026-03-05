@@ -142,7 +142,7 @@ export const selectCalcLessonDiscount = (state: RootCartState) => {
   if (lessonDiscount === 0) return 0
   return lessonDiscount < 1
     ? lessonPrice - lessonDiscount * lessonPrice
-    : lessonDiscount
+    : Math.min(lessonDiscount, lessonPrice)
 }
 
 export const selectCalcInstrumentDiscount = (state: RootCartState) => {
@@ -153,7 +153,7 @@ export const selectCalcInstrumentDiscount = (state: RootCartState) => {
   if (instrumentDiscount === 0) return 0
   return instrumentDiscount < 1
     ? instrumentPrice - instrumentPrice * instrumentDiscount
-    : instrumentDiscount
+    : Math.min(instrumentDiscount, instrumentPrice)
 }
 
 export const selectCalcTotalDiscount = (state: RootCartState) => {
@@ -171,14 +171,14 @@ export const selectCalcTotalDiscount = (state: RootCartState) => {
       ? 0
       : lessonDiscount < 1
         ? lessonPrice - lessonDiscount * lessonPrice
-        : lessonDiscount
+        : Math.min(lessonDiscount, lessonPrice)
 
   const id =
     instrumentDiscount === 0
       ? 0
       : instrumentDiscount < 1
         ? instrumentPrice - instrumentPrice * instrumentDiscount
-        : instrumentDiscount
+        : Math.min(instrumentDiscount, instrumentPrice)
 
   return parseInt(String(id)) + parseInt(String(ld))
 }

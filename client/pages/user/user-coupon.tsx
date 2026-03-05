@@ -660,9 +660,7 @@ export default function Test() {
                           .filter((i) =>
                             valid !== 999 ? i.valid === valid : i,
                           )
-                          // 頁數篩選
-                          .slice(startIndex, endIndex)
-                          // 排序
+                          // 排序（先排序再分頁，否則每頁各自排序結果不正確）
                           .sort((a, b) => {
                             switch (sort) {
                               case 1:
@@ -681,6 +679,8 @@ export default function Test() {
                                 return 0
                             }
                           })
+                          // 頁數篩選
+                          .slice(startIndex, endIndex)
                           .map((v, _i) => {
                             const {
                               id,

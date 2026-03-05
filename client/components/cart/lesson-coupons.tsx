@@ -1,23 +1,24 @@
 export default function LessonCouponDropdowns({
   lessonCoupons,
   handleLessonSelector,
-  handleLessonCUIDSelector,
+}: {
+  lessonCoupons: { id: number; discount: number; name: string }[]
+  handleLessonSelector: (raw: string) => void
 }) {
   const coupons = lessonCoupons.map((v) => {
     return (
-      // @ts-expect-error -- non-standard HTML attribute
-      <option key={v.id} value={v.discount} cuid={v.id}>
+      <option key={v.id} value={JSON.stringify({ discount: v.discount, cuid: v.id })}>
         {v.name}
       </option>
     )
   })
 
-  let select = () => {
+  const select = () => {
     if (typeof localStorage !== 'undefined') {
-      return localStorage.getItem('LessonCoupon')
-    } else {
-      return ''
+      const stored = localStorage.getItem('LessonCouponRaw')
+      return stored ?? 'Default'
     }
+    return 'Default'
   }
 
   return (
@@ -26,13 +27,9 @@ export default function LessonCouponDropdowns({
         id="lessonCoupons"
         className="form-select"
         aria-label="Default select example"
-        defaultValue={'Default'}
         value={select()}
         onChange={(e) => {
-          //目前抓不到
-          let cuid = e.target.getAttribute('cuid')
           handleLessonSelector(e.target.value)
-          handleLessonCUIDSelector(cuid)
         }}
       >
         <option value={'Default'} disabled>

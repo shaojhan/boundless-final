@@ -1,5 +1,5 @@
 import { apiBaseUrl } from '@/configs'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { formatPrice } from '@/lib/utils/formatPrice'
 import Navbar from '@/components/common/navbar'
 import NavbarMb from '@/components/common/navbar-mb'
@@ -59,11 +59,12 @@ export default function Test() {
 
   const [orderID, setOrderID] = useState(1)
 
-  const _originOrderID = () => {
-    const data = localStorage.getItem('orderID')
-    const parseData = parseInt(data)
-    return parseData
-  }
+  // Server-calculated price (authoritative — used for display and submission)
+  const [serverPrice, setServerPrice] = useState<{
+    totalPrice: number
+    totalDiscount: number
+    finalPayment: number
+  } | null>(null)
 
   const username = UserInfo[0].Name
   const phone = UserInfo[0].Phone
@@ -72,48 +73,59 @@ export default function Test() {
   const country = localStorage.getItem('Country')
   const township = localStorage.getItem('Township')
   const postcode = localStorage.getItem('Postcode')
-  const totaldiscount = calcTotalDiscount()
-  const payment = calcTotalPrice()
   const transportationstate = '運送中'
   const cartData = JSON.stringify(cartItems)
   const LessonCUID = localStorage.getItem('LessonCouponCUID')
   const InstrumentCUID = localStorage.getItem('InstrumentCouponCUID')
 
-  const sendForm = async (
-    username,
-    phone,
-    email,
-    country,
-    township,
-    postcode,
-    address,
-    totaldiscount,
-    payment,
-    transportationstate,
-    cartData,
-    orderID,
-    uid,
-    LessonCUID,
-    InstrumentCUID,
-  ) => {
-    let formData = new FormData()
+  // Fetch server-authoritative prices on mount
+  useEffect(() => {
+    if (!uid || !cartItems.length) return
+    fetch(`${apiBaseUrl}/cart/calculate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        cartdata: cartData,
+        uid: String(uid),
+        lessonCUID: LessonCUID,
+        instrumentCUID: InstrumentCUID,
+      }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.status === 'success') {
+          setServerPrice({
+            totalPrice: data.totalPrice,
+            totalDiscount: data.totalDiscount,
+            finalPayment: data.finalPayment,
+          })
+        }
+      })
+      .catch(() => {/* fallback to client values if network fails */})
+  }, [uid]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Display helpers — prefer server values, fall back to Redux selectors
+  const displayTotalPrice = serverPrice?.totalPrice ?? calcTotalPrice()
+  const displayTotalDiscount = serverPrice?.totalDiscount ?? calcTotalDiscount()
+  const displayFinalPayment = serverPrice?.finalPayment ?? (calcTotalPrice() - calcTotalDiscount())
+
+  const sendForm = async () => {
+    const formData = new FormData()
     formData.append('username', username)
     formData.append('phone', phone)
     formData.append('email', email)
-    formData.append('country', country)
-    formData.append('township', township)
-    formData.append('postcode', postcode)
+    formData.append('country', country ?? '')
+    formData.append('township', township ?? '')
+    formData.append('postcode', postcode ?? '')
     formData.append('address', address)
-    formData.append('totaldiscount', totaldiscount)
-    formData.append('payment', payment)
     formData.append('transportationstate', transportationstate)
     formData.append('cartdata', cartData)
-    formData.append('orderID', orderID)
-    formData.append('uid', uid)
-    formData.append('LessonCUID', LessonCUID)
-    formData.append('InstrumentCUID', InstrumentCUID)
+    formData.append('uid', String(uid))
+    formData.append('LessonCUID', LessonCUID ?? 'null')
+    formData.append('InstrumentCUID', InstrumentCUID ?? 'null')
 
-    const _res = await fetch(`${apiBaseUrl}/cart/form`, {
+    await fetch(`${apiBaseUrl}/cart/form`, {
       method: 'POST',
       body: formData,
       credentials: 'include',
@@ -256,16 +268,16 @@ export default function Test() {
                   </div>
                   <div className="flex justify-between carttext">
                     <div>原價合計</div>
-                    <div>NT ${formatPrice(calcTotalPrice())}</div>
+                    <div>NT ${formatPrice(displayTotalPrice)}</div>
                   </div>
                   <div className="flex justify-between carttext discount">
                     <div>折扣合計</div>
-                    <div>-NT ${formatPrice(calcTotalDiscount())}</div>
+                    <div>-NT ${formatPrice(displayTotalDiscount)}</div>
                   </div>
                   <div className="flex justify-between h3">
                     <div>合計</div>
                     <div>
-                      NT ${formatPrice(calcTotalPrice() - calcTotalDiscount())}
+                      NT ${formatPrice(displayFinalPayment)}
                     </div>
                   </div>
                 </div>
@@ -283,23 +295,7 @@ export default function Test() {
                     onClick={async () => {
                       setOrderID(orderID + 1)
                       localStorage.setItem('orderID', String(orderID))
-                      await sendForm(
-                        username,
-                        phone,
-                        email,
-                        country,
-                        township,
-                        postcode,
-                        address,
-                        totaldiscount,
-                        payment,
-                        transportationstate,
-                        cartData,
-                        orderID,
-                        uid,
-                        LessonCUID,
-                        InstrumentCUID,
-                      )
+                      await sendForm()
                       confirmOrderSubmit()
                     }}
                   >
@@ -324,16 +320,16 @@ export default function Test() {
             </div>
             <div className="flex justify-between carttext">
               <div>原價合計</div>
-              <div>NT ${formatPrice(calcTotalPrice())}</div>
+              <div>NT ${formatPrice(displayTotalPrice)}</div>
             </div>
             <div className="flex justify-between carttext discount">
               <div>折扣合計</div>
-              <div>-NT ${formatPrice(calcTotalDiscount())}</div>
+              <div>-NT ${formatPrice(displayTotalDiscount)}</div>
             </div>
             <div className="flex justify-between h3">
               <div>合計</div>
               <div>
-                NT ${formatPrice(calcTotalPrice() - calcTotalDiscount())}
+                NT ${formatPrice(displayFinalPayment)}
               </div>
             </div>
           </div>
@@ -348,26 +344,10 @@ export default function Test() {
             <div
               className="b-btn b-btn-primary flex w-full h-full justify-center"
               style={{ padding: '14px 0' }}
-              onClick={() => {
+              onClick={async () => {
                 setOrderID(orderID + 1)
                 localStorage.setItem('orderID', String(orderID))
-                sendForm(
-                  username,
-                  phone,
-                  email,
-                  country,
-                  township,
-                  postcode,
-                  address,
-                  totaldiscount,
-                  payment,
-                  transportationstate,
-                  cartData,
-                  orderID,
-                  uid,
-                  LessonCUID,
-                  InstrumentCUID,
-                )
+                await sendForm()
                 confirmOrderSubmit()
               }}
             >

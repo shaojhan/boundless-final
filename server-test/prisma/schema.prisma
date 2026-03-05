@@ -233,7 +233,7 @@ model OrderTotal {
   payment              Int
   transportation_state String   @db.VarChar(6)
   phone                String   @db.VarChar(10)
-  discount             Int      @db.TinyInt
+  discount             Int
   postcode             Int
   country              String   @db.VarChar(60)
   township             String   @db.VarChar(60)

@@ -1,23 +1,24 @@
 export default function InstrumentCouponDropdowns({
   instrumentCoupons,
   handleInstrumentSelector,
-  handleInstrumentCUIDSelector,
+}: {
+  instrumentCoupons: { id: number; discount: number; name: string }[]
+  handleInstrumentSelector: (raw: string) => void
 }) {
   const coupons = instrumentCoupons.map((v) => {
     return (
-      // @ts-expect-error -- non-standard HTML attribute
-      <option key={v.id} value={v.discount} name={v.name} cuid={v.id}>
+      <option key={v.id} value={JSON.stringify({ discount: v.discount, cuid: v.id })}>
         {v.name}
       </option>
     )
   })
 
-  let select = () => {
+  const select = () => {
     if (typeof localStorage !== 'undefined') {
-      return localStorage.getItem('InstrumentCoupon')
-    } else {
-      return ''
+      const stored = localStorage.getItem('InstrumentCouponRaw')
+      return stored ?? 'Default'
     }
+    return 'Default'
   }
 
   return (
@@ -25,16 +26,12 @@ export default function InstrumentCouponDropdowns({
       <select
         className="form-select"
         aria-label="Default select example"
-        defaultValue={0}
         value={select()}
         onChange={(e) => {
           handleInstrumentSelector(e.target.value)
-          //目前抓不到
-          let cuid = e.target.getAttribute('cuid')
-          handleInstrumentCUIDSelector(cuid)
         }}
       >
-        <option value={0} disabled>
+        <option value={'Default'} disabled>
           請選擇折價券
         </option>
         {coupons}

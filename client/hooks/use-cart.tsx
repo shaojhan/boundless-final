@@ -93,28 +93,30 @@ export function useCart() {
     dispatch(decrementItem({ id }))
   }
 
-  const handleLessonSelector = (e: number | string) => {
-    localStorage.setItem('LessonCoupon', String(e))
-    dispatch(setLessonDiscountAction(e as number))
+  const handleLessonSelector = (raw: string) => {
+    const { discount, cuid } = JSON.parse(raw) as { discount: number; cuid: number }
+    localStorage.setItem('LessonCouponRaw', raw)
+    localStorage.setItem('LessonCoupon', String(discount))
+    localStorage.setItem('LessonCouponCUID', String(cuid))
+    dispatch(setLessonDiscountAction(discount))
   }
 
-  const handleLessonCUIDSelector = (_cuid: unknown) => {
-    localStorage.setItem('LessonCouponCUID', '18')
-  }
-
-  const handleInstrumentSelector = (e: number | string) => {
-    localStorage.setItem('InstrumentCoupon', String(e))
-    dispatch(setInstrumentDiscountAction(e as number))
-  }
-
-  const handleInstrumentCUIDSelector = (_cuid: unknown) => {
-    localStorage.setItem('InstrumentCouponCUID', '2')
+  const handleInstrumentSelector = (raw: string) => {
+    const { discount, cuid } = JSON.parse(raw) as { discount: number; cuid: number }
+    localStorage.setItem('InstrumentCouponRaw', raw)
+    localStorage.setItem('InstrumentCoupon', String(discount))
+    localStorage.setItem('InstrumentCouponCUID', String(cuid))
+    dispatch(setInstrumentDiscountAction(discount))
   }
 
   const confirmOrderSubmit = () => {
     dispatch(clearCart())
     localStorage.removeItem('LessonCoupon')
+    localStorage.removeItem('LessonCouponRaw')
+    localStorage.removeItem('LessonCouponCUID')
     localStorage.removeItem('InstrumentCoupon')
+    localStorage.removeItem('InstrumentCouponRaw')
+    localStorage.removeItem('InstrumentCouponCUID')
     mySwal
       .fire({
         position: 'center',
@@ -182,9 +184,7 @@ export function useCart() {
     lessonCoupons,
     lessonDiscount,
     handleLessonSelector,
-    handleLessonCUIDSelector,
     handleInstrumentSelector,
-    handleInstrumentCUIDSelector,
     addLessonItem,
     addInstrumentItem,
     increment,

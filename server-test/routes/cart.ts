@@ -1,6 +1,7 @@
 import express from 'express';
 import prisma from '#configs/prisma.js';
 import multer from 'multer';
+import transporter from '#configs/mail.js';
 
 const router = express.Router();
 const upload = multer();
@@ -204,6 +205,89 @@ router.post('/form', upload.none(), async (req, res) => {
     }
 
     res.status(200).json({ status: 'success' });
+
+    // 訂單確認信（fire-and-forget，不阻塞回應）
+    void (async () => {
+      try {
+        const user = await prisma.user.findFirst({
+          where: { uid },
+          select: { email: true, nickname: true },
+        });
+        if (!user?.email) return;
+
+        const productIds = cartEntries.map((v) => v.id);
+        const products = await prisma.product.findMany({
+          where: { id: { in: productIds } },
+          select: { id: true, name: true, price: true },
+        });
+        const productMap = new Map(products.map((p) => [p.id, p]));
+
+        const itemRows = cartEntries
+          .map((entry) => {
+            const p = productMap.get(entry.id);
+            const name = p?.name ?? '商品';
+            const unitPrice = Number(p?.price ?? 0);
+            const subtotal = unitPrice * entry.qty;
+            return `
+              <tr>
+                <td style="padding:8px 12px;border-bottom:1px solid #eee;">${name}</td>
+                <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:center;">${entry.qty}</td>
+                <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;">$${unitPrice.toLocaleString()}</td>
+                <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;">$${subtotal.toLocaleString()}</td>
+              </tr>`;
+          })
+          .join('');
+
+        const orderDate = new Date().toLocaleDateString('zh-TW');
+        const html = `
+          <div style="font-family:'Noto Sans TC',sans-serif;max-width:600px;margin:0 auto;color:#1d1d1d;">
+            <div style="background:#124365;padding:24px;text-align:center;">
+              <h1 style="color:#fff;margin:0;font-size:24px;">Boundless</h1>
+            </div>
+            <div style="padding:24px;">
+              <h2 style="color:#124365;">訂單確認通知</h2>
+              <p>親愛的 ${user.nickname ?? user.email} 您好，</p>
+              <p>感謝您的購買！您的訂單已成功建立，以下是您的訂單明細：</p>
+              <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+                <thead>
+                  <tr style="background:#f0f5fa;">
+                    <th style="padding:10px 12px;text-align:left;color:#124365;">商品名稱</th>
+                    <th style="padding:10px 12px;text-align:center;color:#124365;">數量</th>
+                    <th style="padding:10px 12px;text-align:right;color:#124365;">單價</th>
+                    <th style="padding:10px 12px;text-align:right;color:#124365;">小計</th>
+                  </tr>
+                </thead>
+                <tbody>${itemRows}</tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="3" style="padding:10px 12px;text-align:right;font-weight:bold;color:#124365;">合計</td>
+                    <td style="padding:10px 12px;text-align:right;font-weight:bold;color:#124365;">$${finalPayment.toLocaleString()}</td>
+                  </tr>
+                </tfoot>
+              </table>
+              <div style="background:#f8fafc;border-radius:8px;padding:16px;margin-top:16px;">
+                <p style="margin:4px 0;"><strong>訂單日期：</strong>${orderDate}</p>
+                <p style="margin:4px 0;"><strong>付款方式：</strong>信用卡</p>
+                ${address ? `<p style="margin:4px 0;"><strong>配送地址：</strong>${postcode} ${country}${township}${address}</p>` : ''}
+              </div>
+              <p style="margin-top:24px;">如有任何問題，請聯繫 Boundless 客服團隊。</p>
+              <p style="color:#888;font-size:12px;">此為系統自動發送信件，請勿直接回覆。</p>
+            </div>
+            <div style="background:#f0f5fa;padding:16px;text-align:center;color:#888;font-size:12px;">
+              © Boundless 音樂平台
+            </div>
+          </div>`;
+
+        await transporter.sendMail({
+          from: `"Boundless" <${process.env.SMTP_TO_EMAIL}>`,
+          to: user.email,
+          subject: '【Boundless】訂單確認通知',
+          html,
+        });
+      } catch (err) {
+        console.error('訂單確認信發送失敗:', err);
+      }
+    })();
   } catch (error) {
     res.status(500).json({ status: 'error', error });
   }

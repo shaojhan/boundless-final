@@ -75,6 +75,7 @@ export default function Test({ onSearch: _onSearch }) {
   // 促銷商品
   const [promotion, setPromotion] = useState(false)
 
+
   // 清除表單內容
   const cleanFilter = () => {
     setBrandSelect('all')
@@ -392,8 +393,8 @@ export default function Test({ onSearch: _onSearch }) {
   // 設定sidebar下拉狀態
   const [openAccordion, setOpenAccordion] = useState(null)
 
-  const _handleAccordionToggle = (index) => {
-    setOpenAccordion(openAccordion === index ? null : index)
+  const handleAccordionToggle = (name: string) => {
+    setOpenAccordion(openAccordion === name ? null : name)
   }
 
   const categoryParam = router.query.category // 從 Next.js router 得到 category 值
@@ -432,49 +433,44 @@ export default function Test({ onSearch: _onSearch }) {
                     <li
                       className="accordion"
                       style={{ paddingBlock: '15px' }}
-                      id={`accordion${v.name}`}
                       key={v.id}
                     >
                       <div className="accordion-item">
                         <h2 className="accordion-header">
                           <button
-                            className="accordion-button collapsed"
+                            className={`accordion-button${openAccordion === v.name ? '' : ' collapsed'}`}
                             type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target={`#collapse${v.name}`}
-                            aria-expanded="false"
-                            aria-controls={`collapse${v.name}`}
+                            aria-expanded={openAccordion === v.name}
+                            onClick={() => handleAccordionToggle(v.name)}
                           >
                             {v.name}
                           </button>
                         </h2>
-                        <div
-                          id={`collapse${v.name}`}
-                          className="accordion-collapse collapse"
-                          data-bs-parent={`#accordion${v.name}`}
-                        >
-                          {InstrumentCategory.map((subv) => {
-                            return v.id === subv.parent_id ? (
-                              <div
-                                className="accordion-body flex flex-col px-0 pt-6 pb-0"
-                                key={subv.id}
-                              >
-                                <Link
-                                  className="subcategory-link p-2"
-                                  href={`/instrument/?category=${subv.name}`}
-                                  onClick={() => {
-                                    handleCategoryChange(subv.id)
-                                    setShowSidebar(false)
-                                  }}
+                        {openAccordion === v.name && (
+                          <div className="accordion-collapse">
+                            {InstrumentCategory.map((subv) => {
+                              return v.id === subv.parent_id ? (
+                                <div
+                                  className="accordion-body flex flex-col px-0 pt-6 pb-0"
+                                  key={subv.id}
                                 >
-                                  {subv.name}
-                                </Link>
-                              </div>
-                            ) : (
-                              ''
-                            )
-                          })}
-                        </div>
+                                  <Link
+                                    className="subcategory-link p-2"
+                                    href={`/instrument/?category=${subv.name}`}
+                                    onClick={() => {
+                                      handleCategoryChange(subv.id)
+                                      setShowSidebar(false)
+                                    }}
+                                  >
+                                    {subv.name}
+                                  </Link>
+                                </div>
+                              ) : (
+                                ''
+                              )
+                            })}
+                          </div>
+                        )}
                       </div>
                     </li>
                   ) : (
@@ -518,45 +514,40 @@ export default function Test({ onSearch: _onSearch }) {
                   <li
                     className="accordion sm-item"
                     style={{ paddingBlock: '19px' }}
-                    id={`accordion${v.name}`}
                     key={v.id}
                   >
                     <div className="accordion-item w-full">
                       <h2 className="accordion-header">
                         <button
-                          className="accordion-button collapsed justify-between"
+                          className={`accordion-button justify-between${openAccordion === v.name ? '' : ' collapsed'}`}
                           type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target={`#collapse${v.name}`}
-                          aria-expanded="false"
-                          aria-controls={`collapse${v.name}`}
+                          aria-expanded={openAccordion === v.name}
+                          onClick={() => handleAccordionToggle(v.name)}
                         >
                           {v.name}
                         </button>
                       </h2>
-                      <div
-                        id={`collapse${v.name}`}
-                        className="accordion-collapse collapse"
-                        data-bs-parent={`#accordion${v.name}`}
-                      >
-                        {InstrumentCategory.map((subv) => {
-                          return v.id === subv.parent_id ? (
-                            <div
-                              className="accordion-body flex flex-col px-0 pt-6 pb-0"
-                              key={subv.id}
-                            >
-                              <Link
-                                className="subcategory-link p-2"
-                                href={`/instrument/${subv.name}`}
+                      {openAccordion === v.name && (
+                        <div className="accordion-collapse">
+                          {InstrumentCategory.map((subv) => {
+                            return v.id === subv.parent_id ? (
+                              <div
+                                className="accordion-body flex flex-col px-0 pt-6 pb-0"
+                                key={subv.id}
                               >
-                                {subv.name}
-                              </Link>
-                            </div>
-                          ) : (
-                            ''
-                          )
-                        })}
-                      </div>
+                                <Link
+                                  className="subcategory-link p-2"
+                                  href={`/instrument/${subv.name}`}
+                                >
+                                  {subv.name}
+                                </Link>
+                              </div>
+                            ) : (
+                              ''
+                            )
+                          })}
+                        </div>
+                      )}
                     </div>
                   </li>
                 ) : (

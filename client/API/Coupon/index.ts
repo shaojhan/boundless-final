@@ -52,6 +52,21 @@ class Coupon {
     })
   }
 
+  Redeem(
+    user_id: number,
+    coupon_code: string,
+  ): Promise<{ success: boolean; message: string; coupon?: object }> {
+    return new Promise((resolve, reject) => {
+      API.Post({
+        url: this.url + 'Redeem',
+        param: { user_id, coupon_code },
+        success: (data) =>
+          resolve(data as { success: boolean; message: string; coupon?: object }),
+        fail: (err) => reject(err),
+      })
+    })
+  }
+
   CalcDiscount(): void {}
 }
 

@@ -203,6 +203,55 @@ class Coupon extends Basic {
     }
   }
 
+  // 用折扣碼兌換優惠券（找到模板 → 建立 coupon 記錄）
+  async Redeem(
+    user_id: number,
+    coupon_code: string
+  ): Promise<{ success: boolean; message: string; coupon?: object }> {
+    try {
+      // 找到符合 coupon_code 且有效的模板
+      const [templates] = await db.execute<CouponTemplateRow>(
+        'Select * From coupon_template Where coupon_code = ? And valid = 1',
+        [coupon_code]
+      );
+      if (templates.length === 0) {
+        return { success: false, message: '折扣碼無效或已過期' };
+      }
+      const tmpl = templates[0];
+
+      // 檢查使用者是否已持有此優惠券（有效的）
+      const [existing] = await db.execute<CouponRow>(
+        'Select * From coupon Where user_id = ? And coupon_template_id = ? And valid = 1',
+        [user_id, tmpl.id]
+      );
+      if (existing.length > 0) {
+        return { success: false, message: '您已擁有此優惠券' };
+      }
+
+      // 建立優惠券
+      const now = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
+      await db.execute(
+        'Insert Into coupon(user_id,coupon_template_id,created_time,valid) values(?,?,?,1)',
+        [user_id, tmpl.id, now]
+      );
+      const limit_time = format(addDays(new Date(now), 7), 'yyyy-MM-dd HH:mm:ss');
+      return {
+        success: true,
+        message: '兌換成功！',
+        coupon: {
+          name: tmpl.name,
+          discount: tmpl.discount,
+          kind: tmpl.kind,
+          type: tmpl.type,
+          limit_time,
+        },
+      };
+    } catch (err) {
+      console.error((err as Error).message);
+      return { success: false, message: '伺服器錯誤，請稍後再試' };
+    }
+  }
+
   // 算整包折價
   async CalcDiscount(
     data: { id: number; qty: number }[] = []

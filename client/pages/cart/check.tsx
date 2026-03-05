@@ -17,6 +17,8 @@ import { useCart } from '@/hooks/use-cart'
 import { formatPrice } from '@/lib/utils/formatPrice'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 export default function Test() {
   //hook
@@ -39,7 +41,24 @@ export default function Test() {
     handleLessonSelector,
     calcTotalDiscount,
     calcTotalPrice,
+    redeemCoupon,
   } = useCart()
+
+  const [couponCode, setCouponCode] = useState('')
+  const [redeeming, setRedeeming] = useState(false)
+
+  const handleRedeem = async () => {
+    if (!couponCode.trim()) return
+    setRedeeming(true)
+    const result = await redeemCoupon(couponCode.trim())
+    setRedeeming(false)
+    if (result.success) {
+      toast.success(result.message, { duration: 3000 })
+      setCouponCode('')
+    } else {
+      toast.error(result.message, { duration: 3000 })
+    }
+  }
   // ----------------------手機版本  ----------------------
   // 主選單
   const { showMenu, menuMbToggle } = useMenuToggle()
@@ -134,6 +153,27 @@ export default function Test() {
                     小計 NT${' '}
                     {formatPrice(calcLessonPrice() - calcLessonDiscount())}
                   </div>
+                </div>
+              </div>
+              <div className="cart-redeem">
+                <div className="cart-title">折扣碼</div>
+                <div className="redeem-body">
+                  <input
+                    className="redeem-input"
+                    type="text"
+                    placeholder="輸入折扣碼"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    onKeyDown={(e) => e.key === 'Enter' && handleRedeem()}
+                    maxLength={12}
+                  />
+                  <button
+                    className="b-btn b-btn-primary redeem-btn"
+                    onClick={handleRedeem}
+                    disabled={redeeming || !couponCode.trim()}
+                  >
+                    {redeeming ? '兌換中...' : '兌換'}
+                  </button>
                 </div>
               </div>
               <div className="cart-instrument">
@@ -550,6 +590,39 @@ export default function Test() {
           }
         }
 
+        .cart-redeem {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          width: 100%;
+          .redeem-body {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px;
+          }
+          .redeem-input {
+            flex: 1;
+            max-width: 320px;
+            padding: 8px 12px;
+            border: 1px solid var(--primary, #1581cc);
+            border-radius: 6px;
+            font-family: 'Noto Sans TC';
+            font-size: 16px;
+            outline: none;
+            &:focus {
+              border-color: var(--primary-deep, #124365);
+            }
+          }
+          .redeem-btn {
+            padding: 8px 20px;
+            white-space: nowrap;
+            &:disabled {
+              opacity: 0.5;
+              cursor: not-allowed;
+            }
+          }
+        }
         .cart-coupon {
           display: flex;
           padding: 0 12px;

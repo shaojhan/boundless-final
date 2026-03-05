@@ -62,6 +62,23 @@ router.post('/Update', async (req, res) => {
   }
 });
 
+// 用折扣碼兌換優惠券
+router.post('/Redeem', async (req, res) => {
+  try {
+    const { user_id, coupon_code } = req.body as { user_id: number; coupon_code: string };
+    if (!user_id || !coupon_code) {
+      res.status(400).json({ success: false, message: '缺少必要參數' });
+      return;
+    }
+    const obj = new Coupon();
+    const result = await obj.Redeem(user_id, coupon_code.trim().toUpperCase());
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: '伺服器錯誤' });
+  }
+});
+
 // --- 計算折價結果 --- 購物車已套用coupon.json????
 
 // router.post('/CalcDiscount', async (req, res) => {

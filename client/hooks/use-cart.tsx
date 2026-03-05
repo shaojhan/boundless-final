@@ -61,13 +61,17 @@ export function useCart() {
   const [lessonCoupons, setLessonCoupons] = useState<CouponItem[]>([])
   const [instrumentCoupons, setInstrumentCoupons] = useState<CouponItem[]>([])
 
-  useEffect(() => {
-    if (!LoginUserData?.id) return
-    CouponClass.FindAll(LoginUserData.id).then((data) => {
+  const refreshCoupons = (id: number) => {
+    CouponClass.FindAll(id).then((data) => {
       const valid = data.filter((c) => c.valid === 1)
       setLessonCoupons(valid.filter((c) => c.kind === 2))
       setInstrumentCoupons(valid.filter((c) => c.kind === 1))
     })
+  }
+
+  useEffect(() => {
+    if (!LoginUserData?.id) return
+    refreshCoupons(LoginUserData.id)
   }, [LoginUserData?.id])
 
   // ── Actions ──────────────────────────────────────────────────────────────
@@ -132,6 +136,19 @@ export function useCart() {
     localStorage.setItem('InstrumentCoupon', String(discount))
     localStorage.setItem('InstrumentCouponCUID', String(cuid))
     dispatch(setInstrumentDiscountAction(discount))
+  }
+
+  const redeemCoupon = async (coupon_code: string): Promise<{ success: boolean; message: string }> => {
+    if (!LoginUserData?.id) return { success: false, message: '請先登入' }
+    try {
+      const result = await CouponClass.Redeem(LoginUserData.id, coupon_code)
+      if (result.success) {
+        refreshCoupons(LoginUserData.id)
+      }
+      return result
+    } catch {
+      return { success: false, message: '兌換失敗，請稍後再試' }
+    }
   }
 
   const confirmOrderSubmit = () => {
@@ -226,6 +243,7 @@ export function useCart() {
     calcTotalItems: () => _totalItems,
     calcTotalPrice: () => _totalPrice,
     calcTotalDiscount: () => _totalDiscount,
+    redeemCoupon,
     confirmOrderSubmit,
     cartNull,
     notifyBuy,

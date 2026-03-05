@@ -31,11 +31,17 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <div className="space-y-3">
-      <h2 className="text-xl font-bold" style={{ color: '#0d3652' }}>
+    <div>
+      <h2
+        className="text-2xl font-bold"
+        style={{ color: '#0d3652', marginBottom: '1rem' }}
+      >
         {title}
       </h2>
-      <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
+      <div
+        className="bg-gray-50 rounded-xl border border-gray-100"
+        style={{ padding: '1.5rem' }}
+      >
         {children}
       </div>
     </div>
@@ -105,7 +111,10 @@ export default function LessonDetailPage() {
         </nav>
 
         {/* ── Hero: 圖左、描述右 ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+        <div
+          className="grid grid-cols-1 md:grid-cols-2"
+          style={{ gap: '2.5rem', marginBottom: '4rem' }}
+        >
           {/* 課程圖片 */}
           <div className="w-full aspect-video rounded-xl overflow-hidden bg-gray-100 shadow-sm self-start">
             <img
@@ -116,7 +125,7 @@ export default function LessonDetailPage() {
           </div>
 
           {/* 課程描述 */}
-          <div className="flex flex-col gap-4 self-start">
+          <div className="flex flex-col self-start" style={{ gap: '1.25rem' }}>
             <h1 className="text-2xl font-bold text-gray-900 leading-snug">
               {LessonDetail.name}
             </h1>
@@ -198,7 +207,10 @@ export default function LessonDetailPage() {
         </div>
 
         {/* ── 詳細內容（全寬置中）── */}
-        <div className="space-y-8 mb-12">
+        <div
+          className="flex flex-col"
+          style={{ gap: '3rem', marginBottom: '4rem' }}
+        >
           <Section title="單元一覽">
             <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
               {LessonDetail.outline?.split('\n').map((line: string, i: number) => (
@@ -279,8 +291,11 @@ export default function LessonDetailPage() {
           </Section>
 
           {/* 講師資訊 */}
-          <div className="space-y-3">
-            <h2 className="text-xl font-bold" style={{ color: '#0d3652' }}>
+          <div>
+            <h2
+              className="text-2xl font-bold"
+              style={{ color: '#0d3652', marginBottom: '1rem' }}
+            >
               講師資訊
             </h2>
             <div className="flex gap-5 bg-gray-50 rounded-xl p-5 border border-gray-100">
@@ -305,7 +320,7 @@ export default function LessonDetailPage() {
 
         {/* 猜你喜歡 — 桌機 */}
         <div className="hidden md:block mb-10">
-          <h2 className="text-xl font-bold mb-5" style={{ color: '#0d3652' }}>
+          <h2 className="text-2xl font-bold mb-6" style={{ color: '#0d3652' }}>
             猜你喜歡...
           </h2>
           <div className="flex gap-4 flex-wrap">
@@ -332,7 +347,7 @@ export default function LessonDetailPage() {
 
         {/* 猜你喜歡 — 手機 */}
         <div className="md:hidden mb-28">
-          <h2 className="text-xl font-bold mb-4" style={{ color: '#0d3652' }}>
+          <h2 className="text-2xl font-bold mb-5" style={{ color: '#0d3652' }}>
             猜你喜歡...
           </h2>
           <div className="space-y-3">

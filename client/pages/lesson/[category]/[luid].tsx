@@ -17,7 +17,6 @@ import { MdOutlinePeopleAlt } from 'react-icons/md'
 
 import Card from '@/components/lesson/lesson-card'
 import HoriCard from '@/components/lesson/lesson-card-rwd'
-import ProductCard from '@/components/lesson/lesson-productbrief-card'
 
 import { useCart } from '@/hooks/use-cart'
 import { format } from 'date-fns'
@@ -45,7 +44,6 @@ function Section({
 
 export default function LessonDetailPage() {
   const { showMenu, menuMbToggle } = useMenuToggle()
-
   useFilterToggle()
 
   const [colorChange, setcolorChange] = useState(false)
@@ -106,206 +104,207 @@ export default function LessonDetailPage() {
           </span>
         </nav>
 
-        {/* Main content grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-28 lg:pb-10">
-          {/* ── Left column ── */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Course image */}
-            <div className="w-full aspect-video rounded-xl overflow-hidden bg-gray-100 shadow-sm">
-              <img
-                src={`/課程與師資/lesson_img/${LessonDetail.img}`}
-                className="w-full h-full object-cover"
-                alt={LessonDetail.name || 'Course Preview'}
-              />
-            </div>
-
-            {/* Mobile: inline course info card */}
-            <div className="lg:hidden bg-white rounded-xl border border-gray-200 p-5 space-y-4 shadow-sm">
-              <h1 className="text-2xl font-bold text-gray-900">
-                {LessonDetail.name}
-              </h1>
-
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <div className="flex items-center gap-2">
-                  <FaStar className="text-yellow-400" size={14} />
-                  <span className="text-yellow-500 font-semibold text-sm">
-                    {Math.round(LessonDetail.average_rating)}
-                  </span>
-                  <span className="text-gray-400 text-xs">
-                    ({reviews.length} 評論)
-                  </span>
-                </div>
-                <div className="flex items-center gap-1 text-gray-500 text-sm">
-                  <MdOutlinePeopleAlt size={14} />
-                  <span>購買人數 {LessonDetail.sales}</span>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold text-gray-900">
-                  NT$ {toLocalePrice}
-                </div>
-                <button
-                  onClick={colorToggle}
-                  className="p-2 border border-gray-300 rounded-lg hover:border-red-400 transition-colors"
-                >
-                  <FaHeart
-                    size={20}
-                    className={colorChange ? 'text-red-500' : 'text-gray-300'}
-                  />
-                </button>
-              </div>
-
-              <div className="flex gap-5 text-sm text-gray-600">
-                <div className="flex items-center gap-1.5">
-                  <GoClock size={14} className="text-blue-500" />
-                  <span>{LessonDetail.length} 小時</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <FaBook size={13} className="text-blue-500" />
-                  <span>{LessonDetail.homework} 份作業</span>
-                </div>
-              </div>
-
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {LessonDetail.info}
-              </p>
-            </div>
-
-            {/* Unit Overview */}
-            <Section title="單元一覽">
-              <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
-                {LessonDetail.outline?.split('\n').map((line, i) => (
-                  <li key={i}>{line}</li>
-                ))}
-              </ul>
-            </Section>
-
-            {/* Target Audience */}
-            <Section title="適合對象">
-              <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
-                {LessonDetail.suitable?.split('\n').map((line, i) => (
-                  <li key={i}>{line}</li>
-                ))}
-              </ul>
-            </Section>
-
-            {/* What You'll Learn */}
-            <Section title="你將學到">
-              <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
-                {LessonDetail.achievement?.split('\n').map((line, i) => (
-                  <li key={i}>{line}</li>
-                ))}
-              </ul>
-            </Section>
-
-            {/* Student Reviews */}
-            <Section title="學員回饋">
-              <div className="space-y-5">
-                {reviews.map((review, i) => (
-                  <div
-                    key={i}
-                    className="border-b border-gray-200 pb-5 last:border-0 last:pb-0"
-                  >
-                    <div className="flex items-start gap-3">
-                      <img
-                        src={`/新增資料夾/user/${review.img}`}
-                        className="w-11 h-11 rounded-full object-cover border border-gray-200 flex-shrink-0"
-                        alt={review.name}
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-semibold text-sm" style={{ color: '#124365' }}>
-                            {review.name}
-                          </span>
-                          <span className="text-gray-400 text-xs">
-                            {format(
-                              new Date(review.created_time),
-                              'yyyy-MM-dd',
-                            )}
-                          </span>
-                        </div>
-                        <div className="flex gap-0.5 mt-1">
-                          {[...Array(5)].map((_, si) => (
-                            <FaStar key={si} size={12} className="text-yellow-400" />
-                          ))}
-                        </div>
-                        <p className="text-gray-700 text-sm mt-2 break-words leading-relaxed">
-                          {review.content}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex justify-end items-center gap-2 mt-3">
-                      <span className="text-gray-400 text-xs">
-                        {review.likes} 人覺得有幫助
-                      </span>
-                      <button className="text-xs border border-blue-500 text-blue-500 px-2 py-0.5 rounded hover:bg-blue-50 transition-colors">
-                        有幫助
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <button className="mt-4 text-blue-600 font-semibold text-sm hover:underline">
-                更多回饋 →
-              </button>
-            </Section>
-
-            {/* Instructor Info */}
-            <div className="space-y-3">
-              <h2 className="text-xl font-bold" style={{ color: '#0d3652' }}>
-                講師資訊
-              </h2>
-              <div className="flex gap-5 bg-gray-50 rounded-xl p-5 border border-gray-100">
-                <div className="w-28 h-28 rounded-xl overflow-hidden flex-shrink-0 shadow-sm">
-                  <img
-                    src="/課程與師資/teacher_img/teacher_001.jpeg"
-                    className="w-full h-full object-cover"
-                    alt="Teacher"
-                  />
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900 text-base mb-2">
-                    徐歡CheerHsu
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    本身為全職的音樂工作者，也是Youtuber「倆倆」的音樂影片製作人，擁有近百支以上音樂的MV製作經驗，在2017曾創下台灣Youtube熱門創作者影片的第四名，本身頻道總點閱率也達到一千五百萬成績。對於這方面的學習從不間斷，且已將音樂融入為生活習慣。
-                  </p>
-                </div>
-              </div>
-            </div>
+        {/* ── Hero: 圖左、描述右 ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+          {/* 課程圖片 */}
+          <div className="w-full aspect-video rounded-xl overflow-hidden bg-gray-100 shadow-sm self-start">
+            <img
+              src={`/課程與師資/lesson_img/${LessonDetail.img}`}
+              className="w-full h-full object-cover"
+              alt={LessonDetail.name || 'Course Preview'}
+            />
           </div>
 
-          {/* ── Right column: Desktop sticky sidebar ── */}
-          <div className="hidden lg:block">
-            {LessonDetail && (
-              <ProductCard
-                className="Right-card"
-                id={LessonDetail.id}
-                average_rating={LessonDetail.average_rating}
-                review_count={LessonDetail.review_count}
-                img={LessonDetail.img}
-                img_small={LessonDetail.img}
-                type={LessonDetail.type}
-                lesson_category_id={LessonDetail.lesson_category_id}
-                name={LessonDetail.name}
-                homework={LessonDetail.homework}
-                sales={LessonDetail.sales}
-                price={LessonDetail.price}
-                discount={LessonDetail.discount}
-                discount_state={LessonDetail.discount_state}
-                length={LessonDetail.length}
-                info={LessonDetail.info}
-                onshelf_time={LessonDetail.onshelf_time}
-                addLessonItem={addLessonItem}
-                notifyBuy={notifyBuy}
-              />
-            )}
+          {/* 課程描述 */}
+          <div className="flex flex-col gap-4 self-start">
+            <h1 className="text-2xl font-bold text-gray-900 leading-snug">
+              {LessonDetail.name}
+            </h1>
+
+            {/* 評分 & 購買人數 */}
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <FaStar className="text-yellow-400" size={15} />
+                <span className="text-yellow-500 font-semibold">
+                  {Math.round(LessonDetail.average_rating)}
+                </span>
+                <span className="text-gray-400 text-sm">
+                  ({reviews.length} 評論)
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 text-gray-500 text-sm">
+                <MdOutlinePeopleAlt size={15} />
+                <span>購買人數 {LessonDetail.sales}</span>
+              </div>
+            </div>
+
+            {/* 價格 & 收藏 */}
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-gray-900">
+                NT$ {toLocalePrice}
+              </div>
+              <button
+                onClick={colorToggle}
+                className="p-2 border border-gray-300 rounded-lg hover:border-red-400 transition-colors"
+                aria-label="收藏"
+              >
+                <FaHeart
+                  size={22}
+                  className={colorChange ? 'text-red-500' : 'text-gray-300'}
+                />
+              </button>
+            </div>
+
+            {/* 時長 & 作業 */}
+            <div className="flex gap-5 text-sm text-gray-600">
+              <div className="flex items-center gap-1.5">
+                <GoClock size={15} className="text-blue-500" />
+                <span>{LessonDetail.length} 小時</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <FaBook size={13} className="text-blue-500" />
+                <span>{LessonDetail.homework} 份作業</span>
+              </div>
+            </div>
+
+            {/* 簡介 */}
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {LessonDetail.info}
+            </p>
+
+            {/* 購買按鈕（桌機版顯示）*/}
+            <div className="hidden md:flex flex-col gap-2 pt-2">
+              <button
+                onClick={() => {
+                  notifyBuy(LessonDetail.name)
+                  addLessonItem(LessonDetail)
+                }}
+                className="flex items-center justify-center gap-2 w-full bg-gray-400 hover:bg-gray-500 text-white font-bold py-3 rounded-lg transition-colors text-sm"
+              >
+                <FaShoppingCart size={14} />
+                加入購物車
+              </button>
+              <button
+                onClick={() => {
+                  addLessonItem(LessonDetail)
+                  router.push('/cart/check')
+                }}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-colors text-sm"
+              >
+                立即購買
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* You might also like — Desktop */}
-        <div className="hidden lg:block mt-10 mb-8">
+        {/* ── 詳細內容（全寬置中）── */}
+        <div className="space-y-8 mb-12">
+          <Section title="單元一覽">
+            <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
+              {LessonDetail.outline?.split('\n').map((line: string, i: number) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          </Section>
+
+          <Section title="適合對象">
+            <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
+              {LessonDetail.suitable?.split('\n').map((line: string, i: number) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          </Section>
+
+          <Section title="你將學到">
+            <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
+              {LessonDetail.achievement?.split('\n').map((line: string, i: number) => (
+                <li key={i}>{line}</li>
+              ))}
+            </ul>
+          </Section>
+
+          <Section title="學員回饋">
+            <div className="space-y-5">
+              {reviews.map((review, i) => (
+                <div
+                  key={i}
+                  className="border-b border-gray-200 pb-5 last:border-0 last:pb-0"
+                >
+                  <div className="flex items-start gap-3">
+                    <img
+                      src={`/新增資料夾/user/${review.img}`}
+                      className="w-11 h-11 rounded-full object-cover border border-gray-200 flex-shrink-0"
+                      alt={review.name}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span
+                          className="font-semibold text-sm"
+                          style={{ color: '#124365' }}
+                        >
+                          {review.name}
+                        </span>
+                        <span className="text-gray-400 text-xs">
+                          {format(new Date(review.created_time), 'yyyy-MM-dd')}
+                        </span>
+                      </div>
+                      <div className="flex gap-0.5 mt-1">
+                        {[...Array(5)].map((_, si) => (
+                          <FaStar
+                            key={si}
+                            size={12}
+                            className="text-yellow-400"
+                          />
+                        ))}
+                      </div>
+                      <p className="text-gray-700 text-sm mt-2 break-words leading-relaxed">
+                        {review.content}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex justify-end items-center gap-2 mt-3">
+                    <span className="text-gray-400 text-xs">
+                      {review.likes} 人覺得有幫助
+                    </span>
+                    <button className="text-xs border border-blue-500 text-blue-500 px-2 py-0.5 rounded hover:bg-blue-50 transition-colors">
+                      有幫助
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button className="mt-4 text-blue-600 font-semibold text-sm hover:underline">
+              更多回饋 →
+            </button>
+          </Section>
+
+          {/* 講師資訊 */}
+          <div className="space-y-3">
+            <h2 className="text-xl font-bold" style={{ color: '#0d3652' }}>
+              講師資訊
+            </h2>
+            <div className="flex gap-5 bg-gray-50 rounded-xl p-5 border border-gray-100">
+              <div className="w-28 h-28 rounded-xl overflow-hidden flex-shrink-0 shadow-sm">
+                <img
+                  src="/課程與師資/teacher_img/teacher_001.jpeg"
+                  className="w-full h-full object-cover"
+                  alt="Teacher"
+                />
+              </div>
+              <div>
+                <div className="font-bold text-gray-900 text-base mb-2">
+                  徐歡CheerHsu
+                </div>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  本身為全職的音樂工作者，也是Youtuber「倆倆」的音樂影片製作人，擁有近百支以上音樂的MV製作經驗，在2017曾創下台灣Youtube熱門創作者影片的第四名，本身頻道總點閱率也達到一千五百萬成績。對於這方面的學習從不間斷，且已將音樂融入為生活習慣。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 猜你喜歡 — 桌機 */}
+        <div className="hidden md:block mb-10">
           <h2 className="text-xl font-bold mb-5" style={{ color: '#0d3652' }}>
             猜你喜歡...
           </h2>
@@ -331,8 +330,8 @@ export default function LessonDetailPage() {
           </div>
         </div>
 
-        {/* You might also like — Mobile */}
-        <div className="lg:hidden mt-8 mb-6">
+        {/* 猜你喜歡 — 手機 */}
+        <div className="md:hidden mb-28">
           <h2 className="text-xl font-bold mb-4" style={{ color: '#0d3652' }}>
             猜你喜歡...
           </h2>
@@ -359,8 +358,8 @@ export default function LessonDetailPage() {
         </div>
       </div>
 
-      {/* Mobile sticky bottom bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 flex gap-3 z-50 shadow-lg">
+      {/* 手機底部固定購買列 */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 flex gap-3 z-50 shadow-lg">
         <button
           onClick={() => {
             notifyBuy(LessonDetail.name)

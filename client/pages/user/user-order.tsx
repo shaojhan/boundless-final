@@ -12,12 +12,11 @@ import { authFetch } from '@/lib/api-client'
 import { useAvatarImage } from '@/hooks/useAvatarImage'
 
 // icons
-import { IoHome } from 'react-icons/io5'
+import { IoHome, IoClose } from 'react-icons/io5'
 import { FaChevronRight } from 'react-icons/fa6'
 import { IoIosSearch } from 'react-icons/io'
 import { FaFilter } from 'react-icons/fa6'
 import { FaSortAmountDown } from 'react-icons/fa'
-import { IoClose } from 'react-icons/io5'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
 
@@ -55,16 +54,8 @@ export default function Test() {
       getLoginUserOrder()
     }
   }, [auth?.user?.id])
-  const _OrderData = userOrderData.productResult ? userOrderData : []
-  let _i = 0
-  let _y = 0
-
-  // ----------------------訂單明細 Modal ----------------------
+  // ----------------------訂單明細 Accordion ----------------------
   const [selectedOrderIndex, setSelectedOrderIndex] = useState<number | null>(null)
-  const selectedOrder =
-    selectedOrderIndex !== null && userOrderData.productResult
-      ? userOrderData.productResult[selectedOrderIndex]
-      : null
 
   // ----------------------手機版本  ----------------------
   // 主選單
@@ -610,83 +601,126 @@ export default function Test() {
                           // eslint-disable-next-line @typescript-eslint/no-explicit-any
                           userOrderData.productResult.map((productList: any[], index: number) => {
                             const first = productList[0]
+                            const isOpen = selectedOrderIndex === index
                             const totalAmount = productList.reduce(
                               // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               (sum: number, p: any) => sum + p.price * p.quantity,
                               0
                             )
                             return (
-                              <div className="user-order-item-instrument" key={index}>
+                              <div className="order-accordion" key={index}>
+                                {/* 可點擊的訂單摘要列 */}
                                 <div
-                                  className="user-order-item-instrument-leftSide lg:w-1/4 px-6 w-full px-6"
-                                  style={{ paddingTop: 25 }}
+                                  className="user-order-item-instrument order-accordion-header"
+                                  role="button"
+                                  onClick={() => setSelectedOrderIndex(isOpen ? null : index)}
                                 >
-                                  <div className="user-order-item-instrument-leftSide-img">
-                                    <Image
-                                      src={`/smallForOrder/${first.img_small}`}
-                                      alt={first.name}
-                                      priority
-                                      style={{
-                                        borderRadius: 10,
-                                        padding: 5,
-                                        height: '100%',
-                                        width: '100%',
-                                        objectFit: 'contain',
-                                      }}
-                                      width={150}
-                                      height={150}
-                                    />
+                                  <div
+                                    className="user-order-item-instrument-leftSide lg:w-1/4 px-6 w-full px-6"
+                                    style={{ paddingTop: 25 }}
+                                  >
+                                    <div className="user-order-item-instrument-leftSide-img">
+                                      <Image
+                                        src={`/smallForOrder/${first.img_small}`}
+                                        alt={first.name}
+                                        priority
+                                        style={{
+                                          borderRadius: 10,
+                                          padding: 5,
+                                          height: '100%',
+                                          width: '100%',
+                                          objectFit: 'contain',
+                                        }}
+                                        width={150}
+                                        height={150}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="user-order-item-instrument-detail lg:w-3/4 px-6 w-full px-6"
+                                    style={{ paddingTop: 15 }}
+                                  >
+                                    <div className="user-order-item-instrument-detail-row">
+                                      <div className="user-order-item-instrument-detail-row-col-productName">
+                                        <p>
+                                          <span>商品名稱：</span>
+                                          {first.name}
+                                          {productList.length > 1 ? ` 等 ${productList.length} 項商品` : ''}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="user-order-item-instrument-detail-row flex flex-wrap -mx-3">
+                                      <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
+                                        <h5>訂單編號</h5>
+                                        <p>{first.order_id + 31700023464729}</p>
+                                      </div>
+                                      <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
+                                        <h5>購買日期</h5>
+                                        <p>{first.onshelf_time.split('T')[0]}</p>
+                                      </div>
+                                      <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-full px-6">
+                                        <h5>付款金額</h5>
+                                        <p>${totalAmount.toLocaleString()}</p>
+                                      </div>
+                                    </div>
+                                    <div className="user-order-item-instrument-detail-row flex flex-wrap -mx-3">
+                                      <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
+                                        <h5>付款方式</h5>
+                                        <p>信用卡</p>
+                                      </div>
+                                      {first.type == '1' && (
+                                        <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
+                                          <h5>商品狀態</h5>
+                                          <p>{first.transportation_state}</p>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {/* 展開箭頭 */}
+                                  <div className={`order-chevron${isOpen ? ' open' : ''}`}>
+                                    <FaChevronRight size={16} />
                                   </div>
                                 </div>
-                                <div
-                                  className="user-order-item-instrument-detail lg:w-3/4 px-6 w-full px-6"
-                                  style={{ paddingTop: 15 }}
-                                >
-                                  <div className="user-order-item-instrument-detail-row">
-                                    <div className="user-order-item-instrument-detail-row-col-productName">
-                                      <p>
-                                        <span>商品名稱：</span>
-                                        {first.name}
-                                        {productList.length > 1 ? ` 等 ${productList.length} 項商品` : ''}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div className="user-order-item-instrument-detail-row flex flex-wrap -mx-3">
-                                    <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
-                                      <h5>訂單編號</h5>
-                                      <p>{first.order_id + 31700023464729}</p>
-                                    </div>
-                                    <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
-                                      <h5>購買日期</h5>
-                                      <p>{first.onshelf_time.split('T')[0]}</p>
-                                    </div>
-                                    <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-full px-6">
-                                      <h5>付款金額</h5>
-                                      <p>${totalAmount.toLocaleString()}</p>
-                                    </div>
-                                  </div>
-                                  <div className="user-order-item-instrument-detail-row flex flex-wrap -mx-3">
-                                    <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
-                                      <h5>付款方式</h5>
-                                      <p>信用卡</p>
+
+                                {/* 展開的訂單明細 */}
+                                {isOpen && (
+                                  <div className="order-accordion-body">
+                                    <div className="order-detail-items">
+                                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                      {productList.map((product: any, i: number) => (
+                                        <div className="order-detail-item" key={i}>
+                                          <div className="order-detail-item-img">
+                                            <Image
+                                              src={`/smallForOrder/${product.img_small}`}
+                                              alt={product.name}
+                                              width={70}
+                                              height={70}
+                                              style={{ objectFit: 'contain', borderRadius: 6, padding: 4 }}
+                                            />
+                                          </div>
+                                          <div className="order-detail-item-info">
+                                            <span className="order-detail-item-name">{product.name}</span>
+                                            <span className="order-detail-item-meta">
+                                              單價 ${Number(product.price).toLocaleString()} × {product.quantity}
+                                            </span>
+                                          </div>
+                                          <div className="order-detail-item-subtotal">
+                                            ${(product.price * product.quantity).toLocaleString()}
+                                          </div>
+                                        </div>
+                                      ))}
                                     </div>
                                     {first.type == '1' && (
-                                      <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
-                                        <h5>商品狀態</h5>
-                                        <p>{first.transportation_state}</p>
+                                      <div className="order-detail-shipping">
+                                        <span>商品狀態：{first.transportation_state}</span>
+                                        <span>配送地址：{first.postcode}{first.country}{first.township}{first.address}</span>
                                       </div>
                                     )}
-                                    <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6" style={{ marginTop: 'auto' }}>
-                                      <div
-                                        className="detail-btn"
-                                        role="button"
-                                        onClick={() => setSelectedOrderIndex(index)}
-                                      >
-                                        查看明細
-                                      </div>
+                                    <div className="order-detail-total">
+                                      合計：${totalAmount.toLocaleString()}
                                     </div>
                                   </div>
-                                </div>
+                                )}
                               </div>
                             )
                           })}
@@ -743,72 +777,6 @@ export default function Test() {
           </div>
         </div>
       </div>
-      {/* 訂單明細 Modal */}
-      {selectedOrder && (
-        <div
-          className="order-modal-overlay"
-          role="presentation"
-          onClick={() => setSelectedOrderIndex(null)}
-        >
-          <div
-            className="order-modal"
-            role="presentation"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="order-modal-header">
-              <h4>訂單明細</h4>
-              <IoClose
-                size={28}
-                style={{ cursor: 'pointer' }}
-                onClick={() => setSelectedOrderIndex(null)}
-              />
-            </div>
-            <div className="order-modal-info">
-              <span>訂單編號：{selectedOrder[0].order_id + 31700023464729}</span>
-              <span>購買日期：{selectedOrder[0].onshelf_time.split('T')[0]}</span>
-              <span>付款方式：信用卡</span>
-              {selectedOrder[0].type == '1' && (
-                <>
-                  <span>商品狀態：{selectedOrder[0].transportation_state}</span>
-                  <span>配送地址：{selectedOrder[0].postcode}{selectedOrder[0].country}{selectedOrder[0].township}{selectedOrder[0].address}</span>
-                </>
-              )}
-            </div>
-            <div className="order-modal-items">
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {selectedOrder.map((product: any, i: number) => (
-                <div className="order-modal-item" key={i}>
-                  <div className="order-modal-item-img">
-                    <Image
-                      src={`/smallForOrder/${product.img_small}`}
-                      alt={product.name}
-                      width={80}
-                      height={80}
-                      style={{ objectFit: 'contain', borderRadius: 8 }}
-                    />
-                  </div>
-                  <div className="order-modal-item-info">
-                    <p className="order-modal-item-name">{product.name}</p>
-                    <p>數量：{product.quantity}</p>
-                    <p>單價：${Number(product.price).toLocaleString()}</p>
-                    <p>小計：${(product.price * product.quantity).toLocaleString()}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="order-modal-footer">
-              <span>
-                合計：$
-                {selectedOrder
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  .reduce((sum: number, p: any) => sum + p.price * p.quantity, 0)
-                  .toLocaleString()}
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
-
       <Footer />
 
       <style jsx>{`
@@ -1119,19 +1087,106 @@ export default function Test() {
           }
         }
 
-        .detail-btn {
-          display: inline-flex;
-          padding: 6px 18px;
-          border-radius: 5px;
-          background: var(--primary, #1581cc);
-          color: #fff;
-          font-size: 14px;
+        /* ------- accordion ------- */
+        .order-accordion {
+          border-bottom: 1px solid var(--body, #b9b9b9);
+        }
+
+        .order-accordion-header {
           cursor: pointer;
-          white-space: nowrap;
+          border-bottom: none !important;
+          display: flex;
+          align-items: center;
           &:hover {
-            background: var(--primary-deep, #124365);
+            background: rgba(21, 129, 204, 0.04);
           }
         }
+
+        .order-chevron {
+          flex-shrink: 0;
+          padding-right: 12px;
+          color: #888;
+          transition: transform 0.2s ease;
+          &.open {
+            transform: rotate(90deg);
+          }
+        }
+
+        .order-accordion-body {
+          padding: 16px 24px 20px;
+          background: #f8fafc;
+          border-top: 1px solid #e8edf2;
+        }
+
+        .order-detail-items {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+
+        .order-detail-item {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
+
+        .order-detail-item-img {
+          width: 70px;
+          height: 70px;
+          flex-shrink: 0;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          background: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .order-detail-item-info {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .order-detail-item-name {
+          font-size: 15px;
+          font-weight: 500;
+          color: #124365;
+        }
+
+        .order-detail-item-meta {
+          font-size: 13px;
+          color: #666;
+        }
+
+        .order-detail-item-subtotal {
+          font-size: 15px;
+          font-weight: 600;
+          color: #1d1d1d;
+          white-space: nowrap;
+        }
+
+        .order-detail-shipping {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          font-size: 13px;
+          color: #555;
+          padding: 12px 0 8px;
+          border-top: 1px solid #e0e0e0;
+        }
+
+        .order-detail-total {
+          text-align: right;
+          font-size: 16px;
+          font-weight: 700;
+          color: #124365;
+          padding-top: 12px;
+          border-top: 1px solid #e0e0e0;
+        }
+        /* ------- accordion ------- */
 
         /* RWD讓SIDEBAR消失 測試用記得刪 */
         @media screen and (max-width: 576px) {
@@ -1164,101 +1219,6 @@ export default function Test() {
           }
         }
         /* RWD讓SIDEBAR消失 測試用記得刪 */
-      `}</style>
-
-      <style jsx global>{`
-        .order-modal-overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.5);
-          z-index: 1000;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 16px;
-        }
-        .order-modal {
-          background: #fff;
-          border-radius: 10px;
-          width: 100%;
-          max-width: 640px;
-          max-height: 85vh;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
-        .order-modal-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 16px 24px;
-          border-bottom: 1px solid #e0e0e0;
-          & h4 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #124365;
-            margin: 0;
-          }
-        }
-        .order-modal-info {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          padding: 12px 24px;
-          background: #f5f7fa;
-          font-size: 14px;
-          color: #444;
-          border-bottom: 1px solid #e0e0e0;
-        }
-        .order-modal-items {
-          overflow-y: auto;
-          padding: 16px 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          flex: 1;
-        }
-        .order-modal-item {
-          display: flex;
-          gap: 16px;
-          padding-bottom: 16px;
-          border-bottom: 1px solid #f0f0f0;
-          &:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-          }
-        }
-        .order-modal-item-img {
-          width: 80px;
-          height: 80px;
-          flex-shrink: 0;
-          border: 1px solid #e0e0e0;
-          border-radius: 8px;
-          background: #fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .order-modal-item-info {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          font-size: 14px;
-          color: #333;
-        }
-        .order-modal-item-name {
-          font-size: 16px;
-          font-weight: 500;
-          color: #124365;
-        }
-        .order-modal-footer {
-          padding: 14px 24px;
-          border-top: 1px solid #e0e0e0;
-          text-align: right;
-          font-size: 18px;
-          font-weight: 700;
-          color: #124365;
-        }
       `}</style>
     </>
   )

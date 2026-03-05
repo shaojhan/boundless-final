@@ -1,5 +1,9 @@
-import React from 'react'
 import styles from '@/components/coupon/coupon.module.scss'
+
+function toFold(discount: number): string {
+  const v = discount * 10
+  return v % 10 === 0 ? `${v / 10}折` : `${v}折`
+}
 
 export default function Coupon({
   id: _id,
@@ -22,49 +26,34 @@ export default function Coupon({
   created_time?: string
   className?: string
 }) {
+  const isValid = Boolean(valid)
+  const kindLabel = kind === 2 ? '課程' : '樂器'
+  const discountText =
+    type === 1
+      ? `NT$${discount ?? 0}`
+      : toFold(discount ?? 0)
+  const discountSub = type === 1 ? '折抵' : '優惠'
+
+  let leftClass = styles.lesson
+  if (!isValid) leftClass = styles.expired
+  else if (kind === 1) leftClass = styles.instrument
+
   return (
-    <>
-      <div className={`${styles.couponCard} card mb-6 mx-1`}>
-        <div className="flex">
-          {/* 左 */}
-          <div className="w-1/4">
-            <img
-              className={`${styles.couponImg} my-6 p-2`}
-              src={`/coupon/${valid ? 'logoWhite.jpg' : 'logoValid.jpg'}`}
-              alt="..."
-            />
-          </div>
-          <div className="w-3/4">
-            <div className="mx-2 p-4 flex justify-between">
-              <div>
-                <div className="text-lg p-1 font-bold card-title">{name}</div>
-                <div className="text-2xl px-4 py-2">
-                  {kind === 2 ? '課程' : '樂器'}
-                </div>
-              </div>
-              <div className="flex justify-center items-center">
-                <div className="text-2xl font-bold salesType">
-                  {type === 1 ? discount : IsINT(discount * 10) + '折'}
-                </div>
-              </div>
-            </div>
-            {/* 下 */}
-            <div>
-              <p className="px-4 py-1">
-                <small className="text-gray-400">到期日{limit_time}</small>
-              </p>
-            </div>
-          </div>
-        </div>
+    <div className={`${styles.couponCard} ${!isValid ? styles.expired : ''}`}>
+      {/* 左色條 */}
+      <div className={`${styles.couponLeft} ${leftClass}`}>
+        <span className={styles.couponKind}>{kindLabel}</span>
+        <span className={styles.couponDiscount}>{discountText}</span>
+        <span className={styles.couponDiscountLabel}>{discountSub}</span>
       </div>
-      <style jsx>{``}</style>
-    </>
+      {/* 右內容 */}
+      <div className={styles.couponRight}>
+        <div className={styles.couponName}>{name ?? '優惠券'}</div>
+        <div className={styles.couponExpiry}>到期日：{limit_time ?? '—'}</div>
+        <span className={`${styles.couponBadge} ${isValid ? styles.valid : styles.used}`}>
+          {isValid ? '未使用' : '已使用'}
+        </span>
+      </div>
+    </div>
   )
-}
-const IsINT = function (int) {
-  if (int % 10 === 0) {
-    return int / 10
-  } else {
-    return int
-  }
 }

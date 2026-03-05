@@ -1,21 +1,102 @@
 .couponCard {
-  width: 340px;
-  // width: 100%;
-  // width: 350px;
-  background-color: #fff;
-  border-radius: 8px;
-  @media screen and (max-width: 576px) {
-    min-width: 250px;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s;
+  background: #fff;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  }
+
+  &.expired {
+    opacity: 0.55;
+    filter: grayscale(0.4);
   }
 }
-.couponImg {
-  border-right: dashed gray;
-  border-width: 4px;
-  @media screen and (max-width: 576px) {
-    margin: 0;
-    padding: 0;
-    border-width: 0px;
+
+/* 左側色條 */
+.couponLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 16px 14px;
+  min-width: 90px;
+  color: #fff;
+  border-right: 2px dashed rgba(255, 255, 255, 0.6);
+
+  &.instrument {
+    background: #1581cc;
+  }
+  &.lesson {
+    background: #124365;
+  }
+  &.expired {
+    background: #b9b9b9;
+  }
+}
+
+.couponKind {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.couponDiscount {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.couponDiscountLabel {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+/* 右側內容 */
+.couponRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.couponName {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1d1d1d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.couponExpiry {
+  font-size: 12px;
+  color: #888;
+}
+
+.couponBadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  width: fit-content;
+
+  &.valid {
+    background: #e8f4fd;
+    color: #1581cc;
+  }
+  &.used {
+    background: #f0f0f0;
+    color: #888;
   }
 }

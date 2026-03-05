@@ -910,11 +910,13 @@ export default function Test() {
                 display: flex;
                 width: 150px;
                 height: 150px;
-                align-items: flex-start;
+                align-items: center;
+                justify-content: center;
                 gap: 10px;
                 border-radius: 10px;
                 border: 1px solid var(--body, #b9b9b9);
                 background: #fff;
+                overflow: hidden;
               }
 
               .user-order-item-instrument-leftSide-btn {
@@ -1141,6 +1143,7 @@ export default function Test() {
           display: flex;
           align-items: center;
           justify-content: center;
+          overflow: hidden;
         }
 
         .order-detail-item-info {

@@ -162,7 +162,7 @@ export default function UserCoupon() {
             {/* 手機：分類 select + 排序 select */}
             <div className="mobile-controls sm:hidden">
               <select
-                className="form-select"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                 onChange={(e) => handleTabClick(Number(e.target.value))}
                 value={tabIdx}
               >
@@ -171,7 +171,7 @@ export default function UserCoupon() {
                 ))}
               </select>
               <select
-                className="form-select"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                 onChange={(e) => setSort(Number(e.target.value) as 0 | 1 | 2)}
                 value={sort}
               >

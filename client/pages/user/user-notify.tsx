@@ -251,10 +251,10 @@ export default function Test() {
                   >
                     選單
                   </div>
-                  <div className="search input-group">
+                  <div className="search flex">
                     <input
                       type="text"
-                      className="form-control"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       placeholder="請輸入關鍵字..."
                     />
                     <div className="search-btn btn flex justify-center items-center p-0">
@@ -266,7 +266,7 @@ export default function Test() {
                 <div className="filter-sort flex justify-between">
                   <div className="sort-mb block sm:hidden">
                     <select
-                      className="form-select"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                       value={dataSort}
                       name="dataSort"
                       onChange={(e) => {
@@ -297,7 +297,7 @@ export default function Test() {
                         <div className="filter-item">
                           <div className="filter-title">選擇品牌</div>
                           <select
-                            className="form-select"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                             aria-label="Default select example"
                             value={brandSelect}
                             name="brand"
@@ -320,7 +320,7 @@ export default function Test() {
                           <div className="filter-title">價格區間</div>
                           <input
                             type="number"
-                            className="form-control mb-2"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary mb-2"
                             placeholder="最低價"
                             name="priceLow"
                             value={priceLow}
@@ -332,7 +332,7 @@ export default function Test() {
                           />
                           <input
                             type="number"
-                            className="form-control"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                             placeholder="最高價"
                             name="priceHigh"
                             value={priceHigh}

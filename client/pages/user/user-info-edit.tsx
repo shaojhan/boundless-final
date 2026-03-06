@@ -580,30 +580,29 @@ export default function Test() {
                               encType="multipart/form-data"
                               className=""
                             >
-                              <div className="input-group hidden mb-2">
-                                <span className="input-group-text"></span>
+                              <div className="hidden mb-2">
                                 <input
                                   type="text"
                                   name="name"
                                   value={LoginUserData.id}
-                                  className="form-control"
+                                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 />
                               </div>
 
-                              <div className="input-group mb-2 ">
+                              <div className="mb-2">
                                 <input
                                   type="file"
                                   name="myFile"
                                   id={LoginUserData}
                                   accept="image/jpeg"
-                                  className="form-control"
+                                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                   // onChange={handleFileChange}
                                   onChange={handleFileChange}
                                 />
                               </div>
 
                               <div className="flex ">
-                                <button className="btn btn-primary ml-auto ">
+                                <button className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary ml-auto">
                                   確認變更
                                 </button>
                               </div>
@@ -618,7 +617,7 @@ export default function Test() {
                           <div className="user-info-item-contentText">
                             <input
                               type="text"
-                              className={`${styles.itemInput} form-control`}
+                              className={`${styles.itemInput} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                               placeholder="真實姓名"
                               maxLength={14}
                               value={userData.name}
@@ -639,7 +638,7 @@ export default function Test() {
                           <div className="user-info-item-contentText">
                             <input
                               type="text"
-                              className={`${styles.itemInput} form-control`}
+                              className={`${styles.itemInput} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                               placeholder="暱稱 上限14字"
                               maxLength={14}
                               value={userData.nickname}
@@ -659,7 +658,7 @@ export default function Test() {
                         <div className="user-info-item-Content">
                           <div className="user-info-item-contentText">
                             <select
-                              className="form-select"
+                              className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                               style={{ width: 'auto' }}
                               value={userData.gender}
                               name="gender"
@@ -688,7 +687,7 @@ export default function Test() {
                             >
                               <div className={`${styles.selectGroup}`}>
                                 <select
-                                  className="form-select"
+                                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                                   style={{ width: 'auto' }}
                                   value={
                                     genreSelect1 != ''
@@ -721,7 +720,7 @@ export default function Test() {
                                   })}
                                 </select>
                                 <select
-                                  className="form-select"
+                                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                                   style={{ width: 'auto' }}
                                   value={
                                     genreSelect2 != ''
@@ -755,7 +754,7 @@ export default function Test() {
                                 </select>
 
                                 <select
-                                  className="form-select"
+                                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                                   style={{ width: 'auto' }}
                                   value={
                                     genreSelect3 != ''
@@ -801,7 +800,7 @@ export default function Test() {
                             >
                               <div className={`${styles.selectGroup}`}>
                                 <select
-                                  className="form-select"
+                                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                                   style={{ width: 'auto' }}
                                   value={
                                     playSelect1 != ''
@@ -833,7 +832,7 @@ export default function Test() {
                                   })}
                                 </select>
                                 <select
-                                  className="form-select"
+                                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                                   style={{ width: 'auto' }}
                                   value={
                                     playSelect2 != ''
@@ -867,7 +866,7 @@ export default function Test() {
                                 </select>
 
                                 <select
-                                  className="form-select"
+                                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                                   style={{ width: 'auto' }}
                                   value={
                                     playSelect3 != ''
@@ -1004,7 +1003,7 @@ export default function Test() {
                           <div className="user-info-item-contentText">
                             <input
                               type="date"
-                              className={`${styles.itemInput} form-control`}
+                              className={`${styles.itemInput} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                               placeholder=""
                               value={finalbirthday}
                               maxLength={20}
@@ -1026,7 +1025,7 @@ export default function Test() {
                           <div className="user-info-item-contentText">
                             <input
                               type="tel"
-                              className={`${styles.itemInput} form-control`}
+                              className={`${styles.itemInput} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                               placeholder="電話號碼"
                               value={userData.phone}
                               maxLength={20}
@@ -1048,7 +1047,7 @@ export default function Test() {
                           <div className="user-info-item-contentText flex  flex-wrap">
                             <input
                               type="text"
-                              className={`${styles.itemInputPostcode} form-control col-sm1 w-1/4 px-6 `}
+                              className={`${styles.itemInputPostcode} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary w-1/4 px-6`}
                               placeholder="郵遞區號"
                               value={userData.postcode}
                               maxLength={3}
@@ -1061,7 +1060,7 @@ export default function Test() {
                             />
                             <div className={`${styles.itemInputWrapper} `}>
                               <select
-                                className="form-select w-1/3 px-6 col-sm1"
+                                className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white w-1/3 px-6"
                                 style={{ width: 'auto' }}
                                 value={userData.country}
                                 name="region"
@@ -1095,7 +1094,7 @@ export default function Test() {
 
                             <div className={`${styles.itemInputWrapper}`}>
                               <select
-                                className="form-select w-1/3 px-6 col-sm1"
+                                className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white w-1/3 px-6"
                                 style={{ width: 'auto' }}
                                 value={userData.township}
                                 name="township"
@@ -1129,7 +1128,7 @@ export default function Test() {
 
                             <input
                               type="text"
-                              className={`${styles.itemInput} form-control col-sm6 w-full px-6 `}
+                              className={`${styles.itemInput} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary px-6`}
                               placeholder="地址"
                               // style={{ width: 'auto' }}
                               maxLength={100}
@@ -1157,7 +1156,7 @@ export default function Test() {
                         <div className="user-info-item-info2">
                           <div className="user-info-item-info-contentText form-floating">
                             <textarea
-                              className="form-control"
+                              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                               style={{ height: '200px', width: '100%' }}
                               id="exampleFormControlTextarea1"
                               rows={3}

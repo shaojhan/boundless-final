@@ -237,10 +237,10 @@ export default function Test() {
                   >
                     選單
                   </div>
-                  <div className="search input-group">
+                  <div className="search flex">
                     <input
                       type="text"
-                      className="form-control"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       placeholder="請輸入關鍵字..."
                     />
                     <div className="search-btn btn flex justify-center items-center p-0">

@@ -243,10 +243,10 @@ export default function Test() {
                   >
                     選單
                   </div>
-                  <div className="search input-group">
+                  <div className="search flex">
                     <input
                       type="text"
-                      className="form-control"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       placeholder="請輸入關鍵字..."
                     />
                     <div className="search-btn btn flex justify-center items-center p-0">
@@ -258,7 +258,7 @@ export default function Test() {
                 <div className="filter-sort flex justify-between">
                   <div className="sort-mb block sm:hidden">
                     <select
-                      className="form-select"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                       value={dataSort}
                       name="dataSort"
                       onChange={(e) => {
@@ -289,7 +289,7 @@ export default function Test() {
                         <div className="filter-item">
                           <div className="filter-title">選擇品牌</div>
                           <select
-                            className="form-select"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                             aria-label="Default select example"
                             value={brandSelect}
                             name="brand"
@@ -312,7 +312,7 @@ export default function Test() {
                           <div className="filter-title">價格區間</div>
                           <input
                             type="number"
-                            className="form-control mb-2"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary mb-2"
                             placeholder="最低價"
                             name="priceLow"
                             value={priceLow}
@@ -324,7 +324,7 @@ export default function Test() {
                           />
                           <input
                             type="number"
-                            className="form-control"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                             placeholder="最高價"
                             name="priceHigh"
                             value={priceHigh}
@@ -441,7 +441,7 @@ export default function Test() {
                     <div className="user-content w-full px-6">
                       <div className="user-content-top">
                         <div className="user-title-userInfo">我的文章</div>
-                        <div className="user-acticle-newBtn btn  btn-primary">
+                        <div className="user-acticle-newBtn inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary">
                           <Link href="http://localhost:3000/article/article-list/article-publish">
                             <div>新文章</div>
                           </Link>
@@ -471,12 +471,12 @@ export default function Test() {
                             留言數
                           </div>
                           <div className="user-acticleList-item-title-btnGroup sm:w-1/4 px-6 w-1/3 px-6 flex flex-wrap -mx-3 ">
-                            <div className=" btn btn-primary user-acticleList-item-title-newBtn sm:w-5/12 px-6 w-3/4 px-6">
+                            <div className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary user-acticleList-item-title-newBtn sm:w-5/12 w-3/4">
                               <Link href="http://localhost:3000/article/article-list/article-publish">
                                 新文章
                               </Link>
                             </div>
-                            <div className=" btn btn-primary user-acticleList-item-title-btn sm:w-5/12 px-6 w-3/4 px-6">
+                            <div className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary user-acticleList-item-title-btn sm:w-5/12 w-3/4">
                               刪除
                             </div>
                           </div>
@@ -514,7 +514,7 @@ export default function Test() {
                             <div className="user-acticleList-item-text   sm:w-5/12 px-6 w-3/4 px-6 ">
                               已發布
                             </div>
-                            <div className=" btn btn-primary user-acticleList-item-btn sm:w-5/12 px-6 w-3/4 px-6">
+                            <div className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary user-acticleList-item-btn sm:w-5/12 w-3/4">
                               編輯
                             </div>
                           </div>
@@ -552,7 +552,7 @@ export default function Test() {
                                 <div className="user-acticleList-item-text   sm:w-5/12 px-6 w-3/4 px-6 ">
                                   已發布
                                 </div>
-                                <div className=" btn btn-primary user-acticleList-item-btn sm:w-5/12 px-6 w-3/4 px-6">
+                                <div className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary user-acticleList-item-btn sm:w-5/12 w-3/4">
                                   <Link
                                     href={`/article/article-edit/${item.auid}`}
                                   >

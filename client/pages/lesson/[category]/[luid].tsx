@@ -324,7 +324,7 @@ export default function LessonDetailPage() {
             猜你喜歡...
           </h2>
           <div className="flex gap-4 flex-wrap">
-            {youWillLike
+            {[...youWillLike]
               .sort((a, b) => b.sales - a.sales)
               .slice(0, 5)
               .map((v, i) => (
@@ -351,7 +351,7 @@ export default function LessonDetailPage() {
             猜你喜歡...
           </h2>
           <div className="space-y-3">
-            {youWillLike
+            {[...youWillLike]
               .sort((a, b) => b.sales - a.sales)
               .slice(0, 3)
               .map((v, i) => (

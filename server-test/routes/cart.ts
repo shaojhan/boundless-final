@@ -183,8 +183,8 @@ router.post('/form', checkToken, async (req, res) => {
           phone,
           discount: totalDiscount,
           postcode: parseInt(postcode),
-          country: township, // preserving original field mapping
-          township: country, // preserving original field mapping
+          country,
+          township,
           address,
           created_time: new Date(),
           ouid,

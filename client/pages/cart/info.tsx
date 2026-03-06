@@ -42,10 +42,15 @@ export default function Test() {
     localStorage.setItem('UserInfo', UserInfo)
   }, [UserInfo])
 
-  const [data, setData] = useState({
-    country: localStorage.getItem('Country') || '',
-    township: localStorage.getItem('Township') || '',
-    postcode: localStorage.getItem('Postcode') || '',
+  const [data, setData] = useState(() => {
+    if (typeof window === 'undefined') return { country: '', township: '', postcode: '' }
+    try {
+      return {
+        country: localStorage.getItem('Country') || '',
+        township: localStorage.getItem('Township') || '',
+        postcode: localStorage.getItem('Postcode') || '',
+      }
+    } catch { return { country: '', township: '', postcode: '' } }
   })
 
   const sendOrder = async () => {

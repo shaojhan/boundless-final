@@ -22,7 +22,11 @@ import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
 
 export default function Test() {
-  let UserInfo = JSON.parse(localStorage.getItem('UserInfo'))
+  // localStorage is browser-only; lazy initializer prevents SSR crash
+  const [UserInfo] = useState<any[]>(() => {
+    if (typeof window === 'undefined') return [{}]
+    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '[]') || [{}] } catch { return [{}] }
+  })
   //hook
   const {
     items: cartItems,

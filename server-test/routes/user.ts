@@ -157,6 +157,7 @@ router.post('/login', upload.none(), async (req, res) => {
     const token = jwt.sign(
       {
         id: user.id,
+        uid: user.uid,
         name: user.name,
         email: user.email,
         img: user.img,
@@ -180,6 +181,7 @@ router.post('/login', upload.none(), async (req, res) => {
       token,
       user: {
         id: user.id,
+        uid: user.uid,
         name: user.name,
         email: user.email,
         img: user.img,

@@ -44,10 +44,7 @@ export default function Test() {
   const { LoginUserData } = useAuth()
   //登出功能
 
-  let uid
-  if (LoginUserData) {
-    uid = LoginUserData.id
-  }
+  const uid = LoginUserData?.uid as string | undefined
   // ----------------------手機版本  ----------------------
   // 主選單
   const { showMenu, menuMbToggle } = useMenuToggle()

@@ -58,7 +58,11 @@ export default function Test() {
         showConfirmButton: false,
         timer: 2000,
       })
-      .then(() => setTimeout(() => { router.push(`/user/user-info`) }, 2000))
+      .then(() =>
+        setTimeout(() => {
+          router.push(`/user/user-info`)
+        }, 2000),
+      )
   }
 
   const googleloginAlert = () => {
@@ -71,7 +75,11 @@ export default function Test() {
         showConfirmButton: false,
         timer: 2000,
       })
-      .then(() => setTimeout(() => { router.push(`/user/user-info`) }, 2000))
+      .then(() =>
+        setTimeout(() => {
+          router.push(`/user/user-info`)
+        }, 2000),
+      )
   }
 
   const loginGooglePopup = useGoogleLogin({
@@ -143,7 +151,9 @@ export default function Test() {
 
       <>
         <div className={styles['bg-login']}>
-          <div className={`container mx-auto px-6 w-full ${styles['login-wrap']}`}>
+          <div
+            className={`container mx-auto px-6 w-full ${styles['login-wrap']}`}
+          >
             <Link className={styles['login-logo']} href="/">
               <svg
                 className={styles['login-logoSvg']}
@@ -177,7 +187,10 @@ export default function Test() {
                   d="M201.033 39.0791H197.485V35.9873C194.884 38.5107 191.882 39.7724 188.481 39.7724C185.079 39.7724 182.177 38.678 179.783 36.4893C177.389 34.3005 176.191 31.6735 176.191 28.6081C176.191 25.5428 177.403 22.9237 179.827 20.7455C182.252 18.57 185.209 17.481 188.699 17.481C192.189 17.481 195.118 18.7294 197.482 21.229V10.1018H201.03V39.0791H201.033ZM188.765 36.8001C191.073 36.8001 193.13 36.0404 194.942 34.521C196.753 33.0016 197.658 31.0758 197.658 28.7436C197.658 26.4114 196.819 24.4696 195.14 22.9104C193.462 21.3512 191.344 20.5729 188.787 20.5729C186.23 20.5729 184.099 21.3777 182.39 22.9874C180.681 24.5971 179.827 26.4911 179.827 28.6665C179.827 30.842 180.703 32.7439 182.456 34.3643C184.209 35.9872 186.31 36.7974 188.765 36.7974V36.8001Z"
                   fill="white"
                 />
-                <path d="M211.768 39.0791H208.175V10.1018H211.768V39.0791Z" fill="white" />
+                <path
+                  d="M211.768 39.0791H208.175V10.1018H211.768V39.0791Z"
+                  fill="white"
+                />
                 <path
                   d="M242.305 29.1101H221.362C221.509 31.4291 222.392 33.2885 224.013 34.6936C225.634 36.0988 227.569 36.8001 229.817 36.8001C233.644 36.8001 236.565 35.1399 238.581 31.8169L241.648 33.2088C240.276 35.4507 238.655 37.1055 236.786 38.1734C234.917 39.2412 232.683 39.7777 230.082 39.7777C226.49 39.7777 223.524 38.6887 221.188 36.5132C218.853 34.3377 217.685 31.716 217.685 28.6506C217.685 25.5853 218.861 22.9582 221.211 20.7694C223.56 18.5807 226.476 17.4863 229.952 17.4863C233.428 17.4863 236.333 18.5222 238.672 20.5968C241.008 22.6713 242.22 25.5109 242.308 29.1155L242.305 29.1101ZM238.274 26.2892C237.835 24.4856 236.844 23.083 235.295 22.079C233.746 21.0749 231.965 20.5729 229.949 20.5729C225.86 20.5729 223.143 22.4801 221.801 26.2918H238.274V26.2892Z"
                   fill="white"
@@ -192,7 +205,9 @@ export default function Test() {
                 />
               </svg>
             </Link>
-            <div className={styles['login-logoText']}>音樂無國界，學習無邊界</div>
+            <div className={styles['login-logoText']}>
+              音樂無國界，學習無邊界
+            </div>
             <div className={styles['login-form']}>
               <div className={styles['login-titleText']}>登入</div>
               <button
@@ -209,7 +224,9 @@ export default function Test() {
               </div>
               <form
                 className={styles['loginByEmail-form']}
-                onSubmit={(e) => { handleLogin(e) }}
+                onSubmit={(e) => {
+                  handleLogin(e)
+                }}
               >
                 <div className={styles['loginByEmail-form-box']}>
                   <label htmlFor="InputAccount">帳號 / E-mail</label>

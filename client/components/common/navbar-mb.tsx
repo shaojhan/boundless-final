@@ -84,9 +84,17 @@ export default function NavbarMb() {
         <div
           className="mm-item"
           style={{ color: '#1581cc' }}
+          role="button"
+          tabIndex={0}
           onClick={async () => {
             await handleLogout()
             logoutAlert()
+          }}
+          onKeyDown={async (e) => {
+            if (e.key === 'Enter') {
+              await handleLogout()
+              logoutAlert()
+            }
           }}
         >
           登出

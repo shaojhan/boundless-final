@@ -93,17 +93,28 @@ export default function Navbar({
             <li>
               <Link href="/article/article-list">樂友論壇</Link>
             </li>
-            <li
-              className="ml-6 cart-icon"
-              onClick={() => {
-                if (cartState && calcTotalItems() !== 0) {
-                  router.push(`/cart/check`)
-                } else {
-                  cartNull()
-                }
-              }}
-            >
-              <div className="cart">
+            <li className="ml-6 cart-icon">
+              <div
+                className="cart"
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  if (cartState && calcTotalItems() !== 0) {
+                    router.push(`/cart/check`)
+                  } else {
+                    cartNull()
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    if (cartState && calcTotalItems() !== 0) {
+                      router.push(`/cart/check`)
+                    } else {
+                      cartNull()
+                    }
+                  }
+                }}
+              >
                 <IoCart size={30} className="cart-icon" />
                 {cartState && calcTotalItems() !== 0 ? (
                   <span className="button__badge">{calcTotalItems()}</span>
@@ -147,11 +158,22 @@ export default function Navbar({
           <div className="navbar-mb lg:hidden flex justify-end items-center">
             <div
               className="p-0 mr-6 cart-icon"
+              role="button"
+              tabIndex={0}
               onClick={() => {
                 if (cartState && calcTotalItems() !== 0) {
                   router.push(`/cart/check`)
                 } else {
                   cartNull()
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  if (cartState && calcTotalItems() !== 0) {
+                    router.push(`/cart/check`)
+                  } else {
+                    cartNull()
+                  }
                 }
               }}
             >

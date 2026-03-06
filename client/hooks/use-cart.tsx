@@ -116,7 +116,10 @@ export function useCart() {
       dispatch(setLessonDiscountAction(0))
       return
     }
-    const { discount, cuid } = JSON.parse(raw) as { discount: number; cuid: number }
+    const { discount, cuid } = JSON.parse(raw) as {
+      discount: number
+      cuid: number
+    }
     localStorage.setItem('LessonCouponRaw', raw)
     localStorage.setItem('LessonCoupon', String(discount))
     localStorage.setItem('LessonCouponCUID', String(cuid))
@@ -131,14 +134,19 @@ export function useCart() {
       dispatch(setInstrumentDiscountAction(0))
       return
     }
-    const { discount, cuid } = JSON.parse(raw) as { discount: number; cuid: number }
+    const { discount, cuid } = JSON.parse(raw) as {
+      discount: number
+      cuid: number
+    }
     localStorage.setItem('InstrumentCouponRaw', raw)
     localStorage.setItem('InstrumentCoupon', String(discount))
     localStorage.setItem('InstrumentCouponCUID', String(cuid))
     dispatch(setInstrumentDiscountAction(discount))
   }
 
-  const redeemCoupon = async (coupon_code: string): Promise<{ success: boolean; message: string }> => {
+  const redeemCoupon = async (
+    coupon_code: string,
+  ): Promise<{ success: boolean; message: string }> => {
     if (!LoginUserData?.id) return { success: false, message: '請先登入' }
     try {
       const result = await CouponClass.Redeem(LoginUserData.id, coupon_code)

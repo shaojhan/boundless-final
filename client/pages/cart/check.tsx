@@ -157,7 +157,9 @@ export default function Test() {
                     type="text"
                     placeholder="輸入折扣碼"
                     value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      setCouponCode(e.target.value.toUpperCase())
+                    }
                     onKeyDown={(e) => e.key === 'Enter' && handleRedeem()}
                     maxLength={12}
                   />

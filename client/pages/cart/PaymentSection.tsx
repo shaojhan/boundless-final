@@ -8,9 +8,15 @@ interface Props {
   sendOrder: () => void
 }
 
-export default function PaymentSection({ selected, onSelect, sendOrder }: Props) {
+export default function PaymentSection({
+  selected,
+  onSelect,
+  sendOrder,
+}: Props) {
   return (
-    <div className={`${styles['cart-instrument']} ${styles['credit-card-info']}`}>
+    <div
+      className={`${styles['cart-instrument']} ${styles['credit-card-info']}`}
+    >
       <div className={styles['cart-title']}>付款資訊</div>
       <div className={styles['payment-info-group']}>
         <div className={styles['paymethods']}>
@@ -37,13 +43,19 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
             />
             <label htmlFor="credit-card">信用卡</label>
             <div className={styles['credit-card-pic']}>
-              <div className={`${styles['credit-card-pic-item']} ${styles['mastercard']}`}>
+              <div
+                className={`${styles['credit-card-pic-item']} ${styles['mastercard']}`}
+              >
                 <Image src="/cart/mastercard.svg" fill alt="" />
               </div>
-              <div className={`${styles['credit-card-pic-item']} ${styles['mnp']}`}>
+              <div
+                className={`${styles['credit-card-pic-item']} ${styles['mnp']}`}
+              >
                 <Image src="/cart/mnp.svg" fill alt="" />
               </div>
-              <div className={`${styles['credit-card-pic-item']} ${styles['visa']}`}>
+              <div
+                className={`${styles['credit-card-pic-item']} ${styles['visa']}`}
+              >
                 <Image src="/cart/visa.svg" fill alt="" />
               </div>
             </div>
@@ -207,13 +219,19 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
           <div className={styles['cart-btn']}>
             <div
               className={`${styles['custom-btn']} ${styles['btn-15']} text-center`}
+              role="button"
+              tabIndex={0}
               onClick={sendOrder}
+              onKeyDown={(e) => e.key === 'Enter' && sendOrder()}
             >
               綠界支付
             </div>
             <div
               className={`${styles['custom-btn']} ${styles['btn-6']} text-center`}
+              role="button"
+              tabIndex={0}
               onClick={() => {}}
+              onKeyDown={() => {}}
             >
               LINE PAY
             </div>

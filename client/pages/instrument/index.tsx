@@ -43,8 +43,7 @@ export default function Test({ onSearch: _onSearch }) {
     useMenuToggle()
 
   // ----------------------條件篩選  ----------------------
-  const { filterVisible, onshow, stopPropagation } =
-    useFilterToggle()
+  const { filterVisible, onshow, stopPropagation } = useFilterToggle()
 
   // ----------------------假資料  ----------------------
   // 資料排序
@@ -74,7 +73,6 @@ export default function Test({ onSearch: _onSearch }) {
 
   // 促銷商品
   const [promotion, setPromotion] = useState(false)
-
 
   // 清除表單內容
   const cleanFilter = () => {
@@ -426,7 +424,17 @@ export default function Test({ onSearch: _onSearch }) {
           <div className="sidebar-wrapper hidden sm:block  sm:w-1/6 px-6">
             <div className="sidebar">
               <ul className="flex flex-col">
-                <li onClick={() => handleCategoryChange(0)}>全部</li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleCategoryChange(0)}
+                    onKeyDown={(e) =>
+                      e.key === 'Enter' && handleCategoryChange(0)
+                    }
+                  >
+                    全部
+                  </button>
+                </li>
                 {/* 分類功能 */}
                 {InstrumentCategory.map((v) => {
                   return v.parent_id === 0 ? (
@@ -589,6 +597,9 @@ export default function Test({ onSearch: _onSearch }) {
                     />
                     <div
                       onClick={handleSearch}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                      role="button"
+                      tabIndex={0}
                       className="search-btn btn flex justify-center items-center p-0"
                     >
                       <IoIosSearch size={25} />
@@ -762,13 +773,31 @@ export default function Test({ onSearch: _onSearch }) {
                       <FaSortAmountDown size={14} />
                     </div>
 
-                    <div className="sort-item active" onClick={sortBySales}>
+                    <div
+                      className="sort-item active"
+                      role="button"
+                      tabIndex={0}
+                      onClick={sortBySales}
+                      onKeyDown={(e) => e.key === 'Enter' && sortBySales()}
+                    >
                       最熱銷
                     </div>
-                    <div className="sort-item" onClick={sortBypriceHigh}>
+                    <div
+                      className="sort-item"
+                      role="button"
+                      tabIndex={0}
+                      onClick={sortBypriceHigh}
+                      onKeyDown={(e) => e.key === 'Enter' && sortBypriceHigh()}
+                    >
                       最高價
                     </div>
-                    <div className="sort-item" onClick={sortBypriceLow}>
+                    <div
+                      className="sort-item"
+                      role="button"
+                      tabIndex={0}
+                      onClick={sortBypriceLow}
+                      onKeyDown={(e) => e.key === 'Enter' && sortBypriceLow()}
+                    >
                       最低價
                     </div>
                   </div>

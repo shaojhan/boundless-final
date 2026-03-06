@@ -63,8 +63,7 @@ export default function LessonList() {
     useMenuToggle()
 
   // ----------------------條件篩選  ----------------------
-  const { filterVisible, onshow, stopPropagation } =
-    useFilterToggle()
+  const { filterVisible, onshow, stopPropagation } = useFilterToggle()
   // ----------------------假資料  ----------------------
   // 資料排序
   const [dataSort, setDataSort] = useState('upToDate')
@@ -325,9 +324,8 @@ export default function LessonList() {
           <div className="sidebar-wrapper hidden sm:block  sm:w-1/6 px-6">
             <div className="sidebar">
               <ul className="flex flex-col">
-                <Link href={'/lesson'}>
+                <Link href={'/lesson'} onClick={() => handleCategoryChange(0)}>
                   <li
-                    onClick={() => handleCategoryChange(0)}
                     style={{
                       color: selectedCategory === 0 ? '#18a1ff' : '',
                       cursor: 'pointer',
@@ -339,9 +337,12 @@ export default function LessonList() {
                 {/* 分類功能 */}
                 {LessonCategory.map((v, index) => {
                   return (
-                    <Link key={index} href={`/lesson?category=${v.id}`}>
+                    <Link
+                      key={index}
+                      href={`/lesson?category=${v.id}`}
+                      onClick={() => handleCategoryChange(v.id)}
+                    >
                       <li
-                        onClick={() => handleCategoryChange(v.id)}
                         style={{
                           color: selectedCategory === v.id ? '#18a1ff' : '',
                           cursor: 'pointer',
@@ -425,6 +426,9 @@ export default function LessonList() {
                     <div
                       // 搜尋按鈕
                       onClick={handleSearch}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                      role="button"
+                      tabIndex={0}
                       className="search-btn btn flex justify-center items-center p-0"
                     >
                       <IoIosSearch size={25} />
@@ -565,13 +569,31 @@ export default function LessonList() {
                       <FaSortAmountDown size={14} />
                     </div>
 
-                    <div className="sort-item " onClick={sortBySales}>
+                    <div
+                      className="sort-item "
+                      role="button"
+                      tabIndex={0}
+                      onClick={sortBySales}
+                      onKeyDown={(e) => e.key === 'Enter' && sortBySales()}
+                    >
                       最熱門
                     </div>
-                    <div className="sort-item" onClick={sortByRating}>
+                    <div
+                      className="sort-item"
+                      role="button"
+                      tabIndex={0}
+                      onClick={sortByRating}
+                      onKeyDown={(e) => e.key === 'Enter' && sortByRating()}
+                    >
                       依評價
                     </div>
-                    <div className="sort-item" onClick={sortBylength}>
+                    <div
+                      className="sort-item"
+                      role="button"
+                      tabIndex={0}
+                      onClick={sortBylength}
+                      onKeyDown={(e) => e.key === 'Enter' && sortBylength()}
+                    >
                       依時數
                     </div>
                   </div>

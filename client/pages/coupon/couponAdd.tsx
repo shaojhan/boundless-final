@@ -114,6 +114,7 @@ export default function Test() {
                               //   minWidth: '390px',
                               // }}
                               src="bannerNew.jpg"
+                              alt=""
                             />
                           </Link>
                         </div>
@@ -161,6 +162,7 @@ export default function Test() {
                               //   minWidth: '390px',
                               // }}
                               src="bannerNew3.jpg"
+                              alt=""
                             />
                           </Link>
                         </div>
@@ -201,7 +203,11 @@ export default function Test() {
                           {/* 連結至樂器/課程列表 */}
                           <Link href={`/instrument`}>
                             {' '}
-                            <img className="couponImg" src="bannerNew2.jpg" />
+                            <img
+                              className="couponImg"
+                              src="bannerNew2.jpg"
+                              alt=""
+                            />
                           </Link>
                         </div>
                         <div className="w-1/4 px-6 flex items-center justify-center">

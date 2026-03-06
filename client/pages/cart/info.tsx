@@ -22,16 +22,34 @@ export default function Test() {
   const [selected, setSeleted] = useState('credit-card')
 
   const [name, setName] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Name || '' } catch { return '' }
+    try {
+      return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Name || ''
+    } catch {
+      return ''
+    }
   })
   const [phone, setPhone] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Phone || '' } catch { return '' }
+    try {
+      return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Phone || ''
+    } catch {
+      return ''
+    }
   })
   const [email, setEmail] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Email || '' } catch { return '' }
+    try {
+      return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Email || ''
+    } catch {
+      return ''
+    }
   })
   const [address, setAddress] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Address || '' } catch { return '' }
+    try {
+      return (
+        JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Address || ''
+      )
+    } catch {
+      return ''
+    }
   })
 
   const UserInfo = JSON.stringify([
@@ -43,14 +61,17 @@ export default function Test() {
   }, [UserInfo])
 
   const [data, setData] = useState(() => {
-    if (typeof window === 'undefined') return { country: '', township: '', postcode: '' }
+    if (typeof window === 'undefined')
+      return { country: '', township: '', postcode: '' }
     try {
       return {
         country: localStorage.getItem('Country') || '',
         township: localStorage.getItem('Township') || '',
         postcode: localStorage.getItem('Postcode') || '',
       }
-    } catch { return { country: '', township: '', postcode: '' } }
+    } catch {
+      return { country: '', township: '', postcode: '' }
+    }
   })
 
   const sendOrder = async () => {
@@ -62,7 +83,12 @@ export default function Test() {
 
   const { showMenu, menuMbToggle } = useMenuToggle()
 
-  const summaryProps = { calcInstrumentItems, calcLessonItems, calcTotalPrice, calcTotalDiscount }
+  const summaryProps = {
+    calcInstrumentItems,
+    calcLessonItems,
+    calcTotalPrice,
+    calcTotalDiscount,
+  }
 
   return (
     <>
@@ -81,23 +107,44 @@ export default function Test() {
             <h2>購物車</h2>
           </div>
           <div className={`flex justify-between ${styles['cart-process']}`}>
-            <div className={`flex items-center ${styles['ballbox']}`} style={{ gap: 10 }}>
-              <div className={`${styles['ball']} flex items-center justify-center ${styles['inactive']}`}>
+            <div
+              className={`flex items-center ${styles['ballbox']}`}
+              style={{ gap: 10 }}
+            >
+              <div
+                className={`${styles['ball']} flex items-center justify-center ${styles['inactive']}`}
+              >
                 1
               </div>
-              <div className={`${styles['h5']} ${styles['cart-process-text']}`}>修改訂單</div>
+              <div className={`${styles['h5']} ${styles['cart-process-text']}`}>
+                修改訂單
+              </div>
             </div>
-            <div className={`flex items-center ${styles['ballbox']}`} style={{ gap: 10 }}>
-              <div className={`${styles['ball']} flex items-center justify-center ${styles['active']}`}>
+            <div
+              className={`flex items-center ${styles['ballbox']}`}
+              style={{ gap: 10 }}
+            >
+              <div
+                className={`${styles['ball']} flex items-center justify-center ${styles['active']}`}
+              >
                 2
               </div>
-              <div className={`${styles['h5']} ${styles['cart-process-text']}`}>填寫訂單資料</div>
+              <div className={`${styles['h5']} ${styles['cart-process-text']}`}>
+                填寫訂單資料
+              </div>
             </div>
-            <div className={`flex items-center ${styles['ballbox']}`} style={{ gap: 10 }}>
-              <div className={`${styles['ball']} flex items-center justify-center ${styles['inactive']}`}>
+            <div
+              className={`flex items-center ${styles['ballbox']}`}
+              style={{ gap: 10 }}
+            >
+              <div
+                className={`${styles['ball']} flex items-center justify-center ${styles['inactive']}`}
+              >
                 3
               </div>
-              <div className={`${styles['h5']} ${styles['cart-process-text']}`}>結帳確認</div>
+              <div className={`${styles['h5']} ${styles['cart-process-text']}`}>
+                結帳確認
+              </div>
             </div>
           </div>
           <div className="flex">

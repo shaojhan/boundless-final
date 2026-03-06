@@ -97,12 +97,20 @@ export default function UserCoupon() {
           <aside className="sidebar-wrapper hidden sm:block">
             <div className="sidebar">
               <div className="sidebar-avatar-box">
-                <Image src={avatarImage} alt="avatar" fill priority sizes="100px" />
+                <Image
+                  src={avatarImage}
+                  alt="avatar"
+                  fill
+                  priority
+                  sizes="100px"
+                />
               </div>
               <div className="sidebar-name">{displayName}</div>
               <nav>
                 <ul className="sidebar-nav">
-                  <li><Link href="/user/user-info">會員資訊</Link></li>
+                  <li>
+                    <Link href="/user/user-info">會員資訊</Link>
+                  </li>
                   <li>
                     <Link
                       href={
@@ -114,9 +122,15 @@ export default function UserCoupon() {
                       我的樂團
                     </Link>
                   </li>
-                  <li><Link href="/user/user-order">我的訂單</Link></li>
-                  <li><Link href="/user/user-article">我的文章</Link></li>
-                  <li className="active"><Link href="/user/user-coupon">我的優惠券</Link></li>
+                  <li>
+                    <Link href="/user/user-order">我的訂單</Link>
+                  </li>
+                  <li>
+                    <Link href="/user/user-article">我的文章</Link>
+                  </li>
+                  <li className="active">
+                    <Link href="/user/user-coupon">我的優惠券</Link>
+                  </li>
                 </ul>
               </nav>
             </div>
@@ -125,9 +139,17 @@ export default function UserCoupon() {
           {/* ── Main ── */}
           <div className="main-content">
             {/* 手機 sidebar */}
-            <div className={`sidebar-mb sm:hidden ${showSidebar ? 'sidebar-mb-show' : ''}`}>
-              <IoClose size={28} className="sm-close" onClick={() => setShowSidebar(false)} />
-              <Link href="/user/user-info" className="sm-item">會員資訊</Link>
+            <div
+              className={`sidebar-mb sm:hidden ${showSidebar ? 'sidebar-mb-show' : ''}`}
+            >
+              <IoClose
+                size={28}
+                className="sm-close"
+                onClick={() => setShowSidebar(false)}
+              />
+              <Link href="/user/user-info" className="sm-item">
+                會員資訊
+              </Link>
               <Link
                 href={
                   LoginUserData?.jamstate == '1'
@@ -138,9 +160,15 @@ export default function UserCoupon() {
               >
                 我的樂團
               </Link>
-              <Link href="/user/user-order" className="sm-item">我的訂單</Link>
-              <Link href="/user/user-article" className="sm-item">我的文章</Link>
-              <Link href="/user/user-coupon" className="sm-item active">我的優惠券</Link>
+              <Link href="/user/user-order" className="sm-item">
+                我的訂單
+              </Link>
+              <Link href="/user/user-article" className="sm-item">
+                我的文章
+              </Link>
+              <Link href="/user/user-coupon" className="sm-item active">
+                我的優惠券
+              </Link>
             </div>
 
             {/* 麵包屑 */}
@@ -167,7 +195,9 @@ export default function UserCoupon() {
                 value={tabIdx}
               >
                 {TABS.map((t, i) => (
-                  <option key={i} value={i}>{t.label}</option>
+                  <option key={i} value={i}>
+                    {t.label}
+                  </option>
                 ))}
               </select>
               <select
@@ -242,15 +272,17 @@ export default function UserCoupon() {
                 >
                   {'‹'}
                 </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                  <button
-                    key={p}
-                    className={`page-btn ${currentPage === p ? 'active' : ''}`}
-                    onClick={() => setCurrentPage(p)}
-                  >
-                    {p}
-                  </button>
-                ))}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (p) => (
+                    <button
+                      key={p}
+                      className={`page-btn ${currentPage === p ? 'active' : ''}`}
+                      onClick={() => setCurrentPage(p)}
+                    >
+                      {p}
+                    </button>
+                  ),
+                )}
                 <button
                   className="page-btn"
                   disabled={currentPage === totalPages}
@@ -315,7 +347,9 @@ export default function UserCoupon() {
           border-radius: 6px;
           color: #555;
           font-size: 14px;
-          transition: background 0.15s, color 0.15s;
+          transition:
+            background 0.15s,
+            color 0.15s;
           text-decoration: none;
         }
         :global(.sidebar-nav li a:hover),

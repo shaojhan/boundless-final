@@ -28,7 +28,9 @@ export default function CartSummarySidebar({
           <div>原價合計</div>
           <div>NT ${formatPrice(calcTotalPrice())}</div>
         </div>
-        <div className={`flex justify-between ${styles['carttext']} ${styles['discount']}`}>
+        <div
+          className={`flex justify-between ${styles['carttext']} ${styles['discount']}`}
+        >
           <div>折扣合計</div>
           <div>-NT ${formatPrice(calcTotalDiscount())}</div>
         </div>

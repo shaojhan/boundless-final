@@ -68,9 +68,7 @@ export default function ProductBriefCard({
                 style={{ color: reviews.length > 0 ? '' : '#666666' }}
               >
                 {reviews.length > 0 ? (
-                  <>
-                    {reviews.map((v) => v.stars / reviews.length)}
-                  </>
+                  <>{reviews.map((v) => v.stars / reviews.length)}</>
                 ) : (
                   '尚無評價'
                 )}
@@ -141,6 +139,7 @@ export default function ProductBriefCard({
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/c240e4bc8653fe6179383ea22f1eb80902c70eec255a944e9d8e0efbf823c4e3?"
                 className="cartIcon"
+                alt=""
               />
 
               <div className="cart" role="presentation">
@@ -154,8 +153,16 @@ export default function ProductBriefCard({
                 backgroundColor: data.stock > 0 ? '' : '#1581cc',
                 cursor: data.stock > 0 ? 'pointer' : 'default',
               }}
+              role="button"
+              tabIndex={0}
               onClick={() => {
                 if (data.stock > 0) {
+                  addInstrumentItem(data, quantity)
+                  router.push('/cart/check')
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && data.stock > 0) {
                   addInstrumentItem(data, quantity)
                   router.push('/cart/check')
                 }

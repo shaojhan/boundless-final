@@ -27,7 +27,6 @@ export default function Test() {
 
   const avatarImage = useAvatarImage()
 
-
   // ----------------------會員登入狀態  ----------------------
 
   //------獲取單一使用者全部訂單
@@ -55,7 +54,9 @@ export default function Test() {
     }
   }, [auth?.user?.id])
   // ----------------------訂單明細 Accordion ----------------------
-  const [selectedOrderIndex, setSelectedOrderIndex] = useState<number | null>(null)
+  const [selectedOrderIndex, setSelectedOrderIndex] = useState<number | null>(
+    null,
+  )
 
   // ----------------------手機版本  ----------------------
   // 主選單
@@ -77,8 +78,7 @@ export default function Test() {
   // 資料排序
   const [dataSort, setDataSort] = useState('latest')
   // ----------------------條件篩選  ----------------------
-  const { filterVisible, onshow, stopPropagation } =
-    useFilterToggle()
+  const { filterVisible, onshow, stopPropagation } = useFilterToggle()
   // filter假資料
   const brandData = [
     { id: 1, name: 'YAMAHA' },
@@ -598,132 +598,186 @@ export default function Test() {
                         ))} */}
 
                         {userOrderData.productResult &&
-                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                          userOrderData.productResult.map((productList: any[], index: number) => {
-                            const first = productList[0]
-                            const isOpen = selectedOrderIndex === index
-                            const totalAmount = productList.reduce(
-                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                              (sum: number, p: any) => sum + p.price * p.quantity,
-                              0
-                            )
-                            return (
-                              <div className="order-accordion" key={index}>
-                                {/* 可點擊的訂單摘要列 */}
-                                <div
-                                  className="user-order-item-instrument order-accordion-header"
-                                  role="button"
-                                  onClick={() => setSelectedOrderIndex(isOpen ? null : index)}
-                                >
+                          userOrderData.productResult.map(
+                            (
+                              productList: Record<string, unknown>[],
+                              index: number,
+                            ) => {
+                              const first = productList[0]
+                              const isOpen = selectedOrderIndex === index
+                              const totalAmount = productList.reduce(
+                                (sum: number, p: Record<string, unknown>) =>
+                                  sum +
+                                  (p.price as number) * (p.quantity as number),
+                                0,
+                              )
+                              return (
+                                <div className="order-accordion" key={index}>
+                                  {/* 可點擊的訂單摘要列 */}
                                   <div
-                                    className="user-order-item-instrument-leftSide lg:w-1/4 px-6 w-full px-6"
-                                    style={{ paddingTop: 25 }}
+                                    className="user-order-item-instrument order-accordion-header"
+                                    role="button"
+                                    tabIndex={0}
+                                    onClick={() =>
+                                      setSelectedOrderIndex(
+                                        isOpen ? null : index,
+                                      )
+                                    }
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter')
+                                        setSelectedOrderIndex(
+                                          isOpen ? null : index,
+                                        )
+                                    }}
                                   >
-                                    <div className="user-order-item-instrument-leftSide-img">
-                                      <Image
-                                        src={`/smallForOrder/${first.img_small}`}
-                                        alt={first.name}
-                                        priority
-                                        style={{
-                                          borderRadius: 10,
-                                          padding: 5,
-                                          height: '100%',
-                                          width: '100%',
-                                          objectFit: 'contain',
-                                        }}
-                                        width={150}
-                                        height={150}
-                                      />
+                                    <div
+                                      className="user-order-item-instrument-leftSide lg:w-1/4 px-6 w-full px-6"
+                                      style={{ paddingTop: 25 }}
+                                    >
+                                      <div className="user-order-item-instrument-leftSide-img">
+                                        <Image
+                                          src={`/smallForOrder/${first.img_small}`}
+                                          alt={first.name}
+                                          priority
+                                          style={{
+                                            borderRadius: 10,
+                                            padding: 5,
+                                            height: '100%',
+                                            width: '100%',
+                                            objectFit: 'contain',
+                                          }}
+                                          width={150}
+                                          height={150}
+                                        />
+                                      </div>
+                                    </div>
+                                    <div
+                                      className="user-order-item-instrument-detail lg:w-3/4 px-6 w-full px-6"
+                                      style={{ paddingTop: 15 }}
+                                    >
+                                      <div className="user-order-item-instrument-detail-row">
+                                        <div className="user-order-item-instrument-detail-row-col-productName">
+                                          <p>
+                                            <span>商品名稱：</span>
+                                            {first.name}
+                                            {productList.length > 1
+                                              ? ` 等 ${productList.length} 項商品`
+                                              : ''}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div className="user-order-item-instrument-detail-row flex flex-wrap -mx-3">
+                                        <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
+                                          <h5>訂單編號</h5>
+                                          <p>
+                                            {first.order_id + 31700023464729}
+                                          </p>
+                                        </div>
+                                        <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
+                                          <h5>購買日期</h5>
+                                          <p>
+                                            {first.onshelf_time.split('T')[0]}
+                                          </p>
+                                        </div>
+                                        <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-full px-6">
+                                          <h5>付款金額</h5>
+                                          <p>${totalAmount.toLocaleString()}</p>
+                                        </div>
+                                      </div>
+                                      <div className="user-order-item-instrument-detail-row flex flex-wrap -mx-3">
+                                        <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
+                                          <h5>付款方式</h5>
+                                          <p>信用卡</p>
+                                        </div>
+                                        {first.type == '1' && (
+                                          <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
+                                            <h5>商品狀態</h5>
+                                            <p>{first.transportation_state}</p>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                    {/* 展開箭頭 */}
+                                    <div
+                                      className={`order-chevron${isOpen ? ' open' : ''}`}
+                                    >
+                                      <FaChevronRight size={16} />
                                     </div>
                                   </div>
-                                  <div
-                                    className="user-order-item-instrument-detail lg:w-3/4 px-6 w-full px-6"
-                                    style={{ paddingTop: 15 }}
-                                  >
-                                    <div className="user-order-item-instrument-detail-row">
-                                      <div className="user-order-item-instrument-detail-row-col-productName">
-                                        <p>
-                                          <span>商品名稱：</span>
-                                          {first.name}
-                                          {productList.length > 1 ? ` 等 ${productList.length} 項商品` : ''}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="user-order-item-instrument-detail-row flex flex-wrap -mx-3">
-                                      <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
-                                        <h5>訂單編號</h5>
-                                        <p>{first.order_id + 31700023464729}</p>
-                                      </div>
-                                      <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
-                                        <h5>購買日期</h5>
-                                        <p>{first.onshelf_time.split('T')[0]}</p>
-                                      </div>
-                                      <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-full px-6">
-                                        <h5>付款金額</h5>
-                                        <p>${totalAmount.toLocaleString()}</p>
-                                      </div>
-                                    </div>
-                                    <div className="user-order-item-instrument-detail-row flex flex-wrap -mx-3">
-                                      <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
-                                        <h5>付款方式</h5>
-                                        <p>信用卡</p>
+
+                                  {/* 展開的訂單明細 */}
+                                  {isOpen && (
+                                    <div className="order-accordion-body">
+                                      <div className="order-detail-items">
+                                        {}
+                                        {productList.map(
+                                          (
+                                            product: Record<string, unknown>,
+                                            i: number,
+                                          ) => (
+                                            <div
+                                              className="order-detail-item"
+                                              key={i}
+                                            >
+                                              <div className="order-detail-item-img">
+                                                <Image
+                                                  src={`/smallForOrder/${product.img_small}`}
+                                                  alt={product.name}
+                                                  width={70}
+                                                  height={70}
+                                                  style={{
+                                                    objectFit: 'contain',
+                                                    borderRadius: 6,
+                                                    padding: 4,
+                                                  }}
+                                                />
+                                              </div>
+                                              <div className="order-detail-item-info">
+                                                <span className="order-detail-item-name">
+                                                  {product.name}
+                                                </span>
+                                                <span className="order-detail-item-meta">
+                                                  單價 $
+                                                  {Number(
+                                                    product.price,
+                                                  ).toLocaleString()}{' '}
+                                                  × {product.quantity}
+                                                </span>
+                                              </div>
+                                              <div className="order-detail-item-subtotal">
+                                                $
+                                                {(
+                                                  product.price *
+                                                  product.quantity
+                                                ).toLocaleString()}
+                                              </div>
+                                            </div>
+                                          ),
+                                        )}
                                       </div>
                                       {first.type == '1' && (
-                                        <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
-                                          <h5>商品狀態</h5>
-                                          <p>{first.transportation_state}</p>
+                                        <div className="order-detail-shipping">
+                                          <span>
+                                            商品狀態：
+                                            {first.transportation_state}
+                                          </span>
+                                          <span>
+                                            配送地址：{first.postcode}
+                                            {first.country}
+                                            {first.township}
+                                            {first.address}
+                                          </span>
                                         </div>
                                       )}
-                                    </div>
-                                  </div>
-                                  {/* 展開箭頭 */}
-                                  <div className={`order-chevron${isOpen ? ' open' : ''}`}>
-                                    <FaChevronRight size={16} />
-                                  </div>
-                                </div>
-
-                                {/* 展開的訂單明細 */}
-                                {isOpen && (
-                                  <div className="order-accordion-body">
-                                    <div className="order-detail-items">
-                                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                                      {productList.map((product: any, i: number) => (
-                                        <div className="order-detail-item" key={i}>
-                                          <div className="order-detail-item-img">
-                                            <Image
-                                              src={`/smallForOrder/${product.img_small}`}
-                                              alt={product.name}
-                                              width={70}
-                                              height={70}
-                                              style={{ objectFit: 'contain', borderRadius: 6, padding: 4 }}
-                                            />
-                                          </div>
-                                          <div className="order-detail-item-info">
-                                            <span className="order-detail-item-name">{product.name}</span>
-                                            <span className="order-detail-item-meta">
-                                              單價 ${Number(product.price).toLocaleString()} × {product.quantity}
-                                            </span>
-                                          </div>
-                                          <div className="order-detail-item-subtotal">
-                                            ${(product.price * product.quantity).toLocaleString()}
-                                          </div>
-                                        </div>
-                                      ))}
-                                    </div>
-                                    {first.type == '1' && (
-                                      <div className="order-detail-shipping">
-                                        <span>商品狀態：{first.transportation_state}</span>
-                                        <span>配送地址：{first.postcode}{first.country}{first.township}{first.address}</span>
+                                      <div className="order-detail-total">
+                                        合計：${totalAmount.toLocaleString()}
                                       </div>
-                                    )}
-                                    <div className="order-detail-total">
-                                      合計：${totalAmount.toLocaleString()}
                                     </div>
-                                  </div>
-                                )}
-                              </div>
-                            )
-                          })}
+                                  )}
+                                </div>
+                              )
+                            },
+                          )}
 
                         {/* <div className="user-order-item-lesson">
                           <div className="user-order-item-lesson-leftSide">

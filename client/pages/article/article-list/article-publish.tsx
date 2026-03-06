@@ -192,7 +192,9 @@ export default function Publish() {
                   <label
                     htmlFor="exampleFormControlTextarea1"
                     className="block text-sm font-medium text-dark mb-1"
-                  ></label>
+                  >
+                    文章標題
+                  </label>
                   <textarea
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     id="exampleFormControlTextarea1"

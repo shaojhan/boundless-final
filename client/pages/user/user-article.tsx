@@ -68,8 +68,7 @@ export default function Test() {
   // 資料排序
   const [dataSort, setDataSort] = useState('latest')
   // ----------------------條件篩選  ----------------------
-  const { filterVisible, onshow, stopPropagation } =
-    useFilterToggle()
+  const { filterVisible, onshow, stopPropagation } = useFilterToggle()
   // filter假資料
   const brandData = [
     { id: 1, name: 'YAMAHA' },

@@ -194,7 +194,10 @@ export default function Auid() {
                   defaultValue={''}
                 />
                 <div className="text-right mt-2 mb-6">
-                  <button className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary" type="submit">
+                  <button
+                    className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary"
+                    type="submit"
+                  >
                     發表
                   </button>
                 </div>

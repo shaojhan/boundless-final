@@ -42,7 +42,13 @@ export default function PasswordInputField({
         placeholder={placeholder}
       />
       {showToggle && (
-        <span onClick={onToggle} className={svgIconClassName}>
+        <span
+          onClick={onToggle}
+          onKeyDown={(e) => e.key === 'Enter' && onToggle()}
+          role="button"
+          tabIndex={0}
+          className={svgIconClassName}
+        >
           {!isVisible ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"

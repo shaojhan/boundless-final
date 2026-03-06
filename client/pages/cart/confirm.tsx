@@ -23,9 +23,13 @@ import { useMenuToggle } from '@/hooks/useMenuToggle'
 
 export default function Test() {
   // localStorage is browser-only; lazy initializer prevents SSR crash
-  const [UserInfo] = useState<any[]>(() => {
+  const [UserInfo] = useState<Record<string, unknown>[]>(() => {
     if (typeof window === 'undefined') return [{}]
-    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '[]') || [{}] } catch { return [{}] }
+    try {
+      return JSON.parse(localStorage.getItem('UserInfo') ?? '[]') || [{}]
+    } catch {
+      return [{}]
+    }
   })
   //hook
   const {
@@ -58,7 +62,6 @@ export default function Test() {
   // ----------------------假資料  ----------------------
 
   useFilterToggle()
-
 
   const [orderID, setOrderID] = useState(1)
 
@@ -101,13 +104,16 @@ export default function Test() {
           })
         }
       })
-      .catch(() => {/* fallback to client values if network fails */})
-  }, [uid]) // eslint-disable-line react-hooks/exhaustive-deps
+      .catch(() => {
+        /* fallback to client values if network fails */
+      })
+  }, [uid])
 
   // Display helpers — prefer server values, fall back to Redux selectors
   const displayTotalPrice = serverPrice?.totalPrice ?? calcTotalPrice()
   const displayTotalDiscount = serverPrice?.totalDiscount ?? calcTotalDiscount()
-  const displayFinalPayment = serverPrice?.finalPayment ?? (calcTotalPrice() - calcTotalDiscount())
+  const displayFinalPayment =
+    serverPrice?.finalPayment ?? calcTotalPrice() - calcTotalDiscount()
 
   const sendForm = async (): Promise<boolean> => {
     try {
@@ -277,9 +283,7 @@ export default function Test() {
                   </div>
                   <div className="flex justify-between h3">
                     <div>合計</div>
-                    <div>
-                      NT ${formatPrice(displayFinalPayment)}
-                    </div>
+                    <div>NT ${formatPrice(displayFinalPayment)}</div>
                   </div>
                 </div>
                 <div className="cart-btn">
@@ -293,6 +297,8 @@ export default function Test() {
                   <div
                     className="b-btn b-btn-primary flex w-full h-full justify-center"
                     style={{ padding: '14px 0' }}
+                    role="button"
+                    tabIndex={0}
                     onClick={async () => {
                       const ok = await sendForm()
                       if (ok) {
@@ -300,7 +306,27 @@ export default function Test() {
                         localStorage.setItem('orderID', String(orderID))
                         confirmOrderSubmit()
                       } else {
-                        Swal.fire({ icon: 'error', title: '結帳失敗', text: '訂單建立失敗，請稍後再試。' })
+                        Swal.fire({
+                          icon: 'error',
+                          title: '結帳失敗',
+                          text: '訂單建立失敗，請稍後再試。',
+                        })
+                      }
+                    }}
+                    onKeyDown={async (e) => {
+                      if (e.key === 'Enter') {
+                        const ok = await sendForm()
+                        if (ok) {
+                          setOrderID(orderID + 1)
+                          localStorage.setItem('orderID', String(orderID))
+                          confirmOrderSubmit()
+                        } else {
+                          Swal.fire({
+                            icon: 'error',
+                            title: '結帳失敗',
+                            text: '訂單建立失敗，請稍後再試。',
+                          })
+                        }
                       }
                     }}
                   >
@@ -333,9 +359,7 @@ export default function Test() {
             </div>
             <div className="flex justify-between h3">
               <div>合計</div>
-              <div>
-                NT ${formatPrice(displayFinalPayment)}
-              </div>
+              <div>NT ${formatPrice(displayFinalPayment)}</div>
             </div>
           </div>
           <div className="cart-btn">
@@ -349,11 +373,21 @@ export default function Test() {
             <div
               className="b-btn b-btn-primary flex w-full h-full justify-center"
               style={{ padding: '14px 0' }}
+              role="button"
+              tabIndex={0}
               onClick={async () => {
                 setOrderID(orderID + 1)
                 localStorage.setItem('orderID', String(orderID))
                 await sendForm()
                 confirmOrderSubmit()
+              }}
+              onKeyDown={async (e) => {
+                if (e.key === 'Enter') {
+                  setOrderID(orderID + 1)
+                  localStorage.setItem('orderID', String(orderID))
+                  await sendForm()
+                  confirmOrderSubmit()
+                }
               }}
             >
               確認付款

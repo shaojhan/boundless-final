@@ -7,7 +7,10 @@ export default function LessonCouponDropdowns({
 }) {
   const coupons = lessonCoupons.map((v) => {
     return (
-      <option key={v.id} value={JSON.stringify({ discount: v.discount, cuid: v.id })}>
+      <option
+        key={v.id}
+        value={JSON.stringify({ discount: v.discount, cuid: v.id })}
+      >
         {v.name}
       </option>
     )

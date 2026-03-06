@@ -213,25 +213,31 @@ export default function LessonDetailPage() {
         >
           <Section title="單元一覽">
             <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
-              {LessonDetail.outline?.split('\n').map((line: string, i: number) => (
-                <li key={i}>{line}</li>
-              ))}
+              {LessonDetail.outline
+                ?.split('\n')
+                .map((line: string, i: number) => (
+                  <li key={i}>{line}</li>
+                ))}
             </ul>
           </Section>
 
           <Section title="適合對象">
             <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
-              {LessonDetail.suitable?.split('\n').map((line: string, i: number) => (
-                <li key={i}>{line}</li>
-              ))}
+              {LessonDetail.suitable
+                ?.split('\n')
+                .map((line: string, i: number) => (
+                  <li key={i}>{line}</li>
+                ))}
             </ul>
           </Section>
 
           <Section title="你將學到">
             <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
-              {LessonDetail.achievement?.split('\n').map((line: string, i: number) => (
-                <li key={i}>{line}</li>
-              ))}
+              {LessonDetail.achievement
+                ?.split('\n')
+                .map((line: string, i: number) => (
+                  <li key={i}>{line}</li>
+                ))}
             </ul>
           </Section>
 

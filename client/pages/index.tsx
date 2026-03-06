@@ -115,11 +115,22 @@ export default function Index() {
                         key={v.url ?? i}
                         className="relative w-full shrink-0"
                         style={{ cursor: 'pointer' }}
+                        role="button"
+                        tabIndex={0}
                         onClick={() => {
                           if (LoginUserData.id) {
                             router.push(v.url)
                           } else {
                             checkLogin()
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            if (LoginUserData.id) {
+                              router.push(v.url)
+                            } else {
+                              checkLogin()
+                            }
                           }
                         }}
                       >

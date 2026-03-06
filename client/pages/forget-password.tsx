@@ -255,8 +255,9 @@ export default function ForgetPassword() {
                       {delay ? count + '秒後可以再次取得驗證碼' : '取得驗證碼'}
                     </button>
                   </div>
-                  <label>驗證碼:</label>
+                  <label htmlFor="token-input">驗證碼:</label>
                   <input
+                    id="token-input"
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     type="text"
                     value={token}
@@ -265,8 +266,9 @@ export default function ForgetPassword() {
                     onChange={(e) => setToken(e.target.value)}
                   />
                   <div className="loginByEmail-form-box password-box">
-                    <label>設定新密碼:</label>
+                    <label htmlFor="new-password-input">設定新密碼:</label>
                     <input
+                      id="new-password-input"
                       className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       type={isPasswordVisible ? 'text' : 'password'}
                       value={password}
@@ -278,6 +280,11 @@ export default function ForgetPassword() {
                     />
                     <span
                       onClick={togglePasswordVisibility}
+                      onKeyDown={(e) =>
+                        e.key === 'Enter' && togglePasswordVisibility()
+                      }
+                      role="button"
+                      tabIndex={0}
                       className="svg-icon"
                     >
                       {/* 是否顯示密碼 */}

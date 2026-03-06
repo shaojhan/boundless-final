@@ -29,9 +29,7 @@ export default function Coupon({
   const isValid = Boolean(valid)
   const kindLabel = kind === 2 ? '課程' : '樂器'
   const discountText =
-    type === 1
-      ? `NT$${discount ?? 0}`
-      : toFold(discount ?? 0)
+    type === 1 ? `NT$${discount ?? 0}` : toFold(discount ?? 0)
   const discountSub = type === 1 ? '折抵' : '優惠'
 
   let leftClass = styles.lesson
@@ -50,7 +48,9 @@ export default function Coupon({
       <div className={styles.couponRight}>
         <div className={styles.couponName}>{name ?? '優惠券'}</div>
         <div className={styles.couponExpiry}>到期日：{limit_time ?? '—'}</div>
-        <span className={`${styles.couponBadge} ${isValid ? styles.valid : styles.used}`}>
+        <span
+          className={`${styles.couponBadge} ${isValid ? styles.valid : styles.used}`}
+        >
           {isValid ? '未使用' : '已使用'}
         </span>
       </div>

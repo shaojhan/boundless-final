@@ -50,8 +50,7 @@ export default function RecruitList() {
 
   // ----------------------手機版本  ----------------------
   // 主選單
-  const { filterVisible, onshow, stopPropagation } =
-    useFilterToggle()
+  const { filterVisible, onshow, stopPropagation } = useFilterToggle()
   const { showMenu, menuMbToggle, showSidebar, setShowSidebar, sidebarToggle } =
     useMenuToggle()
   // ---------------------- filter 資料  ----------------------

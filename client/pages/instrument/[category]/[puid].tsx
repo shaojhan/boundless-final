@@ -142,10 +142,7 @@ export default function InstrumentDetailPage() {
           <NavbarMb />
         </div>
         {/* 麵包屑 */}
-        <div
-          className="breadcrumb-wrapper-ns"
-          style={{ paddingBlock: '20px' }}
-        >
+        <div className="breadcrumb-wrapper-ns" style={{ paddingBlock: '20px' }}>
           <ul className="flex items-center flex-wrap p-0 m-0">
             <IoHome size={20} />
             <Link href="/instrument">
@@ -174,6 +171,7 @@ export default function InstrumentDetailPage() {
                         src={`/instrument/${InstrumentDetail.category_name}/${nameUnderline}/${selectedImg}`}
                         className="h-full w-full"
                         style={{ objectFit: 'contain' }}
+                        alt={InstrumentDetail.name}
                       />
                     </div>
                     <div className="sub-Pic-Con flex flex-wrap -mx-3 w-full">
@@ -187,16 +185,27 @@ export default function InstrumentDetailPage() {
                           >
                             <div
                               className={`sub-Pic p-2`}
+                              role="button"
+                              tabIndex={0}
                               onClick={(_e) => {
                                 document
                                   .querySelector('.active')
                                   .classList.remove('active')
                                 setSelectedImg(v)
                               }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  document
+                                    .querySelector('.active')
+                                    .classList.remove('active')
+                                  setSelectedImg(v)
+                                }
+                              }}
                             >
                               <img
                                 src={`/instrument/${InstrumentDetail.category_name}/${nameUnderline}/${v}`}
                                 className="img_small w-full h-full"
+                                alt=""
                               />
                             </div>
                           </div>
@@ -221,6 +230,7 @@ export default function InstrumentDetailPage() {
                             loading="lazy"
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/84522f0e347edba7963eb335fd5301feca031f8d880bba21dd9760a01286c3a5?"
                             className="starImg"
+                            alt=""
                           />
                           <div
                             className="ratingNumber"
@@ -343,6 +353,7 @@ export default function InstrumentDetailPage() {
                                           loading="lazy"
                                           src="https://cdn.builder.io/api/v1/image/assets/TEMP/b33573d1006caa2dd045129e591ff98dd975245bb9b1f9ad55c74a65c6a47d58?"
                                           className="comment-like-icon-img"
+                                          alt=""
                                         />
                                         <div className="comment-Like-Word">
                                           有幫助
@@ -480,11 +491,20 @@ export default function InstrumentDetailPage() {
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/c240e4bc8653fe6179383ea22f1eb80902c70eec255a944e9d8e0efbf823c4e3?"
               className="cartIcon"
+              alt=""
             />
             <div
               className="cart"
+              role="button"
+              tabIndex={0}
               onClick={() => {
                 if (InstrumentDetail.stock > 0) {
+                  addInstrumentItem(InstrumentDetail, quantity)
+                  notifyBuy(InstrumentDetail.name)
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && InstrumentDetail.stock > 0) {
                   addInstrumentItem(InstrumentDetail, quantity)
                   notifyBuy(InstrumentDetail.name)
                 }

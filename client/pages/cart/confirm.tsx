@@ -1,6 +1,8 @@
 import { apiBaseUrl } from '@/configs'
 import { useState, useEffect } from 'react'
 import { formatPrice } from '@/lib/utils/formatPrice'
+import { authFetch } from '@/lib/api-client'
+import Swal from 'sweetalert2'
 import Navbar from '@/components/common/navbar'
 import NavbarMb from '@/components/common/navbar-mb'
 import Footer from '@/components/common/footer'
@@ -63,7 +65,6 @@ export default function Test() {
     finalPayment: number
   } | null>(null)
 
-  const username = UserInfo[0].Name
   const phone = UserInfo[0].Phone
   const email = UserInfo[0].Email
   const address = UserInfo[0].Address
@@ -78,13 +79,10 @@ export default function Test() {
   // Fetch server-authoritative prices on mount
   useEffect(() => {
     if (!uid || !cartItems.length) return
-    fetch(`${apiBaseUrl}/cart/calculate`, {
+    authFetch(`${apiBaseUrl}/cart/calculate`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
       body: JSON.stringify({
         cartdata: cartData,
-        uid: String(uid),
         lessonCUID: LessonCUID,
         instrumentCUID: InstrumentCUID,
       }),
@@ -107,26 +105,28 @@ export default function Test() {
   const displayTotalDiscount = serverPrice?.totalDiscount ?? calcTotalDiscount()
   const displayFinalPayment = serverPrice?.finalPayment ?? (calcTotalPrice() - calcTotalDiscount())
 
-  const sendForm = async () => {
-    const formData = new FormData()
-    formData.append('username', username)
-    formData.append('phone', phone)
-    formData.append('email', email)
-    formData.append('country', country ?? '')
-    formData.append('township', township ?? '')
-    formData.append('postcode', postcode ?? '')
-    formData.append('address', address)
-    formData.append('transportationstate', transportationstate)
-    formData.append('cartdata', cartData)
-    formData.append('uid', String(uid))
-    formData.append('LessonCUID', LessonCUID ?? 'null')
-    formData.append('InstrumentCUID', InstrumentCUID ?? 'null')
-
-    await fetch(`${apiBaseUrl}/cart/form`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-    })
+  const sendForm = async (): Promise<boolean> => {
+    try {
+      const res = await authFetch(`${apiBaseUrl}/cart/form`, {
+        method: 'POST',
+        body: JSON.stringify({
+          phone,
+          email,
+          country: country ?? '',
+          township: township ?? '',
+          postcode: postcode ?? '',
+          address,
+          transportationstate,
+          cartdata: cartData,
+          LessonCUID: LessonCUID ?? 'null',
+          InstrumentCUID: InstrumentCUID ?? 'null',
+        }),
+      })
+      const data = await res.json()
+      return data.status === 'success'
+    } catch {
+      return false
+    }
   }
 
   return (
@@ -290,10 +290,14 @@ export default function Test() {
                     className="b-btn b-btn-primary flex w-full h-full justify-center"
                     style={{ padding: '14px 0' }}
                     onClick={async () => {
-                      setOrderID(orderID + 1)
-                      localStorage.setItem('orderID', String(orderID))
-                      await sendForm()
-                      confirmOrderSubmit()
+                      const ok = await sendForm()
+                      if (ok) {
+                        setOrderID(orderID + 1)
+                        localStorage.setItem('orderID', String(orderID))
+                        confirmOrderSubmit()
+                      } else {
+                        Swal.fire({ icon: 'error', title: '結帳失敗', text: '訂單建立失敗，請稍後再試。' })
+                      }
                     }}
                   >
                     確認付款

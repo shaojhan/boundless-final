@@ -1,10 +1,9 @@
 import express from 'express';
 import prisma from '#configs/prisma.js';
-import multer from 'multer';
 import transporter from '#configs/mail.js';
+import { checkToken } from '../middleware/checkToken.js';
 
 const router = express.Router();
-const upload = multer();
 
 // ── Shared price calculation logic ──────────────────────────────────────────
 
@@ -22,7 +21,7 @@ interface ProductRow {
 
 async function calcServerPrice(
   cartEntries: CartEntry[],
-  uid: string,
+  userId: number,           // integer user.id from verified JWT — NOT client-supplied uid
   lessonCUID: string | null,
   instrumentCUID: string | null,
 ) {
@@ -37,19 +36,24 @@ async function calcServerPrice(
     products.map((p) => [p.id, p as ProductRow]),
   );
 
-  // 2. Calculate totals by type
+  // 2. Calculate totals by type; validate qty is a positive integer
   let lessonTotal = 0;
   let instrumentTotal = 0;
 
   for (const entry of cartEntries) {
     const product = productMap.get(entry.id);
     if (!product) continue;
+    // Server-side qty validation: must be a positive integer
+    const qty = Math.trunc(Number(entry.qty));
+    if (!Number.isFinite(qty) || qty < 1) {
+      throw Object.assign(new Error(`商品數量不合法：product ${entry.id}`), { statusCode: 400 });
+    }
     if (product.type === 2) {
       // lesson: qty is always 1
       lessonTotal += product.price;
     } else {
       // instrument
-      instrumentTotal += product.price * entry.qty;
+      instrumentTotal += product.price * qty;
     }
   }
 
@@ -62,11 +66,11 @@ async function calcServerPrice(
     const templateId = parseInt(cuid);
     if (isNaN(templateId)) return 0;
 
-    // Check user owns a valid coupon for this template
+    // Check user owns a valid coupon for this template (uses integer userId — fixes uid/id bug)
     const coupon = await prisma.coupon.findFirst({
       where: {
         coupon_template_id: templateId,
-        user_id: parseInt(uid),
+        user_id: userId,
         valid: 1,
       },
     });
@@ -102,31 +106,34 @@ async function calcServerPrice(
 
 // ── POST /cart/calculate — preview endpoint ──────────────────────────────────
 
-router.post('/calculate', upload.none(), async (req, res) => {
-  const { cartdata, uid, lessonCUID, instrumentCUID } = req.body as {
+router.post('/calculate', checkToken, async (req, res) => {
+  const { cartdata, lessonCUID, instrumentCUID } = req.body as {
     cartdata: string;
-    uid: string;
     lessonCUID?: string;
     instrumentCUID?: string;
   };
 
-  if (!cartdata || !uid) {
-    res.status(400).json({ status: 'error', message: 'cartdata and uid are required' });
+  if (!cartdata) {
+    res.status(400).json({ status: 'error', message: 'cartdata is required' });
     return;
   }
 
+  // Use integer id from verified JWT — never trust client-supplied uid
+  const userId = req.decoded.id;
+
   try {
     const cartEntries: CartEntry[] = JSON.parse(cartdata);
-    const result = await calcServerPrice(cartEntries, uid, lessonCUID ?? null, instrumentCUID ?? null);
+    const result = await calcServerPrice(cartEntries, userId, lessonCUID ?? null, instrumentCUID ?? null);
     res.status(200).json({ status: 'success', ...result });
-  } catch (error) {
-    res.status(500).json({ status: 'error', error });
+  } catch (error: unknown) {
+    const statusCode = (error as { statusCode?: number }).statusCode ?? 500;
+    res.status(statusCode).json({ status: 'error', message: (error as Error).message });
   }
 });
 
 // ── POST /cart/form — order submission ───────────────────────────────────────
 
-router.post('/form', upload.none(), async (req, res) => {
+router.post('/form', checkToken, async (req, res) => {
   const ouid = generateOuid();
 
   const {
@@ -137,7 +144,6 @@ router.post('/form', upload.none(), async (req, res) => {
     address,
     transportationstate,
     cartdata,
-    uid,
     LessonCUID,
     InstrumentCUID,
   } = req.body as {
@@ -148,10 +154,13 @@ router.post('/form', upload.none(), async (req, res) => {
     address: string;
     transportationstate: string;
     cartdata: string;
-    uid: string;
     LessonCUID?: string;
     InstrumentCUID?: string;
   };
+
+  // Use identity from verified JWT — never trust client-supplied uid
+  const userId = req.decoded.id;      // integer id, for coupon/DB lookups
+  const userUid = req.decoded.uid;    // string uid, for order_total.user_id
 
   const cartEntries: CartEntry[] = JSON.parse(cartdata);
 
@@ -159,50 +168,52 @@ router.post('/form', upload.none(), async (req, res) => {
     // Server-side price calculation — never trust client-sent amounts
     const { finalPayment, totalDiscount } = await calcServerPrice(
       cartEntries,
-      uid,
+      userId,
       LessonCUID ?? null,
       InstrumentCUID ?? null,
     );
 
-    const orderTotalRecord = await prisma.orderTotal.create({
-      data: {
-        user_id: uid,
-        payment: finalPayment,
-        transportation_state: transportationstate,
-        phone,
-        discount: totalDiscount,
-        postcode: parseInt(postcode),
-        country: township, // preserving original field mapping
-        township: country, // preserving original field mapping
-        address,
-        created_time: new Date(),
-        ouid,
-      },
-    });
-
-    await prisma.orderItem.createMany({
-      data: cartEntries.map((v) => ({
-        order_id: orderTotalRecord.id,
-        product_id: v.id,
-        quantity: v.qty,
-        ouid,
-      })),
-    });
-
-    // Invalidate used coupons (scoped to the user to avoid affecting others)
-    const userId = parseInt(uid);
-    if (LessonCUID && LessonCUID !== 'null') {
-      await prisma.coupon.updateMany({
-        where: { coupon_template_id: parseInt(LessonCUID), user_id: userId },
-        data: { valid: 0 },
+    // All writes in one atomic transaction — prevents partial order state on failure
+    await prisma.$transaction(async (tx) => {
+      const orderTotalRecord = await tx.orderTotal.create({
+        data: {
+          user_id: userUid,
+          payment: finalPayment,
+          transportation_state: transportationstate,
+          phone,
+          discount: totalDiscount,
+          postcode: parseInt(postcode),
+          country: township, // preserving original field mapping
+          township: country, // preserving original field mapping
+          address,
+          created_time: new Date(),
+          ouid,
+        },
       });
-    }
-    if (InstrumentCUID && InstrumentCUID !== 'null') {
-      await prisma.coupon.updateMany({
-        where: { coupon_template_id: parseInt(InstrumentCUID), user_id: userId },
-        data: { valid: 0 },
+
+      await tx.orderItem.createMany({
+        data: cartEntries.map((v) => ({
+          order_id: orderTotalRecord.id,
+          product_id: v.id,
+          quantity: Math.trunc(Number(v.qty)),
+          ouid,
+        })),
       });
-    }
+
+      // Invalidate used coupons inside the transaction
+      if (LessonCUID && LessonCUID !== 'null') {
+        await tx.coupon.updateMany({
+          where: { coupon_template_id: parseInt(LessonCUID), user_id: userId },
+          data: { valid: 0 },
+        });
+      }
+      if (InstrumentCUID && InstrumentCUID !== 'null') {
+        await tx.coupon.updateMany({
+          where: { coupon_template_id: parseInt(InstrumentCUID), user_id: userId },
+          data: { valid: 0 },
+        });
+      }
+    });
 
     res.status(200).json({ status: 'success' });
 
@@ -210,7 +221,7 @@ router.post('/form', upload.none(), async (req, res) => {
     void (async () => {
       try {
         const user = await prisma.user.findFirst({
-          where: { uid },
+          where: { uid: userUid },
           select: { email: true, nickname: true },
         });
         if (!user?.email) return;
@@ -227,7 +238,7 @@ router.post('/form', upload.none(), async (req, res) => {
             const p = productMap.get(entry.id);
             const name = p?.name ?? '商品';
             const unitPrice = Number(p?.price ?? 0);
-            const subtotal = unitPrice * entry.qty;
+            const subtotal = unitPrice * Math.trunc(Number(entry.qty));
             return `
               <tr>
                 <td style="padding:8px 12px;border-bottom:1px solid #eee;">${name}</td>
@@ -288,8 +299,9 @@ router.post('/form', upload.none(), async (req, res) => {
         console.error('訂單確認信發送失敗:', err);
       }
     })();
-  } catch (error) {
-    res.status(500).json({ status: 'error', error });
+  } catch (error: unknown) {
+    const statusCode = (error as { statusCode?: number }).statusCode ?? 500;
+    res.status(statusCode).json({ status: 'error', message: (error as Error).message });
   }
 });
 

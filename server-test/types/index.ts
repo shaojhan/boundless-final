@@ -53,9 +53,11 @@ export type DbMutateResult = [{ affectedRows: number; insertId: number }];
 
 export interface JwtPayload {
   id: number;
+  uid: string;
   email: string;
   name: string;
-  my_jam?: number;
+  img?: string | null;
+  my_jam?: string | null;
   iat?: number;
   exp?: number;
 }
@@ -67,7 +69,7 @@ declare global {
   namespace Express {
     interface Request {
       user?: JwtPayload;
-      decoded?: Record<string, unknown>;
+      decoded?: JwtPayload;
       timestamp?: number;
     }
   }

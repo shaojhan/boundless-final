@@ -14,9 +14,7 @@ import {
   createRefreshToken,
   deleteRefreshToken,
 } from '#db-helpers/refresh-token.js';
-
-// 從環境檔抓取secretKey(token加密用)
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+import { checkToken } from '../middleware/checkToken.js';
 
 const router = express.Router();
 const upload = multer();
@@ -43,9 +41,16 @@ const uploadTest = multer({ storage: storage });
 router.post(
   '/upload1',
   setTimestamp,
+  checkToken,
   uploadTest.single('myFile'),
   async (req, res) => {
     const id = parseInt(req.body.name);
+
+    // 只允許修改自己的頭像
+    if (req.decoded.id !== id) {
+      return res.status(403).json({ status: 'error', message: '無權限修改此頭像' });
+    }
+
     const newName = 'avatar_user00' + req.timestamp + '.jpg';
 
     await prisma.user.update({
@@ -57,20 +62,7 @@ router.post(
   }
 );
 
-//GET 測試 - 得到所有會員資料
-router.get('/', async (req, res, _next) => {
-  try {
-    const userData = await prisma.user.findMany({
-      where: { valid: 1 },
-    });
-    res.json(userData);
-  } catch (error) {
-    console.error('發生錯誤：', error);
-    res.json('發生錯誤');
-  }
-});
-
-// 動態路由來到個人首頁
+// 動態路由來到個人首頁（公開資料，無需驗證）
 router.get('/user-homepage/:uid', async (req, res) => {
   const uid = req.params.uid;
   try {
@@ -154,6 +146,7 @@ router.post('/login', upload.none(), async (req, res) => {
     where: { email, valid: 1 },
   });
   if (user && (await compareHash(password, user.password))) {
+    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
     const token = jwt.sign(
       {
         id: user.id,
@@ -219,7 +212,12 @@ router.post('/status', checkToken, async (req, res) => {
 
 // GET - 得到單筆會員資料（JOIN jam 取得 my_jam 名稱）
 router.get('/:id', checkToken, async function (req, res) {
-  const id = req.params.id;
+  const id = parseInt(req.params.id as string);
+
+  // IDOR 防護：只允許使用者存取自己的資料
+  if (req.decoded.id !== id) {
+    return res.status(403).json({ status: 'error', message: '無權限存取此資料' });
+  }
 
   const [singerUser] = await db.execute(
     'SELECT u.id, uid, u.name , email, nickname, phone, birthday, postcode, country, township, address, genre_like, play_instrument , info, gender , privacy, google_uid, j.state AS my_jamState, j.name AS my_jamname, my_jam , photo_url, my_lesson, img FROM `user` u LEFT JOIN `jam` j ON CONVERT(j.juid USING utf8mb4) = CONVERT(u.my_jam USING utf8mb4) WHERE u.id = ? AND u.valid = 1',
@@ -230,18 +228,31 @@ router.get('/:id', checkToken, async function (req, res) {
   return res.json(resUser);
 });
 
-// GET - 得到單筆會員資料 全部資料版本含密碼
+// GET - 得到單筆會員資料（不含密碼）
 router.get('/profile/:id', checkToken, async function (req, res) {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id as string);
+
+  // IDOR 防護：只允許使用者存取自己的資料
+  if (req.decoded.id !== id) {
+    return res.status(403).json({ status: 'error', message: '無權限存取此資料' });
+  }
+
   const resUser = await prisma.user.findFirst({
     where: { id, valid: 1 },
+    omit: { password: true },
   });
   return res.json(resUser);
 });
 
 //會員更新資訊
 router.post('/editProfile/:id', checkToken, async function (req, res) {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id as string);
+
+  // IDOR 防護：只允許使用者修改自己的資料
+  if (req.decoded.id !== id) {
+    return res.status(403).json({ status: 'error', message: '無權限修改此資料' });
+  }
+
   const {
     email,
     name,
@@ -283,8 +294,13 @@ router.post('/editProfile/:id', checkToken, async function (req, res) {
 });
 
 //該使用者查詢訂單
-router.post('/order/:id', async function (req, res) {
-  const id = req.params.id;
+router.post('/order/:id', checkToken, async function (req, res) {
+  const id = parseInt(req.params.id as string);
+
+  // IDOR 防護：只允許使用者存取自己的訂單
+  if (req.decoded.id !== id) {
+    return res.status(403).json({ status: 'error', message: '無權限存取此訂單' });
+  }
 
   const [userUIDResult] = await db.execute(
     'SELECT `uid` FROM `user` WHERE `id` = ? AND `valid` = 1',
@@ -374,35 +390,6 @@ router.post('/', async (req, res) => {
 
   return res.status(201).json({ status: 'success', data: null });
 });
-
-//檢查token 當作中介使用
-function checkToken(req, res, next) {
-  let token = req.get('Authorization');
-
-  if (token && token.indexOf('Bearer ') === 0) {
-    token = token.slice(7);
-    jwt.verify(token, accessTokenSecret, (err, decoded) => {
-      if (err) {
-        const message =
-          err.name === 'TokenExpiredError'
-            ? '登入已逾時，請重新整理頁面。'
-            : '登入驗證失效，請重新登入。';
-        return res
-          .status(401)
-          .json({ status: 'error', message, code: err.name });
-      } else {
-        req.decoded = decoded;
-        next();
-      }
-    });
-  } else {
-    return res.status(401).json({
-      status: 'error',
-      message: '無登入驗證資料，請重新登入。',
-      code: 'NO_TOKEN',
-    });
-  }
-}
 
 function generateUid() {
   const characters =

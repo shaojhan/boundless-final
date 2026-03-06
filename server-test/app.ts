@@ -90,7 +90,6 @@ app.use(function (
   err: { message: string; status?: number },
   req: Request,
   res: Response,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
 ) {
   // set locals, only providing error in development

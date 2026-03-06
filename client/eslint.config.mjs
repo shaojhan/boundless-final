@@ -44,6 +44,7 @@ export default [
       'jsx-a11y/no-noninteractive-tabindex': 'warn',
       'jsx-a11y/img-redundant-alt': 'warn',
       'jsx-a11y/label-has-associated-control': 'warn',
+      'jsx-a11y/interactive-supports-focus': 'warn',
       'prettier/prettier': 'warn',
       'no-unused-vars': ['warn', {
         argsIgnorePattern: '^_',

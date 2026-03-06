@@ -191,10 +191,10 @@ export default function Publish() {
                 <div>
                   <label
                     htmlFor="exampleFormControlTextarea1"
-                    className="form-label"
+                    className="block text-sm font-medium text-dark mb-1"
                   ></label>
                   <textarea
-                    className="form-control"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     id="exampleFormControlTextarea1"
                     rows={3}
                     onChange={(e) => {
@@ -233,7 +233,7 @@ export default function Publish() {
               </div>
               <div className="rwd-content">
                 <select
-                  className="form-select"
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                   aria-label="Default select example"
                   onChange={(e) => {
                     setCategory(e.target.value)
@@ -259,7 +259,7 @@ export default function Publish() {
                 </h5>
                 <div className="upload-img flex items-center mt-6">
                   <input
-                    className="form-control"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     type="file"
                     name="myFile"
                     id="myFile"
@@ -285,7 +285,7 @@ export default function Publish() {
                   sendForm(title, category_id, content, file, LoginUserData.id)
                 }}
                 type="button"
-                className="btn btn-primary"
+                className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary"
               >
                 確認更新
               </button>

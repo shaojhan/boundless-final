@@ -178,7 +178,7 @@ export default function Auid() {
                   <div>{articleDetail.comment_likes}人認同</div>
                   <button
                     type="button"
-                    className="btn btn-outline-primary ml-1"
+                    className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors border border-primary text-primary hover:bg-primary hover:text-white ml-1"
                   >
                     <i className="fa-solid fa-thumbs-up" />
                     認同
@@ -188,13 +188,13 @@ export default function Auid() {
               {/* 最後textarea */}
               <div className="pl-6 pr-6">
                 <textarea
-                  className="form-control"
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                   rows={5}
                   placeholder="發表文章評語...(限50字)"
                   defaultValue={''}
                 />
                 <div className="text-right mt-2 mb-6">
-                  <button className="btn btn-primary" type="submit">
+                  <button className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary" type="submit">
                     發表
                   </button>
                 </div>

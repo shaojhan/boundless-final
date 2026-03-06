@@ -345,7 +345,7 @@ export default function RecruitList() {
                 <div className="filter-sort flex justify-between">
                   <div className="sort-mb block sm:hidden">
                     <select
-                      className="form-select"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                       value={order}
                       name="order"
                       onChange={(e) => {
@@ -381,7 +381,7 @@ export default function RecruitList() {
                             技術程度
                           </div>
                           <select
-                            className="form-select"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                             value={degree}
                             name="degree"
                             onChange={(e) => {
@@ -402,7 +402,7 @@ export default function RecruitList() {
                             徵求樂手
                           </div>
                           <select
-                            className="form-select"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                             value={player}
                             name="player"
                             onChange={(e) => {
@@ -428,7 +428,7 @@ export default function RecruitList() {
                             音樂風格
                           </div>
                           <select
-                            className="form-select"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                             value={genre}
                             name="genre"
                             onChange={(e) => {
@@ -455,7 +455,7 @@ export default function RecruitList() {
                             地區
                           </div>
                           <select
-                            className="form-select"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                             value={region}
                             name="region"
                             onChange={(e) => {

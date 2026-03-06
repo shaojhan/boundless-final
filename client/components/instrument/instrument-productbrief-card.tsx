@@ -108,7 +108,7 @@ export default function ProductBriefCard({
                 </div>
                 <div className="quantity">{quantity}</div>
                 <div
-                  className={`btn increase-btn d-flex align-items-center ${
+                  className={`increase-btn flex items-center cursor-pointer font-medium ${
                     data.stock === 0 ? 'noStock' : 'hasStock'
                   }`}
                   role="presentation"

@@ -859,7 +859,7 @@ export default function Info() {
                         className={`${styles.itemInputWrapper} w-full px-6 sm:w-5/6 px-6`}
                       >
                         <select
-                          className="form-select"
+                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                           style={{ width: 'auto' }}
                           value={myPlayer}
                           name="myPlayer"
@@ -894,7 +894,7 @@ export default function Info() {
                         className={`${styles.itemInputWrapper} w-full px-6 sm:w-5/6 px-6`}
                       >
                         <textarea
-                          className={`${styles.textArea} form-control`}
+                          className={`${styles.textArea} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                           placeholder="建議可以提到自己喜歡的音樂、入團動機等，上限150字"
                           name="message"
                           id="message"

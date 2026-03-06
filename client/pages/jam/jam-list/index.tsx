@@ -302,10 +302,10 @@ export default function JamList() {
                     選單
                   </div>
                   {/* 手機板搜尋欄 */}
-                  <div className="search input-group sm:hidden">
+                  <div className="search flex sm:hidden">
                     <input
                       type="text"
-                      className="form-control"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       placeholder="請輸入關鍵字..."
                       value={search}
                       onChange={(e) => {
@@ -341,12 +341,12 @@ export default function JamList() {
                   )}
                   {/* 電腦版搜尋欄 */}
                   <div
-                    className="search input-group hidden sm:flex ml-6"
+                    className="search hidden sm:flex ml-6"
                     style={{ width: '250px' }}
                   >
                     <input
                       type="text"
-                      className="form-control"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       placeholder="請輸入關鍵字..."
                       value={search}
                       onChange={(e) => {
@@ -366,7 +366,7 @@ export default function JamList() {
                 <div className="filter-sort flex justify-between">
                   <div className="sort-mb block sm:hidden">
                     <select
-                      className="form-select"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                       name="order"
                       value={order}
                       onChange={(e) => {
@@ -402,7 +402,7 @@ export default function JamList() {
                             音樂風格
                           </div>
                           <select
-                            className="form-select"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                             value={genre}
                             name="genre"
                             onChange={(e) => {
@@ -429,7 +429,7 @@ export default function JamList() {
                             地區
                           </div>
                           <select
-                            className="form-select"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                             value={region}
                             name="region"
                             onChange={(e) => {

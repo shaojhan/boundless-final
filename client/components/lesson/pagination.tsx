@@ -20,79 +20,49 @@ export default function Pagination({
     setFilterSettings((c) => ({ ...c, page: pageNumber }))
   }
 
+  const linkBase = 'block px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 text-sm cursor-pointer'
+  const activeLink = 'bg-[#265475] text-white border-[#265475]'
+
   return (
-    <>
-      <div className="container-1200 pagepagination-container">
-        <nav aria-label="Page navigation example mx-auto">
-          <ul className="pagination">
-            <li className={`page-item ${page === 1 ? 'disabled' : ''}`}>
-              <a
-                className="page-link"
-                href="?=page"
-                aria-label="Previous"
-                onClick={() => handlePageChange(page - 1)}
-              >
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <li
-                key={index}
-                className={`page-item ${page === index + 1 ? 'active' : ''}`}
-              >
-                <a
-                  className="page-link"
-                  onClick={() => handlePageChange(index + 1)}
-                >
-                  {index + 1}
-                </a>
-              </li>
-            ))}
+    <div className="container-1200 pagepagination-container">
+      <nav aria-label="Page navigation example mx-auto">
+        <ul className="flex gap-1 items-center list-none p-0 m-0">
+          <li className={`inline-block cursor-pointer ${page === 1 ? 'pointer-events-none opacity-50' : ''}`}>
+            <a
+              className={linkBase}
+              href="?=page"
+              aria-label="Previous"
+              onClick={() => handlePageChange(page - 1)}
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {Array.from({ length: totalPages }, (_, index) => (
             <li
-              className={`page-item ${page === totalPages ? 'disabled' : ''}`}
+              key={index}
+              className="inline-block cursor-pointer"
             >
               <a
-                className="page-link"
-                aria-label="Next"
-                onClick={() => handlePageChange(page + 1)}
+                className={`${linkBase} ${page === index + 1 ? activeLink : ''}`}
+                onClick={() => handlePageChange(index + 1)}
               >
-                <span aria-hidden="true">&raquo;</span>
+                {index + 1}
               </a>
             </li>
-          </ul>
-        </nav>
-      </div>
-
-      <style jsx>
-        {`
-          .container-1200 {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 25px;
-          }
-          @media screen and (max-width: 576px) {
-            .width-1200 {
-              width: 380px;
-            }
-          }
-          .pagination-container {
-            display: flex;
-            justify-content: center;
-          }
-          .page-item {
-            cursor: pointer;
-          }
-          .page-item.disabled {
-            pointer-events: none;
-            opacity: 0.5;
-          }
-          .page-item.active .page-link {
-            background-color: #265475;
-            color: #fff;
-            border-color: #265475;
-          }
-        `}
-      </style>
-    </>
+          ))}
+          <li
+            className={`inline-block cursor-pointer ${page === totalPages ? 'pointer-events-none opacity-50' : ''}`}
+          >
+            <a
+              className={linkBase}
+              aria-label="Next"
+              onClick={() => handlePageChange(page + 1)}
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   )
 }

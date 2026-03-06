@@ -295,7 +295,7 @@ export default function Edit() {
                   >
                     <input
                       type="text"
-                      className={`${styles.itemInput} form-control`}
+                      className={`${styles.itemInput} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                       name="bandName"
                       id="bandName"
                       placeholder="可中英文混合，上限30字"
@@ -390,7 +390,7 @@ export default function Edit() {
                     className={`${styles.itemInputWrapper} w-full px-6 sm:w-5/6 px-6`}
                   >
                     <textarea
-                      className={`${styles.textArea} form-control`}
+                      className={`${styles.textArea} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                       placeholder="讓大家認識你們的魅力吧！上限150字"
                       name="introduce"
                       id="introduce"
@@ -437,7 +437,7 @@ export default function Edit() {
                   >
                     <input
                       type="text"
-                      className={`${styles.itemInput} form-control`}
+                      className={`${styles.itemInput} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                       name="yturl"
                       id="yturl"
                       placeholder="YouTube網址中 v= 後的字串 例: 3efDUE4ZJYg"

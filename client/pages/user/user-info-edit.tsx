@@ -1171,7 +1171,7 @@ export default function Test() {
                             ></textarea>
                             {/* <input
                               type="text"
-                              className={`${styles.itemInput} form-control `}
+                              className={`${styles.itemInput} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                               placeholder="郵遞區號"
                               maxLength={3}
                               onChange={(e) => {

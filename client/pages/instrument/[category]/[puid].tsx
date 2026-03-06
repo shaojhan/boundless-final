@@ -445,7 +445,7 @@ export default function InstrumentDetailPage() {
             {quantity}
           </div>
           <div
-            className={`btn increase-btn d-flex align-items-center ${
+            className={`increase-btn flex items-center cursor-pointer font-medium ${
               InstrumentDetail.stock === 0 ? 'noStock' : 'hasStock'
             }`}
             role="presentation"

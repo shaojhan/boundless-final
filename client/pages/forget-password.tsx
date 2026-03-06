@@ -241,14 +241,14 @@ export default function ForgetPassword() {
                 <div className="loginByEmail-form-box">
                   <label htmlFor="InputAccount">E-mail</label>
                   <input
-                    className="form-control"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <div className="loginByEmail-submit">
                     <button
-                      className="btn btn-primary justify-center"
+                      className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary justify-center"
                       onClick={handleRequestOtpToken}
                       disabled={disableBtn}
                     >
@@ -257,7 +257,7 @@ export default function ForgetPassword() {
                   </div>
                   <label>驗證碼:</label>
                   <input
-                    className="form-control"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     type="text"
                     value={token}
                     minLength={6}
@@ -267,7 +267,7 @@ export default function ForgetPassword() {
                   <div className="loginByEmail-form-box password-box">
                     <label>設定新密碼:</label>
                     <input
-                      className="form-control"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       type={isPasswordVisible ? 'text' : 'password'}
                       value={password}
                       // minlength="8"
@@ -318,7 +318,7 @@ export default function ForgetPassword() {
                 </div>
                 <div className="loginByEmail-submit">
                   <button
-                    className="btn btn-primary"
+                    className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary"
                     onClick={handleResetPassword}
                   >
                     重設密碼

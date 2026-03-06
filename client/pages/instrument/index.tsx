@@ -579,10 +579,10 @@ export default function Test({ onSearch: _onSearch }) {
                   >
                     選單
                   </div>
-                  <div className="search input-group">
+                  <div className="search flex">
                     <input
                       type="text"
-                      className="form-control"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       placeholder="請輸入關鍵字..."
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
@@ -599,7 +599,7 @@ export default function Test({ onSearch: _onSearch }) {
                 <div className="filter-sort flex justify-between">
                   <div className="sort-mb block sm:hidden">
                     <select
-                      className="form-select"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                       value={dataSort}
                       name="dataSort"
                       onChange={(e) => {
@@ -631,7 +631,7 @@ export default function Test({ onSearch: _onSearch }) {
                         <div className="filter-item">
                           <div className="filter-title">選擇品牌</div>
                           <select
-                            className="form-select"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                             aria-label="Default select example"
                             value={brandSelect}
                             name="brand"
@@ -666,7 +666,7 @@ export default function Test({ onSearch: _onSearch }) {
                           <div className="filter-title">價格區間</div>
                           <input
                             type="number"
-                            className="form-control mb-2"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary mb-2"
                             placeholder="最低價"
                             name="priceLow"
                             value={priceLow}
@@ -678,7 +678,7 @@ export default function Test({ onSearch: _onSearch }) {
                           />
                           <input
                             type="number"
-                            className="form-control"
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                             placeholder="最高價"
                             name="priceHigh"
                             value={priceHigh}
@@ -695,7 +695,7 @@ export default function Test({ onSearch: _onSearch }) {
                             {scoreState.map((v, i) => {
                               return (
                                 <div
-                                  className="filter-radio-item form-check p-0 mb-6"
+                                  className="filter-radio-item flex items-center gap-2 p-0 mb-6"
                                   key={i}
                                 >
                                   <label className="form-check-label">
@@ -720,10 +720,10 @@ export default function Test({ onSearch: _onSearch }) {
                         </div>
                         {/* 促銷商品 */}
                         <div className="filter-item">
-                          <div className="form-check">
-                            <label className="form-check-label filter-title mb-0">
+                          <div className="flex items-center gap-2">
+                            <label className="filter-title mb-0">
                               <input
-                                className="form-check-input"
+                                className="w-4 h-4"
                                 type="checkbox"
                                 value={promotion ? 'true' : 'false'}
                                 name="promotion"

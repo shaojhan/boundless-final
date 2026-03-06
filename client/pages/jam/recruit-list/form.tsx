@@ -267,7 +267,7 @@ export default function Form() {
                 >
                   <input
                     type="text"
-                    className={`${styles.itemInput} form-control`}
+                    className={`${styles.itemInput} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                     name="title"
                     id="title"
                     placeholder="發起動機或目的，上限20字"
@@ -307,7 +307,7 @@ export default function Form() {
                 >
                   <select
                     defaultValue={''}
-                    className="form-select"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                     style={{ width: 'auto' }}
                     value={degree}
                     name="degree"
@@ -341,7 +341,7 @@ export default function Form() {
                         <select
                           defaultValue={''}
                           key={i}
-                          className="form-select"
+                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                           style={{ width: 'auto' }}
                           value={genre[i]}
                           name="genre"
@@ -417,7 +417,7 @@ export default function Form() {
                 >
                   <select
                     defaultValue={''}
-                    className="form-select"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                     style={{ width: 'auto' }}
                     value={myPlayer}
                     name="myPlayer"
@@ -459,7 +459,7 @@ export default function Form() {
                         <select
                           defaultValue={''}
                           key={i}
-                          className="form-select"
+                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                           style={{ width: 'auto' }}
                           value={players[i]}
                           name="players"
@@ -516,7 +516,7 @@ export default function Form() {
                 >
                   <select
                     defaultValue={''}
-                    className="form-select"
+                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                     style={{ width: 'auto' }}
                     value={region}
                     name="region"
@@ -551,7 +551,7 @@ export default function Form() {
                 >
                   <input
                     type="text"
-                    className={`form-control`}
+                    className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                     name="condition"
                     id="condition"
                     placeholder="事先說好要求，有助於玩團和樂哦～上限30字"
@@ -590,7 +590,7 @@ export default function Form() {
                   className={`${styles.itemInputWrapper} w-full px-6 sm:w-5/6 px-6`}
                 >
                   <textarea
-                    className={`${styles.textArea} form-control`}
+                    className={`${styles.textArea} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
                     placeholder="輸入清楚、吸引人的描述，讓大家瞭解你的成團動機吧！上限150字"
                     name="description"
                     id="description"

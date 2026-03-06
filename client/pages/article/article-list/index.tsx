@@ -218,9 +218,9 @@ export default function ArticleList() {
                   >
                     選單
                   </div>
-                  <div className="search input-group">
+                  <div className="search flex">
                     <input
-                      className="form-control"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       placeholder="請輸入關鍵字..."
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
@@ -237,7 +237,7 @@ export default function ArticleList() {
                 <div className="filter-sort flex justify-between">
                   <div className="sort-mb block sm:hidden">
                     <select
-                      className="form-select"
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                       value={dataSort}
                       name="dataSort"
                       onChange={(e) => {

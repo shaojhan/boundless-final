@@ -65,7 +65,10 @@ router.post('/Update', async (req, res) => {
 // 用折扣碼兌換優惠券
 router.post('/Redeem', async (req, res) => {
   try {
-    const { user_id, coupon_code } = req.body as { user_id: number; coupon_code: string };
+    const { user_id, coupon_code } = req.body as {
+      user_id: number;
+      coupon_code: string;
+    };
     if (!user_id || !coupon_code) {
       res.status(400).json({ success: false, message: '缺少必要參數' });
       return;

@@ -53,7 +53,14 @@ router.post('/refresh', async (req, res) => {
   // 查詢 user 資料
   const user = await prisma.user.findFirst({
     where: { id: tokenRow.user_id, valid: 1 },
-    select: { id: true, uid: true, name: true, email: true, img: true, my_jam: true },
+    select: {
+      id: true,
+      uid: true,
+      name: true,
+      email: true,
+      img: true,
+      my_jam: true,
+    },
   });
   if (!user) {
     await deleteRefreshToken(incomingRefreshToken);

@@ -234,7 +234,10 @@ class Coupon extends Basic {
         'Insert Into coupon(user_id,coupon_template_id,created_time,valid) values(?,?,?,1)',
         [user_id, tmpl.id, now]
       );
-      const limit_time = format(addDays(new Date(now), 7), 'yyyy-MM-dd HH:mm:ss');
+      const limit_time = format(
+        addDays(new Date(now), 7),
+        'yyyy-MM-dd HH:mm:ss'
+      );
       return {
         success: true,
         message: '兌換成功！',

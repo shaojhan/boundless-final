@@ -11,7 +11,11 @@ const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET as string;
  * 驗證成功後將 decoded payload 注入 req.decoded，供後續路由使用。
  * 驗證失敗（無 token / 過期 / 無效）一律回傳 401。
  */
-export function checkToken(req: Request, res: Response, next: NextFunction): void {
+export function checkToken(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
   let token = req.get('Authorization');
 
   if (token && token.startsWith('Bearer ')) {

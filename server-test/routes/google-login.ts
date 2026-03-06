@@ -11,19 +11,31 @@ router.post('/', async (req, res) => {
   const { accessToken } = req.body as { accessToken?: string };
 
   if (!accessToken) {
-    return res.status(400).json({ status: 'error', message: '缺少 Google access token' });
+    return res
+      .status(400)
+      .json({ status: 'error', message: '缺少 Google access token' });
   }
 
   // 向 Google userinfo API 驗證 token 並取得使用者資料
-  const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
+  const userInfoRes = await fetch(
+    'https://www.googleapis.com/oauth2/v3/userinfo',
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  );
 
   if (!userInfoRes.ok) {
-    return res.status(401).json({ status: 'error', message: 'Google token 無效' });
+    return res
+      .status(401)
+      .json({ status: 'error', message: 'Google token 無效' });
   }
 
-  const { sub: google_uid, email, name, picture } = (await userInfoRes.json()) as {
+  const {
+    sub: google_uid,
+    email,
+    name,
+    picture,
+  } = (await userInfoRes.json()) as {
     sub: string;
     email: string;
     name: string;
@@ -31,13 +43,23 @@ router.post('/', async (req, res) => {
   };
 
   if (!google_uid || !email) {
-    return res.status(401).json({ status: 'error', message: 'Google 使用者資料不完整' });
+    return res
+      .status(401)
+      .json({ status: 'error', message: 'Google 使用者資料不完整' });
   }
 
   // 查詢是否已有此 google_uid 的使用者
-  const [rows] = await db.execute('SELECT * FROM user WHERE google_uid = ?;', [google_uid]);
+  const [rows] = await db.execute('SELECT * FROM user WHERE google_uid = ?;', [
+    google_uid,
+  ]);
 
-  let returnUser: { id: number; name: string; email: string; img?: string; my_jam?: number };
+  let returnUser: {
+    id: number;
+    name: string;
+    email: string;
+    img?: string;
+    my_jam?: number;
+  };
 
   if (rows.length > 0) {
     // 已存在 → 直接取得資料
@@ -57,10 +79,19 @@ router.post('/', async (req, res) => {
 
     await db.execute(
       'INSERT INTO user (name, email, google_uid, photo_url, nickname, created_time, valid) VALUES (?, ?, ?, ?, ?, ?, 1);',
-      [name ?? email, email, google_uid, picture ?? null, name ?? email, createdTime]
+      [
+        name ?? email,
+        email,
+        google_uid,
+        picture ?? null,
+        name ?? email,
+        createdTime,
+      ]
     );
 
-    const [lastRow] = await db.execute('SELECT LAST_INSERT_ID() AS inserted_id');
+    const [lastRow] = await db.execute(
+      'SELECT LAST_INSERT_ID() AS inserted_id'
+    );
     const lastId = lastRow[0].inserted_id;
 
     const [newRow] = await db.execute(

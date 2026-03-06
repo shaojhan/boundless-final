@@ -48,7 +48,9 @@ router.post(
 
     // 只允許修改自己的頭像
     if (req.decoded.id !== id) {
-      return res.status(403).json({ status: 'error', message: '無權限修改此頭像' });
+      return res
+        .status(403)
+        .json({ status: 'error', message: '無權限修改此頭像' });
     }
 
     const newName = 'avatar_user00' + req.timestamp + '.jpg';
@@ -216,7 +218,9 @@ router.get('/:id', checkToken, async function (req, res) {
 
   // IDOR 防護：只允許使用者存取自己的資料
   if (req.decoded.id !== id) {
-    return res.status(403).json({ status: 'error', message: '無權限存取此資料' });
+    return res
+      .status(403)
+      .json({ status: 'error', message: '無權限存取此資料' });
   }
 
   const [singerUser] = await db.execute(
@@ -234,7 +238,9 @@ router.get('/profile/:id', checkToken, async function (req, res) {
 
   // IDOR 防護：只允許使用者存取自己的資料
   if (req.decoded.id !== id) {
-    return res.status(403).json({ status: 'error', message: '無權限存取此資料' });
+    return res
+      .status(403)
+      .json({ status: 'error', message: '無權限存取此資料' });
   }
 
   const resUser = await prisma.user.findFirst({
@@ -250,7 +256,9 @@ router.post('/editProfile/:id', checkToken, async function (req, res) {
 
   // IDOR 防護：只允許使用者修改自己的資料
   if (req.decoded.id !== id) {
-    return res.status(403).json({ status: 'error', message: '無權限修改此資料' });
+    return res
+      .status(403)
+      .json({ status: 'error', message: '無權限修改此資料' });
   }
 
   const {
@@ -299,7 +307,9 @@ router.post('/order/:id', checkToken, async function (req, res) {
 
   // IDOR 防護：只允許使用者存取自己的訂單
   if (req.decoded.id !== id) {
-    return res.status(403).json({ status: 'error', message: '無權限存取此訂單' });
+    return res
+      .status(403)
+      .json({ status: 'error', message: '無權限存取此訂單' });
   }
 
   const [userUIDResult] = await db.execute(

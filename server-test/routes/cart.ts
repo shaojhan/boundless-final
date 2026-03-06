@@ -18,12 +18,11 @@ interface ProductRow {
   type: number; // 1=instrument, 2=lesson
 }
 
-
 async function calcServerPrice(
   cartEntries: CartEntry[],
-  userId: number,           // integer user.id from verified JWT — NOT client-supplied uid
+  userId: number, // integer user.id from verified JWT — NOT client-supplied uid
   lessonCUID: string | null,
-  instrumentCUID: string | null,
+  instrumentCUID: string | null
 ) {
   // 1. Fetch real prices from DB for all product IDs
   const productIds = cartEntries.map((v) => v.id);
@@ -33,7 +32,7 @@ async function calcServerPrice(
   });
 
   const productMap = new Map<number, ProductRow>(
-    products.map((p) => [p.id, p as ProductRow]),
+    products.map((p) => [p.id, p as ProductRow])
   );
 
   // 2. Calculate totals by type; validate qty is a positive integer
@@ -46,7 +45,9 @@ async function calcServerPrice(
     // Server-side qty validation: must be a positive integer
     const qty = Math.trunc(Number(entry.qty));
     if (!Number.isFinite(qty) || qty < 1) {
-      throw Object.assign(new Error(`商品數量不合法：product ${entry.id}`), { statusCode: 400 });
+      throw Object.assign(new Error(`商品數量不合法：product ${entry.id}`), {
+        statusCode: 400,
+      });
     }
     if (product.type === 2) {
       // lesson: qty is always 1
@@ -60,7 +61,7 @@ async function calcServerPrice(
   // 3. Calculate discounts (validate coupon belongs to user and is valid)
   const calcDiscount = async (
     cuid: string | null,
-    subtotal: number,
+    subtotal: number
   ): Promise<number> => {
     if (!cuid || cuid === 'null' || cuid === 'undefined') return 0;
     const templateId = parseInt(cuid);
@@ -82,7 +83,8 @@ async function calcServerPrice(
     if (!template) return 0;
 
     // Validate minimum purchase requirement
-    if (template.requirement !== null && subtotal < template.requirement) return 0;
+    if (template.requirement !== null && subtotal < template.requirement)
+      return 0;
 
     const discount = Number(template.discount);
     if (template.type === 1) {
@@ -95,13 +97,24 @@ async function calcServerPrice(
   };
 
   const lessonDiscount = await calcDiscount(lessonCUID, lessonTotal);
-  const instrumentDiscount = await calcDiscount(instrumentCUID, instrumentTotal);
+  const instrumentDiscount = await calcDiscount(
+    instrumentCUID,
+    instrumentTotal
+  );
 
   const totalPrice = lessonTotal + instrumentTotal;
   const totalDiscount = lessonDiscount + instrumentDiscount;
   const finalPayment = totalPrice - totalDiscount;
 
-  return { lessonTotal, instrumentTotal, lessonDiscount, instrumentDiscount, totalPrice, totalDiscount, finalPayment };
+  return {
+    lessonTotal,
+    instrumentTotal,
+    lessonDiscount,
+    instrumentDiscount,
+    totalPrice,
+    totalDiscount,
+    finalPayment,
+  };
 }
 
 // ── POST /cart/calculate — preview endpoint ──────────────────────────────────
@@ -123,11 +136,18 @@ router.post('/calculate', checkToken, async (req, res) => {
 
   try {
     const cartEntries: CartEntry[] = JSON.parse(cartdata);
-    const result = await calcServerPrice(cartEntries, userId, lessonCUID ?? null, instrumentCUID ?? null);
+    const result = await calcServerPrice(
+      cartEntries,
+      userId,
+      lessonCUID ?? null,
+      instrumentCUID ?? null
+    );
     res.status(200).json({ status: 'success', ...result });
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number }).statusCode ?? 500;
-    res.status(statusCode).json({ status: 'error', message: (error as Error).message });
+    res
+      .status(statusCode)
+      .json({ status: 'error', message: (error as Error).message });
   }
 });
 
@@ -159,8 +179,8 @@ router.post('/form', checkToken, async (req, res) => {
   };
 
   // Use identity from verified JWT — never trust client-supplied uid
-  const userId = req.decoded.id;      // integer id, for coupon/DB lookups
-  const userUid = req.decoded.uid;    // string uid, for order_total.user_id
+  const userId = req.decoded.id; // integer id, for coupon/DB lookups
+  const userUid = req.decoded.uid; // string uid, for order_total.user_id
 
   const cartEntries: CartEntry[] = JSON.parse(cartdata);
 
@@ -170,7 +190,7 @@ router.post('/form', checkToken, async (req, res) => {
       cartEntries,
       userId,
       LessonCUID ?? null,
-      InstrumentCUID ?? null,
+      InstrumentCUID ?? null
     );
 
     // All writes in one atomic transaction — prevents partial order state on failure
@@ -209,7 +229,10 @@ router.post('/form', checkToken, async (req, res) => {
       }
       if (InstrumentCUID && InstrumentCUID !== 'null') {
         await tx.coupon.updateMany({
-          where: { coupon_template_id: parseInt(InstrumentCUID), user_id: userId },
+          where: {
+            coupon_template_id: parseInt(InstrumentCUID),
+            user_id: userId,
+          },
           data: { valid: 0 },
         });
       }
@@ -301,7 +324,9 @@ router.post('/form', checkToken, async (req, res) => {
     })();
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number }).statusCode ?? 500;
-    res.status(statusCode).json({ status: 'error', message: (error as Error).message });
+    res
+      .status(statusCode)
+      .json({ status: 'error', message: (error as Error).message });
   }
 });
 

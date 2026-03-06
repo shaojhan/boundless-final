@@ -61,7 +61,9 @@ class Coupon {
         url: this.url + 'Redeem',
         param: { user_id, coupon_code },
         success: (data) =>
-          resolve(data as { success: boolean; message: string; coupon?: object }),
+          resolve(
+            data as { success: boolean; message: string; coupon?: object },
+          ),
         fail: (err) => reject(err),
       })
     })

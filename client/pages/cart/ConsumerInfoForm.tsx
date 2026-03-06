@@ -40,7 +40,7 @@ export default function ConsumerInfoForm({
           <div className={`sm:w-1/4 px-6 w-1/2 px-6 ${styles['consumer-info-input']}`}>
             <input
               type="text"
-              className="form-control"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -57,7 +57,7 @@ export default function ConsumerInfoForm({
           <div className={`sm:w-1/4 px-6 w-1/2 px-6 ${styles['consumer-info-input']}`}>
             <input
               type="text"
-              className="form-control"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               id="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -74,7 +74,7 @@ export default function ConsumerInfoForm({
           <div className={`sm:w-5/12 px-6 w-5/6 px-6 ${styles['consumer-info-input']}`}>
             <input
               type="text"
-              className="form-control"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -94,12 +94,12 @@ export default function ConsumerInfoForm({
               onPostcodeChange={onPostcodeChange}
             />
             <div className="sm:w-7/12 px-6 w-7/12 px-6">
-              <label htmlFor="addressinfo" className="form-label">
+              <label htmlFor="addressinfo" className="block text-sm font-medium text-dark mb-1">
                 詳細地址
               </label>
               <input
                 type="text"
-                className="form-control"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 id="addressinfo"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}

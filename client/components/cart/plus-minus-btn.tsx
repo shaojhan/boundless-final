@@ -11,9 +11,9 @@ export default function PlusMinusBtn({
   remove,
 }) {
   return (
-    <div className="input-group">
+    <div className="flex">
       <button
-        className={`${Instrument.quantity_left_minus} btn btn-light`}
+        className={`${Instrument.quantity_left_minus} inline-flex items-center justify-center rounded cursor-pointer bg-gray-100 text-dark hover:bg-gray-200`}
         onClick={() => {
           if (v.qty === 1) {
             remove(items, v.id)
@@ -26,7 +26,7 @@ export default function PlusMinusBtn({
       </button>
       <input
         type="text"
-        className={`${Instrument.input_number} form-control`}
+        className={`${Instrument.input_number} w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`}
         id="quantity"
         name="quantity"
         defaultValue={v.qty}
@@ -34,7 +34,7 @@ export default function PlusMinusBtn({
         max={100}
       />
       <button
-        className={`${Instrument.quantity_right_plus} btn btn-primary`}
+        className={`${Instrument.quantity_right_plus} inline-flex items-center justify-center rounded cursor-pointer bg-primary text-white hover:bg-deep-primary`}
         onClick={() => {
           increment(items, v.id)
         }}

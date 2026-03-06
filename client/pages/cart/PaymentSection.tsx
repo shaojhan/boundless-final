@@ -91,7 +91,7 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
               <div className="sm:w-1/2 px-6 w-7/12 px-6">
                 <input
                   type="text"
-                  className={`form-control ${styles['credit-card-input']}`}
+                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
                   id="name"
                   placeholder="Ex:HSIANG-AN, YANG"
                 />
@@ -107,7 +107,7 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
               <div className={styles['creditcard']} style={{ width: '5rem' }}>
                 <input
                   type="text"
-                  className={`form-control ${styles['credit-card-input']}`}
+                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
                   id="credit-card-number"
                   maxLength={4}
                   style={{ textAlign: 'center' }}
@@ -119,7 +119,7 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
               <div className={styles['creditcard']} style={{ width: '5rem' }}>
                 <input
                   type="text"
-                  className={`form-control ${styles['credit-card-input']}`}
+                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
                   id="credit-card-number"
                   maxLength={4}
                   style={{ textAlign: 'center' }}
@@ -131,7 +131,7 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
               <div className={styles['creditcard']} style={{ width: '5rem' }}>
                 <input
                   type="text"
-                  className={`form-control ${styles['credit-card-input']}`}
+                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
                   id="credit-card-number"
                   maxLength={4}
                   style={{ textAlign: 'center' }}
@@ -143,7 +143,7 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
               <div className={styles['creditcard']} style={{ width: '5rem' }}>
                 <input
                   type="text"
-                  className={`form-control ${styles['credit-card-input']}`}
+                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
                   id="credit-card-number"
                   maxLength={4}
                   style={{ textAlign: 'center' }}
@@ -160,7 +160,7 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
               <div className={styles['creditcard']} style={{ width: '5rem' }}>
                 <input
                   type="text"
-                  className={`form-control ${styles['credit-card-input']}`}
+                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
                   id="expiration-date"
                   placeholder="MM"
                   maxLength={2}
@@ -175,7 +175,7 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
               <div className={styles['creditcard']} style={{ width: '5rem' }}>
                 <input
                   type="text"
-                  className={`form-control ${styles['credit-card-input']}`}
+                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
                   id="expiration-date"
                   placeholder="YY"
                   maxLength={2}
@@ -193,7 +193,7 @@ export default function PaymentSection({ selected, onSelect, sendOrder }: Props)
               <div className={styles['creditcard']} style={{ width: '5rem' }}>
                 <input
                   type="text"
-                  className={`form-control ${styles['credit-card-input']}`}
+                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
                   style={{ textAlign: 'center' }}
                   id="3-number"
                   maxLength={3}

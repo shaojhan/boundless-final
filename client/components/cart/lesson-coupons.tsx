@@ -25,7 +25,7 @@ export default function LessonCouponDropdowns({
     <>
       <select
         id="lessonCoupons"
-        className="form-select"
+        className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
         aria-label="Default select example"
         value={select()}
         onChange={(e) => {

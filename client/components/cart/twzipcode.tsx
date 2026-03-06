@@ -57,7 +57,7 @@ export default function Twzipcode({
           縣/市
         </label>
         <select
-          className="form-select w-1/4 px-6"
+          className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white w-1/4 px-6"
           name="country"
           id="country"
           value={countryIndex}
@@ -80,7 +80,7 @@ export default function Twzipcode({
           區/鎮/鄉
         </label>
         <select
-          className="form-select"
+          className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
           name="district"
           id="district"
           value={townshipIndex}

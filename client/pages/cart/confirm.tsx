@@ -198,7 +198,7 @@ export default function Test() {
                   <div className="flex flex-wrap -mx-3 g-3 items-center">
                     <label
                       htmlFor="name"
-                      className="col-form-label sm:w-1/6 px-6 w-1/2 px-6 h6"
+                      className="flex items-center text-sm font-medium text-dark sm:w-1/6 px-6 w-1/2 px-6 h6"
                     >
                       購買者姓名
                     </label>
@@ -209,7 +209,7 @@ export default function Test() {
                   <div className="flex flex-wrap -mx-3 g-3 items-center">
                     <label
                       htmlFor="phone"
-                      className="col-form-label sm:w-1/6 px-6 w-1/2 px-6 h6"
+                      className="flex items-center text-sm font-medium text-dark sm:w-1/6 px-6 w-1/2 px-6 h6"
                     >
                       電話號碼
                     </label>
@@ -220,7 +220,7 @@ export default function Test() {
                   <div className="flex flex-wrap -mx-3 g-3">
                     <label
                       htmlFor="address"
-                      className="col-form-label sm:w-1/6 px-6 w-1/2 px-6 h6"
+                      className="flex items-center text-sm font-medium text-dark sm:w-1/6 px-6 w-1/2 px-6 h6"
                     >
                       寄送地址
                     </label>
@@ -242,7 +242,7 @@ export default function Test() {
                   <div className="flex flex-wrap -mx-3 g-3 items-center">
                     <label
                       htmlFor="name"
-                      className="col-form-label sm:w-1/6 px-6 h6"
+                      className="flex items-center text-sm font-medium text-dark sm:w-1/6 px-6 h6"
                     >
                       付款方式
                     </label>

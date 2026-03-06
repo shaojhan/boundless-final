@@ -46,7 +46,7 @@ export default function Test() {
 
   let uid
   if (LoginUserData) {
-    uid = LoginUserData.uid
+    uid = LoginUserData.id
   }
   // ----------------------手機版本  ----------------------
   // 主選單

@@ -22,24 +22,16 @@ export default function Test() {
   const [selected, setSeleted] = useState('credit-card')
 
   const [name, setName] = useState(() => {
-    const saveItem = localStorage.getItem('UserInfo')
-    const parseItem = JSON.parse(saveItem)[0].Name
-    return parseItem || ''
+    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Name || '' } catch { return '' }
   })
   const [phone, setPhone] = useState(() => {
-    const saveItem = localStorage.getItem('UserInfo')
-    const parseItem = JSON.parse(saveItem)[0].Phone
-    return parseItem || ''
+    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Phone || '' } catch { return '' }
   })
   const [email, setEmail] = useState(() => {
-    const saveItem = localStorage.getItem('UserInfo')
-    const parseItem = JSON.parse(saveItem)[0].Email
-    return parseItem || ''
+    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Email || '' } catch { return '' }
   })
   const [address, setAddress] = useState(() => {
-    const saveItem = localStorage.getItem('UserInfo')
-    const parseItem = JSON.parse(saveItem)[0].Address
-    return parseItem || ''
+    try { return JSON.parse(localStorage.getItem('UserInfo') ?? '')[0]?.Address || '' } catch { return '' }
   })
 
   const UserInfo = JSON.stringify([

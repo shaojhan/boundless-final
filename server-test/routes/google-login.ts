@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config.js';
-import db from '../db.js';
+import prisma from '#configs/prisma.js';
 import { createRefreshToken } from '#db-helpers/refresh-token.js';
 
 const router = express.Router();
@@ -49,62 +49,39 @@ router.post('/', async (req, res) => {
   }
 
   // 查詢是否已有此 google_uid 的使用者
-  const [rows] = await db.execute('SELECT * FROM user WHERE google_uid = ?;', [
-    google_uid,
-  ]);
+  const SELECT_FIELDS = {
+    id: true,
+    name: true,
+    email: true,
+    img: true,
+    my_jam: true,
+  } as const;
 
-  let returnUser: {
-    id: number;
-    name: string;
-    email: string;
-    img?: string;
-    my_jam?: number;
-  };
+  let returnUser = await prisma.user.findFirst({
+    where: { google_uid },
+    select: SELECT_FIELDS,
+  });
 
-  if (rows.length > 0) {
-    // 已存在 → 直接取得資料
-    const dbUser = rows[0];
-    returnUser = {
-      id: dbUser.id as number,
-      name: dbUser.name as string,
-      email: dbUser.email as string,
-      img: dbUser.img as string | undefined,
-      my_jam: dbUser.my_jam as number | undefined,
-    };
-  } else {
+  if (!returnUser) {
     // 不存在 → 建立新使用者
-    const currentTime = new Date();
-    const taipeiTime = new Date(currentTime.getTime() + 8 * 60 * 60 * 1000);
-    const createdTime = taipeiTime.toISOString().slice(0, 19).replace('T', ' ');
-
-    await db.execute(
-      'INSERT INTO user (name, email, google_uid, photo_url, nickname, created_time, valid) VALUES (?, ?, ?, ?, ?, ?, 1);',
-      [
-        name ?? email,
+    const now = new Date();
+    const uid = generateUid();
+    returnUser = await prisma.user.create({
+      data: {
+        uid,
+        name: name ?? email,
         email,
+        password: '',
+        birthday: new Date(0),
         google_uid,
-        picture ?? null,
-        name ?? email,
-        createdTime,
-      ]
-    );
-
-    const [lastRow] = await db.execute(
-      'SELECT LAST_INSERT_ID() AS inserted_id'
-    );
-    const lastId = lastRow[0].inserted_id;
-
-    const [newRow] = await db.execute(
-      'SELECT id, name, email, img, my_jam FROM user WHERE id = ?;',
-      [lastId]
-    );
-    returnUser = {
-      id: newRow[0].id as number,
-      name: newRow[0].name as string,
-      email: newRow[0].email as string,
-      img: newRow[0].img as string | undefined,
-      my_jam: newRow[0].my_jam as number | undefined,
-    };
+        photo_url: picture ?? null,
+        nickname: name ?? email,
+        created_time: now,
+        updated_time: now,
+        valid: 1,
+      },
+      select: SELECT_FIELDS,
+    });
   }
 
   // 簽發 Access token（15 分鐘）
@@ -142,5 +119,15 @@ router.post('/', async (req, res) => {
     },
   });
 });
+
+function generateUid() {
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let code = '';
+  for (let i = 0; i < 12; i++) {
+    code += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return code;
+}
 
 export default router;

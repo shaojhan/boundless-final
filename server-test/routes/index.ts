@@ -1,19 +1,21 @@
 import express from 'express';
-import db from '#db';
+import prisma from '#configs/prisma.js';
 
 const router = express.Router();
 
 /* GET home page. */
 router.get('/', async (req, res) => {
-  // @ts-expect-error — .catch() returns void; runtime-safe as db.execute always resolves
-  const [data] = await db
-    .execute(
-      'SELECT product.img, product.puid, lesson_category.name AS lesson_category_name FROM product JOIN lesson_category ON product.lesson_category_id = lesson_category.id ORDER BY product.sales ASC LIMIT 0, 4'
-    )
-    .catch((error) => {
-      res.json({ status: 'error', error });
-      return;
-    });
+  const rows = await prisma.product.findMany({
+    where: { lessonCategory: { isNot: null } },
+    select: { img: true, puid: true, lessonCategory: { select: { name: true } } },
+    orderBy: { sales: 'asc' },
+    take: 4,
+  });
+  const data = rows.map((r) => ({
+    img: r.img,
+    puid: r.puid,
+    lesson_category_name: r.lessonCategory!.name,
+  }));
   if (data.length > 0) {
     res.json({ status: 'success', data });
   }

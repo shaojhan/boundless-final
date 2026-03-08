@@ -94,7 +94,7 @@ export default function ProductBriefCard({
             ) : (
               <div className="quantitySelector">
                 <div
-                  className="btn decrease-btn flex items-center"
+                  className="btn decrease-btn flex items-center justify-center"
                   role="presentation"
                   onClick={() => {
                     if (quantity > 1) {

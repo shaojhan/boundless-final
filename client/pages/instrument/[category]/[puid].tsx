@@ -274,103 +274,6 @@ export default function InstrumentDetailPage() {
                       </div>
                     </div>
                   </div>
-
-                  {/*商品細節 */}
-                  <div className="detail">
-                    {/* 規格 */}
-                    <div className="outline detail-wrapp mt40">
-                      <div className="detail-title">規格</div>
-                      <div
-                        className="list py-6"
-                        style={{ borderRadius: '5px' }}
-                      >
-                        <ul className="m-0">
-                          {specs.map((v) => {
-                            return <li>{v}</li>
-                          })}
-                        </ul>
-                      </div>
-                    </div>
-
-                    {/* 買家評論 */}
-                    <div className="reviews mt40">
-                      <div className="detail-title">買家評論</div>
-                      <div
-                        className="list py-6"
-                        style={{ borderRadius: '5px' }}
-                      >
-                        {reviews.length > 0 ? (
-                          <>
-                            {reviews.map((v) => {
-                              return (
-                                <div className="review" key={v.id}>
-                                  <div className="review-area">
-                                    <div className="review-title">
-                                      <div className="userPhotoWrapper mr-6">
-                                        {v.img ? (
-                                          <Image
-                                            src={`${process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3005'}/user/${v.img}`}
-                                            alt={`${v.name}'s photo`}
-                                            width={32}
-                                            height={32}
-                                            className={`userPhoto`}
-                                          />
-                                        ) : (
-                                          <div className={`userPhotoDefault`}>
-                                            <FaUser
-                                              size={24}
-                                              className={`userDefaultIcon`}
-                                            />
-                                          </div>
-                                        )}
-                                      </div>
-                                      <div className="review-user">
-                                        <div className="review-Name">
-                                          <div className="user-Name">
-                                            {v.nickname ? v.nickname : v.name}
-                                          </div>
-                                          <div className="review-Date">
-                                            {v.created_time}
-                                          </div>
-                                        </div>
-                                        <div
-                                          className="review-Star flex"
-                                          style={{ gap: '3px' }}
-                                        >
-                                          {statsDOM(v.stars)}
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="review-content mt-2">
-                                      {v.content}
-                                    </div>
-                                    <div className="comment-Like">
-                                      <div className="comment-Like-Number">
-                                        1人覺得有幫助
-                                      </div>
-                                      <div className="comment-Like-Icon">
-                                        <img
-                                          loading="lazy"
-                                          src="https://cdn.builder.io/api/v1/image/assets/TEMP/b33573d1006caa2dd045129e591ff98dd975245bb9b1f9ad55c74a65c6a47d58?"
-                                          className="comment-like-icon-img"
-                                          alt=""
-                                        />
-                                        <div className="comment-Like-Word">
-                                          有幫助
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              )
-                            })}
-                          </>
-                        ) : (
-                          <p className="m-0 font-semibold">尚無評論</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </main>
@@ -390,6 +293,103 @@ export default function InstrumentDetailPage() {
               remove={remove}
               notifyBuy={notifyBuy}
             />
+          </div>
+        </div>
+
+        {/*商品細節 — 全寬顯示 */}
+        <div className="detail">
+          {/* 規格 */}
+          <div className="outline detail-wrapp mt40">
+            <div className="detail-title">規格</div>
+            <div
+              className="list py-6"
+              style={{ borderRadius: '5px' }}
+            >
+              <ul className="m-0">
+                {specs.map((v) => {
+                  return <li key={v}>{v}</li>
+                })}
+              </ul>
+            </div>
+          </div>
+
+          {/* 買家評論 */}
+          <div className="reviews mt40">
+            <div className="detail-title">買家評論</div>
+            <div
+              className="list py-6"
+              style={{ borderRadius: '5px' }}
+            >
+              {reviews.length > 0 ? (
+                <>
+                  {reviews.map((v) => {
+                    return (
+                      <div className="review" key={v.id}>
+                        <div className="review-area">
+                          <div className="review-title">
+                            <div className="userPhotoWrapper mr-6">
+                              {v.img ? (
+                                <Image
+                                  src={`${process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3005'}/user/${v.img}`}
+                                  alt={`${v.name}'s photo`}
+                                  width={32}
+                                  height={32}
+                                  className={`userPhoto`}
+                                />
+                              ) : (
+                                <div className={`userPhotoDefault`}>
+                                  <FaUser
+                                    size={24}
+                                    className={`userDefaultIcon`}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                            <div className="review-user">
+                              <div className="review-Name">
+                                <div className="user-Name">
+                                  {v.nickname ? v.nickname : v.name}
+                                </div>
+                                <div className="review-Date">
+                                  {v.created_time}
+                                </div>
+                              </div>
+                              <div
+                                className="review-Star flex"
+                                style={{ gap: '3px' }}
+                              >
+                                {statsDOM(v.stars)}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="review-content mt-2">
+                            {v.content}
+                          </div>
+                          <div className="comment-Like">
+                            <div className="comment-Like-Number">
+                              1人覺得有幫助
+                            </div>
+                            <div className="comment-Like-Icon">
+                              <img
+                                loading="lazy"
+                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/b33573d1006caa2dd045129e591ff98dd975245bb9b1f9ad55c74a65c6a47d58?"
+                                className="comment-like-icon-img"
+                                alt=""
+                              />
+                              <div className="comment-Like-Word">
+                                有幫助
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </>
+              ) : (
+                <p className="m-0 font-semibold">尚無評論</p>
+              )}
+            </div>
           </div>
         </div>
         {/* 猜你喜歡 */}

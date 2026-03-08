@@ -16,7 +16,7 @@ import { authFetch } from '@/lib/api-client'
 import { useAvatarImage } from '@/hooks/useAvatarImage'
 
 //選項資料 data
-import CityCountyData from '@/data/CityCountyData.json'
+import { townData } from '@/lib/utils/cityData'
 import playerData from '@/data/player.json'
 import genreData from '@/data/genre.json'
 import { countries, townships } from '@/data/cart/twzipcode-data'
@@ -347,27 +347,6 @@ export default function Test() {
   //   stopPropagation(e)
   //   setFilterVisible(!filterVisible)
   // }
-
-  // ---------------------- 篩選城市用的資料 ----------------------
-  const _cityData = CityCountyData.map((v, _i) => {
-    return v.CityName
-  }).filter((v) => {
-    return v !== '釣魚臺' && v !== '南海島'
-  })
-
-  // const townData = CityCountyData.map((v, i) => {
-  //   return v.CityName.AreaList.AreaName
-  // }).filter((v) => {
-  //   return v !== '釣魚臺' && v !== '南海島'
-  // })
-
-  const townData = CityCountyData.flatMap((city) => {
-    return city.AreaList.map((area) => {
-      return area.AreaName
-    })
-  }).filter((areaName) => {
-    return areaName !== '釣魚臺' && areaName !== '南海島'
-  })
 
   return (
     <>

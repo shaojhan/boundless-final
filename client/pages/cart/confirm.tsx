@@ -23,7 +23,8 @@ import { useMenuToggle } from '@/hooks/useMenuToggle'
 
 export default function Test() {
   // localStorage is browser-only; lazy initializer prevents SSR crash
-  const [UserInfo] = useState<Record<string, unknown>[]>(() => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [UserInfo] = useState<Record<string, any>[]>(() => {
     if (typeof window === 'undefined') return [{}]
     try {
       return JSON.parse(localStorage.getItem('UserInfo') ?? '[]') || [{}]

@@ -600,13 +600,15 @@ export default function Test() {
                         {userOrderData.productResult &&
                           userOrderData.productResult.map(
                             (
-                              productList: Record<string, unknown>[],
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              productList: Record<string, any>[],
                               index: number,
                             ) => {
                               const first = productList[0]
                               const isOpen = selectedOrderIndex === index
                               const totalAmount = productList.reduce(
-                                (sum: number, p: Record<string, unknown>) =>
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                (sum: number, p: Record<string, any>) =>
                                   sum +
                                   (p.price as number) * (p.quantity as number),
                                 0,
@@ -712,7 +714,8 @@ export default function Test() {
                                         {}
                                         {productList.map(
                                           (
-                                            product: Record<string, unknown>,
+                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                            product: Record<string, any>,
                                             i: number,
                                           ) => (
                                             <div

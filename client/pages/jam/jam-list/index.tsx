@@ -9,7 +9,7 @@ import Image from 'next/image'
 import Head from 'next/head'
 import jamHero from '@/assets/jam-hero.png'
 // data
-import CityCountyData from '@/data/CityCountyData.json'
+import { cityData } from '@/lib/utils/cityData'
 // icons
 import { IoHome } from 'react-icons/io5'
 import { FaChevronRight } from 'react-icons/fa6'
@@ -57,12 +57,6 @@ export default function JamList() {
 
   const [genre, setgenre] = useState('')
 
-  // 篩選城市用的資料
-  const cityData = CityCountyData.map((v, _i) => {
-    return v.CityName
-  }).filter((v) => {
-    return v !== '釣魚臺' && v !== '南海島'
-  })
   const [region, setRegion] = useState('')
 
   // 清除表單內容

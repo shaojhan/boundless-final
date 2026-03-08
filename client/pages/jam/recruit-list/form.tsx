@@ -12,7 +12,7 @@ import { debounce } from 'lodash'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 //data
-import CityCountyData from '@/data/CityCountyData.json'
+import { cityData } from '@/lib/utils/cityData'
 import playerData from '@/data/player.json'
 import genreData from '@/data/genre.json'
 // icons
@@ -59,12 +59,6 @@ export default function Form() {
   // 實際使用的樂手陣列，避免使用者未照順序新增樂手
   const [finalPlayers, setFinalPlayers] = useState('')
 
-  // ---------------------- 篩選城市用的資料 ----------------------
-  const cityData = CityCountyData.map((v, _i) => {
-    return v.CityName
-  }).filter((v) => {
-    return v !== '釣魚臺' && v !== '南海島'
-  })
   const [region, setRegion] = useState('')
 
   // ---------------------- 其他條件 ----------------------

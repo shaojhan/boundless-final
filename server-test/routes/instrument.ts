@@ -1,100 +1,58 @@
 import express from 'express';
-import db from '#db';
 import prisma from '#configs/prisma.js';
 
 const router = express.Router();
 
+type ProductWithCategory = Awaited<
+  ReturnType<typeof prisma.product.findMany>
+>[number] & { instrumentCategory: { id: number; parent_id: number | null; name: string } | null };
+
+function flattenInstrument(p: ProductWithCategory) {
+  const { instrumentCategory, ...rest } = p;
+  return { ...rest, category_name: instrumentCategory?.name ?? null };
+}
+
 // 取得所有樂器資料
 // instrument?page=1&order=ASC&brandSelect=1&priceLow=&priceHigh=&score=all&sales=false&keyword=
 router.get('/', async (req, res, _next) => {
-  // 取得所有樂器分類資料
-  await db.execute(
-    'SELECT `id`, `parent_id`, `name` FROM `instrument_category`'
-  );
+  try {
+    const page = Number(req.query.page) || 1;
+    const dataPerpage = 20;
+    const skip = (page - 1) * dataPerpage;
 
-  const [instrument] = await db
-    .execute(
-      `SELECT product.*, instrument_category.name AS category_name 
-  FROM product 
-  JOIN instrument_category 
-  ON product.instrument_category_id = instrument_category.id 
-  WHERE type = 1`
-    )
-    .catch((error) => {
-      console.error(error);
-      return undefined;
-    });
+    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = { type: 1 };
 
-  let page = Number(req.query.page) || 1; // 目前頁碼
-  let dataPerpage = 20; // 每頁 20 筆
-  let offset = (page - 1) * dataPerpage; // 取得下一批資料
-  let pageTotal = Math.ceil(instrument.length / dataPerpage); // 計算總頁數
-  let pageString = ' LIMIT ' + offset + ',' + dataPerpage;
+    if (Object.keys(req.query).length !== 0) {
+      const brandSelectRaw = parseInt(String(req.query.brandSelect));
+      if (!isNaN(brandSelectRaw)) where.brand_id = brandSelectRaw;
 
-  let finalData;
-  if (Object.keys(req.query).length !== 0) {
-    // 所有篩選條件，預設條件: type=1(樂器)
-    let sqlString =
-      'SELECT product.*, instrument_category.name AS category_name FROM `product` JOIN instrument_category ON product.instrument_category_id = instrument_category.id WHERE `type` = 1';
-    const brandSelect =
-      req.query.brandSelect !== ''
-        ? ' AND `brand_id` = ' + parseInt(String(req.query.brandSelect))
-        : '';
+      const priceLow = parseInt(String(req.query.priceLow));
+      const priceHigh = parseInt(String(req.query.priceHigh));
+      if (!isNaN(priceLow) || !isNaN(priceHigh)) {
+        where.price = {};
+        if (!isNaN(priceLow)) where.price.gte = priceLow;
+        if (!isNaN(priceHigh)) where.price.lte = priceHigh;
+      }
 
-    const priceLow =
-      req.query.priceLow != '' && !isNaN(parseInt(String(req.query.priceLow)))
-        ? ' AND `price` >= ' + parseInt(String(req.query.priceLow))
-        : '';
-
-    const priceHigh =
-      req.query.priceHigh != '' && !isNaN(parseInt(String(req.query.priceHigh)))
-        ? ' AND `price` <= ' + parseInt(String(req.query.priceHigh))
-        : '';
-
-    const score = '';
-    // req.query.score !== 'all'
-    // ? ' AND `score` = ' + parseInt(req.query.score)
-    // : '';
-
-    const promotion =
-      req.query.promotion !== 'true' ? '' : ' AND `discount_state` = 1';
-
-    sqlString += brandSelect + priceLow + priceHigh + score + promotion;
-    const [instrument2] = await db.execute(sqlString).catch(() => {
-      return [];
-    });
-    page = Number(req.query.page) || 1; // 目前頁碼
-    dataPerpage = 20; // 每頁 20 筆
-    offset = (page - 1) * dataPerpage; // 取得下一批資料
-    if (instrument2) {
-      pageTotal = Math.ceil(instrument2.length / dataPerpage); // 計算總頁數
+      if (req.query.promotion === 'true') where.discount_state = 1;
     }
-    pageString = ' LIMIT ' + offset + ',' + dataPerpage;
 
-    sqlString += pageString;
-    const [data] = await db.execute(sqlString).catch(() => {
-      return [];
-    });
-    finalData = data;
-  } else {
-    // 沒有篩選條件
-    const [data] = await db
-      .execute(
-        'SELECT product.*, instrument_category.name AS category_name FROM `product` JOIN instrument_category ON product.instrument_category_id = instrument_category.id  WHERE `type` = 1 LIMIT 0, 20'
-      )
-      .catch(() => {
-        return undefined;
-      });
+    const [total, instruments] = await Promise.all([
+      prisma.product.count({ where }),
+      prisma.product.findMany({
+        where,
+        include: { instrumentCategory: true },
+        skip,
+        take: dataPerpage,
+      }),
+    ]);
 
-    finalData = data;
-  }
-  if (finalData) {
-    res.status(200).json({
-      instrument: finalData,
-      pageTotal,
-      page,
-    });
-  } else {
+    const pageTotal = Math.ceil(total / dataPerpage);
+    const finalData = (instruments as ProductWithCategory[]).map(flattenInstrument);
+
+    res.status(200).json({ instrument: finalData, pageTotal, page });
+  } catch (error) {
+    console.error(error);
     res.status(400).send('發生錯誤');
   }
 });
@@ -116,20 +74,19 @@ router.get('/categories', async (req, res) => {
 router.get('/category/:category', async (req, res) => {
   try {
     const category = req.params.category;
-    let query =
-      'SELECT product.*, instrument_category.name AS category_name FROM `product` JOIN instrument_category ON product.instrument_category_id = instrument_category.id WHERE product.type = 1';
-    let queryParams = [];
+    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = { type: 1 };
 
-    // 如果 category 不是空字串或'0'，則增加類別過濾條件
     if (category !== '' && category !== '0') {
-      query += ' AND product.instrument_category_id = ?';
-      queryParams = [category];
+      where.instrument_category_id = Number(category);
     }
 
-    const [instrument] = await db.execute(query, queryParams);
+    const instruments = await prisma.product.findMany({
+      where,
+      include: { instrumentCategory: true },
+    });
 
-    if (instrument.length > 0) {
-      res.status(200).json(instrument);
+    if (instruments.length > 0) {
+      res.status(200).json((instruments as ProductWithCategory[]).map(flattenInstrument));
     } else {
       res.status(404).send({ message: '沒有找到相應的資訊' });
     }
@@ -139,76 +96,55 @@ router.get('/category/:category', async (req, res) => {
   }
 });
 
-// 檢索屬於特定 puid 的產品，並且通過左連接獲取與之相關聯的產品評論
-// 檢索屬於特定 puid 的產品，並且通過左連接獲取與之相關聯的產品評論
-//  router.get("/:id", async (req, res, next) => {
-//   let puid = req.params.id;
-//   let [data] = await db.execute(
-//     "SELECT p.*, pr.*, ic.name AS category_name " +
-//     "FROM `product` AS p " +
-//     "LEFT JOIN `product_review` AS pr ON p.id = pr.product_id " +
-//     "LEFT JOIN `instrument_category` AS ic ON p.instrument_category_id = ic.id " +
-//     "WHERE p.`puid` = ?",
-//     [puid]
-//   )
-//   )
-//    .catch(() => {
-//     return undefined;
-//   });
-
-//   if (data) {
-//     res.status(200).json(data);
-//   } else {
-//     res.status(400).send("發生錯誤");
-//   }
-// });
-
 //獲得單筆樂器資料跟評論
 router.get('/:id', async (req, res, _next) => {
   const puid = req.params.id;
   try {
     // 商品詳細資料
-    // 商品詳細資料
-    const [rows] = await db.execute(
-      'SELECT p.*, ic.name AS category_name ' +
-        'FROM `product` AS p ' +
-        'LEFT JOIN `instrument_category` AS ic ON p.instrument_category_id = ic.id ' +
-        'WHERE p.`puid` = ?',
-      [puid]
-    );
-    const data = rows[0];
+    const product = await prisma.product.findFirst({
+      where: { puid },
+      include: { instrumentCategory: true },
+    });
 
-    const [reviewData] = await db.execute(
-      'SELECT `product_review`.*, `user`.uid, `user`.name, `user`.nickname, `user`.img FROM `product_review` JOIN `user` ON `product_review`.user_id = `user`.id WHERE `product_review`.product_id = ?',
-      [(data as Record<string, unknown>).id]
-    );
-
-    const [youmaylike] = await db.execute(
-      'SELECT p.*, instrument_category.name AS category_name FROM `product` AS p ' +
-        'JOIN `instrument_category` ' +
-        'ON p.`instrument_category_id` = instrument_category.id WHERE instrument_category.id =  (SELECT `instrument_category_id` FROM `product` WHERE `puid` = ?) LIMIT 0,5',
-      [puid]
-    );
-
-    if (data && youmaylike) {
-      res.status(200).json({ data, reviewData, youmaylike });
-    } else {
-      res.status(400).send('發生錯誤');
+    if (!product) {
+      return res.status(400).send('發生錯誤');
     }
+
+    const data = flattenInstrument(product as ProductWithCategory);
+
+    // 評論資料
+    const reviews = await prisma.productReview.findMany({
+      where: { product_id: product.id },
+      include: {
+        user: { select: { uid: true, name: true, nickname: true, img: true } },
+      },
+    });
+    const reviewData = reviews.map(({ user, ...review }) => ({
+      ...review,
+      uid: user.uid,
+      name: user.name,
+      nickname: user.nickname,
+      img: user.img,
+    }));
+
+    // 你可能也喜歡
+    const youmaylike = await prisma.product.findMany({
+      where: {
+        instrument_category_id: product.instrument_category_id ?? undefined,
+        type: 1,
+      },
+      include: { instrumentCategory: true },
+      take: 5,
+    });
+
+    res.status(200).json({
+      data,
+      reviewData,
+      youmaylike: (youmaylike as ProductWithCategory[]).map(flattenInstrument),
+    });
   } catch {
     res.status(400).send('發生錯誤');
   }
 });
-
-// function App() {
-//   const [selectedBrand, setSelectedBrand] = useState(null)
-
-//   // Input Filter
-//   const [query, setQuery] = useState("")
-//   const handleInputChange = event => {
-//     setQuery(event.target.value)
-//   }
-// }
-// }
 
 export default router;

@@ -1,58 +1,55 @@
 import express from 'express';
-import db from '#db';
 import prisma from '#configs/prisma.js';
 
 const router = express.Router();
 
-const serializeBigInt = (data: unknown) =>
-  JSON.parse(
-    JSON.stringify(data, (_, v) => (typeof v === 'bigint' ? Number(v) : v))
-  );
+type ProductWithIncludes = Awaited<
+  ReturnType<typeof prisma.product.findMany<{
+    include: { reviews: true; teacher: true; lessonCategory: true };
+  }>
+>>[number];
+
+function computeReviewStats(reviews: { stars: number }[]) {
+  const review_count = reviews.length;
+  const average_rating =
+    review_count > 0
+      ? reviews.reduce((acc, r) => acc + r.stars, 0) / review_count
+      : null;
+  return { review_count, average_rating };
+}
+
+function flattenLesson(p: ProductWithIncludes) {
+  const { reviews, teacher, lessonCategory, ...rest } = p;
+  return {
+    ...rest,
+    lesson_category_name: lessonCategory?.name ?? null,
+    teacher_name: teacher?.name ?? null,
+    teacher_img: teacher?.img ?? null,
+    teacher_info: teacher?.info ?? null,
+    ...computeReviewStats(reviews),
+  };
+}
 
 router.get('/', async (req, res) => {
   try {
-    // Mandatory type filter
-    //評價篩選
-    let baseQuery = `
-      SELECT 
-          product.*,
-          lesson_category.name AS lesson_category_name,
-          COUNT(product_review.product_id) AS review_count, 
-          AVG(product_review.stars) AS average_rating, 
-          teacher_info.name AS teacher_name,  
-          teacher_info.img AS teacher_img,     
-          teacher_info.info AS teacher_info  
-      FROM 
-          product
-      LEFT JOIN 
-          product_review ON product.id = product_review.product_id
-      LEFT JOIN 
-          teacher_info ON product.teacher_id = teacher_info.id
-          LEFT JOIN 
-            lesson_category ON product.lesson_category_id = lesson_category.id 
-      WHERE 
-          product.type = ?`;
-
-    //價格篩選
-    const queryParams: unknown[] = [2];
-    // Additional filters
     const { priceLow, priceHigh } = req.query;
+    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = { type: 2 };
 
     if (priceLow && priceHigh) {
-      baseQuery += ' AND product.price >= ? AND product.price <= ?';
-      queryParams.push(priceLow, priceHigh);
+      where.price = { gte: Number(priceLow), lte: Number(priceHigh) };
     }
 
-    baseQuery += ' GROUP BY product.id ORDER BY product.id;';
-    // Execute the query
-    const [results] = await db.execute(baseQuery, queryParams);
+    const products = await prisma.product.findMany({
+      where,
+      include: { reviews: true, teacher: true, lessonCategory: true },
+      orderBy: { id: 'asc' },
+    });
 
-    // Response
-    if (results.length > 0) {
-      res.status(200).json(serializeBigInt(results));
-    } else {
-      res.status(404).json({ message: '沒有找到相應的資訊' });
+    if (products.length === 0) {
+      return res.status(404).json({ message: '沒有找到相應的資訊' });
     }
+
+    res.status(200).json(products.map(flattenLesson));
   } catch (error) {
     console.error('發生錯誤：', error);
     res.status(500).json({ error: '發生錯誤' });
@@ -60,7 +57,7 @@ router.get('/', async (req, res) => {
 });
 
 //lesson_category
-router.get('/categories', async (req, res) => {
+router.get('/categories', async (_req, res) => {
   try {
     const lessonCategories = await prisma.lessonCategory.findMany();
     res.status(200).json(lessonCategories);
@@ -74,44 +71,22 @@ router.get('/categories', async (req, res) => {
 router.get('/category/:category', async (req, res) => {
   try {
     const category = req.params.category;
-    let query = `
-      SELECT 
-          product.*,
-          lesson_category.name AS lesson_category_name,
-          COUNT(product_review.product_id) AS review_count, 
-          AVG(product_review.stars) AS average_rating, 
-          teacher_info.name AS teacher_name,  
-          teacher_info.img AS teacher_img,     
-          teacher_info.info AS teacher_info  
-      FROM 
-          product
-      LEFT JOIN 
-          product_review ON product.id = product_review.product_id
-      LEFT JOIN 
-          teacher_info ON product.teacher_id = teacher_info.id
-      LEFT JOIN 
-          lesson_category ON product.lesson_category_id = lesson_category.id
-      WHERE 
-          product.type = 2`;
+    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = { type: 2 };
 
-    const queryParams = [];
-
-    // 如果 category 不是空字符串或'0'，则增加类别过滤条件
     if (category !== '' && category !== '0') {
-      query += ' AND product.lesson_category_id = ?';
-      queryParams.push(category);
+      where.lesson_category_id = Number(category);
     }
 
-    // 添加 GROUP BY 子句以便正确聚合 product_review 数据
-    query += ' GROUP BY product.id';
+    const products = await prisma.product.findMany({
+      where,
+      include: { reviews: true, teacher: true, lessonCategory: true },
+    });
 
-    const [lessons] = await db.execute(query, queryParams);
-
-    if (lessons.length > 0) {
-      res.status(200).json(serializeBigInt(lessons));
-    } else {
-      res.status(404).send({ message: '没有找到相应的信息' });
+    if (products.length === 0) {
+      return res.status(404).send({ message: '没有找到相应的信息' });
     }
+
+    res.status(200).json(products.map(flattenLesson));
   } catch (error) {
     console.error('发生错误：', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -122,59 +97,52 @@ router.get('/category/:category', async (req, res) => {
 router.get('/:id', async (req, res, _next) => {
   const luid = req.params.id;
   try {
-    const [data] = await db.execute(
-      'SELECT' +
-        '  p.*, ' +
-        // '  pr.user_id AS pr_user_id, pr.content AS pr_content, pr.likes AS pr_likes, ' +
-        '  lc.name AS lesson_category_name, ' +
-        '  COUNT(pr.product_id) AS review_count, ' +
-        '  AVG(pr.stars) AS average_rating ' +
-        'FROM ' +
-        '  `product` AS p ' +
-        '  LEFT JOIN `product_review` AS pr ON p.id = pr.product_id ' +
-        '  LEFT JOIN `lesson_category` AS lc ON p.lesson_category_id = lc.id ' +
-        'WHERE ' +
-        '  p.`puid` = ? ' +
-        '  AND p.`lesson_category_id` IN ( ' +
-        '    SELECT `lesson_category_id` FROM `product` WHERE `puid` = ? ' +
-        '  ) ' +
-        'GROUP BY ' +
-        '  p.id;',
+    // 課程詳細資料
+    const product = await prisma.product.findFirst({
+      where: { puid: luid },
+      include: { reviews: true, lessonCategory: true },
+    });
 
-      [luid, luid]
-    );
-    const [product_review] = await db.execute(
-      `
-      SELECT pr.*, u.*
-      FROM product p
-      JOIN product_review pr ON p.id = pr.product_id
-      JOIN user AS u ON pr.user_id = u.id
-      WHERE p.puid = ?
-    `,
-      [luid]
-    );
-
-    const [youwilllike] = await db.execute(
-      'SELECT p.*, ' +
-        'COUNT(pr.product_id) AS review_count, ' +
-        'AVG(pr.stars) AS average_rating, ' +
-        'ti.name AS teacher_name ' +
-        'FROM `product` AS p ' +
-        'JOIN (SELECT `lesson_category_id` FROM `product` WHERE `puid` = ?) AS sub ' +
-        'ON p.`lesson_category_id` = sub.`lesson_category_id` ' +
-        'JOIN `product_review` AS pr ON p.`id` = pr.`product_id` ' +
-        'JOIN `teacher_info` AS ti ON p.`teacher_id` = ti.`id` ' +
-        'GROUP BY p.id',
-      [luid]
-    );
-
-    if (data && product_review && youwilllike) {
-      res
-        .status(200)
-        .json(serializeBigInt({ data, product_review, youwilllike }));
-    } else {
-      res.status(404).send('沒有找到相應的資訊');
+    if (!product) {
+      return res.status(404).send('沒有找到相應的資訊');
     }
+
+    const { reviews, lessonCategory, ...rest } = product;
+    const data = [
+      {
+        ...rest,
+        lesson_category_name: lessonCategory?.name ?? null,
+        ...computeReviewStats(reviews),
+      },
+    ];
+
+    // 評論資料（含 user 資訊）
+    const reviewRows = await prisma.productReview.findMany({
+      where: { product_id: product.id },
+      include: { user: true },
+    });
+    const product_review = reviewRows.map(({ user, ...review }) => ({
+      ...review,
+      ...user,
+    }));
+
+    // 你也可能喜歡（同分類、有評論、有老師）
+    const youwilllike_raw = await prisma.product.findMany({
+      where: {
+        lesson_category_id: product.lesson_category_id ?? undefined,
+        type: 2,
+        reviews: { some: {} },
+        teacher: { isNot: null },
+      },
+      include: { reviews: true, teacher: true },
+    });
+    const youwilllike = youwilllike_raw.map(({ reviews, teacher, ...p }) => ({
+      ...p,
+      teacher_name: teacher?.name ?? null,
+      ...computeReviewStats(reviews),
+    }));
+
+    res.status(200).json({ data, product_review, youwilllike });
   } catch (error) {
     console.error('發生錯誤:', error);
     res.status(500).send('Internal server error');

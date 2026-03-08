@@ -214,7 +214,7 @@ export default function Form() {
         </div>
         <div className={`${styles.row} flex flex-wrap -mx-3`}>
           {/* 麵包屑 */}
-          <div className="breadcrumb-wrapper-ns">
+          <div className="breadcrumb-wrapper-ns w-full">
             <ul className="flex items-center p-0 m-0">
               <IoHome size={20} />
               <li style={{ marginLeft: '8px' }}>Let&apos;s JAM!</li>

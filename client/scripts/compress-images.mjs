@@ -7,12 +7,9 @@
  * Usage: node scripts/compress-images.mjs
  */
 
-import { createRequire } from 'module'
-import { readdir, stat } from 'fs/promises'
+import sharp from 'sharp'
+import { readdir, rename, stat, unlink } from 'fs/promises'
 import { join, extname } from 'path'
-
-const require = createRequire(import.meta.url)
-const sharp = require('sharp')
 
 const TARGET_DIR = new URL('../public/instrument', import.meta.url).pathname
 const QUALITY = 80
@@ -45,7 +42,6 @@ async function compressImage(filePath) {
   }
 
   // replace original with compressed version
-  const { rename, unlink } = await import('fs/promises')
   const before = (await stat(filePath)).size
   await rename(filePath + '.tmp', filePath)
   const after = (await stat(filePath)).size
@@ -74,18 +70,18 @@ async function main() {
         totalBefore += result.before
         totalAfter += result.after
         processed++
-        const savedPct = (((result.before - result.after) / result.before) * 100).toFixed(1)
+        const savedPct = (
+          ((result.before - result.after) / result.before) *
+          100
+        ).toFixed(1)
         console.log(
-          `✓ ${filePath.replace(TARGET_DIR, '')}  ${(result.before / 1024).toFixed(0)}KB → ${(result.after / 1024).toFixed(0)}KB (-${savedPct}%)`
+          `✓ ${filePath.replace(TARGET_DIR, '')}  ${(result.before / 1024).toFixed(0)}KB → ${(result.after / 1024).toFixed(0)}KB (-${savedPct}%)`,
         )
       }
     } catch (err) {
       console.error(`✗ ${filePath}: ${err.message}`)
       // clean up .tmp if it exists
-      try {
-        const { unlink } = await import('fs/promises')
-        await unlink(filePath + '.tmp')
-      } catch {}
+      await unlink(filePath + '.tmp').catch(() => {})
       errors++
     }
   }
@@ -97,7 +93,9 @@ async function main() {
   console.log(`Errors    : ${errors} files`)
   console.log(`Before    : ${(totalBefore / 1024 / 1024).toFixed(1)} MB`)
   console.log(`After     : ${(totalAfter / 1024 / 1024).toFixed(1)} MB`)
-  console.log(`Saved     : ${(totalSaved / 1024 / 1024).toFixed(1)} MB (${(((totalSaved) / totalBefore) * 100).toFixed(1)}%)`)
+  console.log(
+    `Saved     : ${(totalSaved / 1024 / 1024).toFixed(1)} MB (${((totalSaved / totalBefore) * 100).toFixed(1)}%)`,
+  )
 }
 
 main().catch(console.error)

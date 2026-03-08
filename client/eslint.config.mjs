@@ -8,7 +8,12 @@ import globals from 'globals'
 
 export default [
   {
-    ignores: ['.next/**', 'node_modules/**', 'pages/coupon/切版/**'],
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'pages/coupon/切版/**',
+      'next-env.d.ts',
+    ],
   },
   js.configs.recommended,
   pluginReactHooks.configs.flat.recommended,

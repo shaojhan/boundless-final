@@ -797,13 +797,41 @@ list-style-type: disc;
         .comment-Like {
           display: flex;
           justify-content: end;
-          gap: 5px;
+          align-items: center;
+          gap: 8px;
+          margin-top: 8px;
+        }
+        .comment-Like-Number {
+          color: #5a5a5a;
+          font-size: 14px;
+          white-space: nowrap;
         }
         .comment-Like-Icon {
           display: flex;
+          align-items: center;
           border-radius: 3px;
           border: 1px solid #1581cc;
           gap: 4px;
+          padding: 2px 8px;
+          white-space: nowrap;
+          cursor: pointer;
+        }
+        .comment-like-icon-img {
+          width: 18px;
+          height: 18px;
+          object-fit: contain;
+        }
+        .comment-Like-Word {
+          color: #1581cc;
+          font-size: 14px;
+          white-space: nowrap;
+        }
+        .review-area {
+          padding: 16px 0;
+          border-bottom: 1px solid #e8e8e8;
+        }
+        .review:last-child .review-area {
+          border-bottom: none;
         }
         .more-review {
           justify-content: end;

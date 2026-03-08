@@ -1,10 +1,10 @@
 import express from 'express';
-import db from '#db';
 import prisma from '#configs/prisma.js';
 import multer from 'multer';
 import { dirname, resolve, extname } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
+import { fetchArticles, flattenArticleList } from '../lib/article-flatten.js';
 
 //token相關
 import jwt from 'jsonwebtoken';
@@ -66,19 +66,43 @@ router.post(
 
 // 動態路由來到個人首頁（公開資料，無需驗證）
 router.get('/user-homepage/:uid', async (req, res) => {
-  const uid = req.params.uid;
+  const uid = req.params.uid as string;
   try {
-    const [userHomePageData] = await db.execute(
-      'SELECT email, nickname, phone, birthday , genre_like , play_instrument , info, gender , privacy , j.state AS my_jamState, j.name AS my_jam , photo_url , img FROM `user` u LEFT JOIN `jam` j ON CONVERT(j.juid USING utf8mb4) = CONVERT(u.my_jam USING utf8mb4) WHERE u.uid = ? AND u.valid = 1',
-      [uid]
-    );
+    const user = await prisma.user.findFirst({
+      where: { uid, valid: 1 },
+      select: {
+        email: true,
+        nickname: true,
+        phone: true,
+        birthday: true,
+        genre_like: true,
+        play_instrument: true,
+        info: true,
+        gender: true,
+        privacy: true,
+        my_jam: true,
+        photo_url: true,
+        img: true,
+      },
+    });
 
-    const result = userHomePageData[0];
-    if (userHomePageData) {
-      res.json(result);
-    } else {
-      res.json('沒有找到相應的資訊');
+    if (!user) {
+      return res.json('沒有找到相應的資訊');
     }
+
+    const jam = user.my_jam
+      ? await prisma.jam.findUnique({
+          where: { juid: user.my_jam },
+          select: { state: true, name: true },
+        })
+      : null;
+
+    const result = {
+      ...user,
+      my_jamState: jam?.state ?? null,
+      my_jam: jam?.name ?? null,
+    };
+    res.json(result);
   } catch (error) {
     console.error('發生錯誤：', error);
     res.json('發生錯誤');
@@ -87,21 +111,17 @@ router.get('/user-homepage/:uid', async (req, res) => {
 
 // 個人首頁 獲得該使用者發布之文章
 router.get('/homepageArticle/:uid', async (req, res) => {
-  const uid = req.params.uid;
+  const uid = req.params.uid as string;
 
-  const [userIDResult] = await db.execute(
-    'SELECT * FROM `user` WHERE `uid` = ? AND `valid` = 1',
-    [uid]
-  );
-  let userID;
-  if (userIDResult) {
-    userID = userIDResult[0].id;
-  }
+  const userRow = await prisma.user.findFirst({
+    where: { uid, valid: 1 },
+    select: { id: true },
+  });
+  const userID = userRow?.id;
+
   try {
-    const [articleData] = await db.execute(
-      'SELECT article.*, article_category.name AS category_name,article_comment.likes AS comment_likes, user.name AS user_name, user.img AS user_img, article_user.nickname AS article_author_name, article_user.img AS article_author_img FROM article JOIN article_category ON article.category_id = article_category.id LEFT JOIN article_comment ON article.id = article_comment.article_id LEFT JOIN user ON article_comment.user_id = user.id LEFT JOIN user AS article_user ON article.user_id = article_user.id  WHERE article.user_id = ? ORDER BY article.id',
-      [userID]
-    );
+    const articles = await fetchArticles({ userId: userID });
+    const articleData = flattenArticleList(articles, true);
     if (articleData) {
       res.json(articleData);
     } else {
@@ -115,21 +135,12 @@ router.get('/homepageArticle/:uid', async (req, res) => {
 
 // 我的文章頁 獲得該使用者發布之文章
 router.get('/MyArticle/:id', async (req, res) => {
-  const id = req.params.id;
+  // The user id is already the user.id — no need to re-query
+  const userID = parseInt(req.params.id as string);
 
-  const [userIDResult] = await db.execute(
-    'SELECT * FROM `user` WHERE `id` = ? AND `valid` = 1',
-    [id]
-  );
-  let userID;
-  if (userIDResult) {
-    userID = userIDResult[0].id;
-  }
   try {
-    const [articleData] = await db.execute(
-      'SELECT article.*, article_category.name AS category_name,article_comment.likes AS comment_likes, user.name AS user_name, user.img AS user_img, article_user.nickname AS article_author_name, article_user.img AS article_author_img FROM article JOIN article_category ON article.category_id = article_category.id LEFT JOIN article_comment ON article.id = article_comment.article_id LEFT JOIN user ON article_comment.user_id = user.id LEFT JOIN user AS article_user ON article.user_id = article_user.id  WHERE article.user_id = ? ORDER BY article.id',
-      [userID]
-    );
+    const articles = await fetchArticles({ userId: userID });
+    const articleData = flattenArticleList(articles, true);
     if (articleData) {
       res.json(articleData);
     } else {
@@ -223,12 +234,48 @@ router.get('/:id', checkToken, async function (req, res) {
       .json({ status: 'error', message: '無權限存取此資料' });
   }
 
-  const [singerUser] = await db.execute(
-    'SELECT u.id, uid, u.name , email, nickname, phone, birthday, postcode, country, township, address, genre_like, play_instrument , info, gender , privacy, google_uid, j.state AS my_jamState, j.name AS my_jamname, my_jam , photo_url, my_lesson, img FROM `user` u LEFT JOIN `jam` j ON CONVERT(j.juid USING utf8mb4) = CONVERT(u.my_jam USING utf8mb4) WHERE u.id = ? AND u.valid = 1',
-    [id]
-  );
+  const user = await prisma.user.findFirst({
+    where: { id, valid: 1 },
+    select: {
+      id: true,
+      uid: true,
+      name: true,
+      email: true,
+      nickname: true,
+      phone: true,
+      birthday: true,
+      postcode: true,
+      country: true,
+      township: true,
+      address: true,
+      genre_like: true,
+      play_instrument: true,
+      info: true,
+      gender: true,
+      privacy: true,
+      google_uid: true,
+      my_jam: true,
+      photo_url: true,
+      my_lesson: true,
+      img: true,
+    },
+  });
 
-  const resUser = singerUser[0];
+  const jam = user?.my_jam
+    ? await prisma.jam.findUnique({
+        where: { juid: user.my_jam },
+        select: { state: true, name: true },
+      })
+    : null;
+
+  const resUser = user
+    ? {
+        ...user,
+        my_jamState: jam?.state ?? null,
+        my_jamname: jam?.name ?? null,
+      }
+    : null;
+
   return res.json(resUser);
 });
 
@@ -312,35 +359,28 @@ router.post('/order/:id', checkToken, async function (req, res) {
       .json({ status: 'error', message: '無權限存取此訂單' });
   }
 
-  const [userUIDResult] = await db.execute(
-    'SELECT `uid` FROM `user` WHERE `id` = ? AND `valid` = 1',
-    [id]
-  );
-  let UID;
-  if (userUIDResult) {
-    UID = userUIDResult[0].uid;
-  }
+  const userRow = await prisma.user.findFirst({
+    where: { id, valid: 1 },
+    select: { uid: true },
+  });
+  const UID = userRow?.uid;
 
-  const [orderResult] = await db.execute(
-    `SELECT * FROM order_total WHERE user_id = ?;`,
-    [UID]
-  );
+  const orders = await prisma.orderTotal.findMany({
+    where: { user_id: UID },
+    include: { orderItems: { include: { product: true } } },
+  });
 
-  const productResult = [];
-
-  if (orderResult.length > 0) {
-    for (const order of orderResult) {
-      const orderId = order.ouid;
-
-      const [result] = await db.execute(
-        'SELECT  p.* , oi.* , ot.* FROM `order_item` oi LEFT JOIN `product` p ON CONVERT(p.id USING utf8mb4) = CONVERT(oi.product_id USING utf8mb4) LEFT JOIN `order_total` ot ON CONVERT(ot.ouid USING utf8mb4) = CONVERT(oi.ouid USING utf8mb4) WHERE oi.ouid = ?;',
-        [orderId]
-      );
-      if (result.length > 0) {
-        productResult.push(result);
-      }
-    }
-  }
+  // Flatten to match original response: array of arrays (one per order)
+  // Each item merges product + order_item + order_total fields (later overrides earlier)
+  const productResult = orders
+    .filter((o) => o.orderItems.length > 0)
+    .map((o) =>
+      o.orderItems.map((oi) => {
+        const { product, ...oiFields } = oi;
+        const { orderItems: _orderItems, ...orderFields } = o;
+        return { ...product, ...oiFields, ...orderFields };
+      })
+    );
 
   return res.json({ status: 'success', data: { productResult } });
 });

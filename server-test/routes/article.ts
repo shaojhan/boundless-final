@@ -1,6 +1,6 @@
 import express from 'express';
-import db from '#db';
 import prisma from '#configs/prisma.js';
+import { fetchArticles, flattenArticleList } from '../lib/article-flatten.js';
 //上傳檔案
 import { rename } from 'fs/promises';
 import { dirname, resolve, extname } from 'path';
@@ -12,11 +12,10 @@ const upload = multer({ dest: resolve(__dirname, 'public') });
 const router = express.Router();
 
 // 文章列表
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
   try {
-    const [articleData] = await db.execute(
-      'SELECT article.*, article_category.name AS category_name,article_comment.likes AS comment_likes, user.name AS user_name, user.img AS user_img, article_user.nickname AS article_author_name, article_user.img AS article_author_img FROM article JOIN article_category ON article.category_id = article_category.id LEFT JOIN article_comment ON article.id = article_comment.article_id LEFT JOIN user ON article_comment.user_id = user.id LEFT JOIN user AS article_user ON article.user_id = article_user.id ORDER BY article.id'
-    );
+    const articles = await fetchArticles();
+    const articleData = flattenArticleList(articles, true);
     if (articleData) {
       res.json(articleData);
     } else {
@@ -29,11 +28,10 @@ router.get('/', async (req, res) => {
 });
 
 // comments 評論分享
-router.get('/comments', async (req, res) => {
+router.get('/comments', async (_req, res) => {
   try {
-    const [articleData] = await db.execute(
-      'SELECT article.*, article_category.name AS category_name,article_comment.likes AS comment_likes, user.name AS user_name, user.img AS user_img, article_user.name AS article_author_name, article_user.img AS article_author_img FROM article JOIN article_category ON article.category_id = article_category.id LEFT JOIN article_comment ON article.id = article_comment.article_id LEFT JOIN user ON article_comment.user_id = user.id LEFT JOIN user AS article_user ON article.user_id = article_user.id WHERE article.category_id = 1 ORDER BY article.id'
-    );
+    const articles = await fetchArticles({ categoryId: 1 });
+    const articleData = flattenArticleList(articles, false);
     if (articleData) {
       res.json(articleData);
     } else {
@@ -46,11 +44,10 @@ router.get('/comments', async (req, res) => {
 });
 
 // Tech
-router.get('/sharing', async (req, res) => {
+router.get('/sharing', async (_req, res) => {
   try {
-    const [articleData] = await db.execute(
-      'SELECT article.*, article_category.name AS category_name,article_comment.likes AS comment_likes, user.name AS user_name, user.img AS user_img, article_user.name AS article_author_name, article_user.img AS article_author_img FROM article JOIN article_category ON article.category_id = article_category.id LEFT JOIN article_comment ON article.id = article_comment.article_id LEFT JOIN user ON article_comment.user_id = user.id LEFT JOIN user AS article_user ON article.user_id = article_user.id WHERE article.category_id = 2 ORDER BY article.id'
-    );
+    const articles = await fetchArticles({ categoryId: 2 });
+    const articleData = flattenArticleList(articles, false);
     if (articleData) {
       res.json(articleData);
     } else {
@@ -64,20 +61,48 @@ router.get('/sharing', async (req, res) => {
 
 router.get('/:auid', async (req, res, _next) => {
   const auid = req.params.auid;
-  // 使用正确的参数名称
-  const [data] = await db
-    .execute(
-      'SELECT article.*, article_category.name AS category_name, article_comment.content AS comment_content,article_comment.created_time AS comment_created_time,article_comment.likes AS comment_likes, user.name AS user_name, user.img AS user_img FROM article JOIN article_category ON article.category_id = article_category.id LEFT JOIN article_comment ON article.id = article_comment.article_id LEFT JOIN user ON article_comment.user_id = user.id WHERE article.auid = ?',
-      [auid]
-    )
-    .catch(() => {
-      return undefined;
-    });
-  if (data) {
-    res.status(200).json(data);
-  } else {
-    res.status(400).send('发生错误');
+  const article = await prisma.article
+    .findFirst({
+      where: { auid },
+      include: {
+        category: true,
+        comments: {
+          include: { commenter: { select: { name: true, img: true } } },
+        },
+      },
+    })
+    .catch(() => undefined);
+
+  if (!article) {
+    return res.status(400).send('发生错误');
   }
+
+  const { category, comments, ...articleFields } = article;
+  const base = { ...articleFields, category_name: category.name };
+
+  if (comments.length === 0) {
+    return res.status(200).json([
+      {
+        ...base,
+        comment_content: null,
+        comment_created_time: null,
+        comment_likes: null,
+        user_name: null,
+        user_img: null,
+      },
+    ]);
+  }
+
+  const data = comments.map((c) => ({
+    ...base,
+    comment_content: c.content,
+    comment_created_time: c.created_time,
+    comment_likes: c.likes,
+    user_name: c.commenter.name,
+    user_img: c.commenter.img,
+  }));
+
+  res.status(200).json(data);
 });
 
 router.post('/upload', upload.single('myFile'), async (req, res) => {
@@ -108,7 +133,7 @@ router.post('/upload', upload.single('myFile'), async (req, res) => {
 
 router.put('/edit/:auid', upload.none(), async (req, res) => {
   const { content } = req.body;
-  const auid = req.params.auid;
+  const auid = req.params.auid as string;
   try {
     await prisma.article.updateMany({
       where: { auid },
@@ -132,7 +157,6 @@ function generateUid() {
     Code = '';
     for (let i = 0; i < codeLength; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
-      //   回傳characters當中的隨機一值
       Code += characters.charAt(randomIndex);
     }
   } while (createdCodes.includes(Code));

@@ -5,7 +5,13 @@ const router = express.Router();
 
 type ProductWithCategory = Awaited<
   ReturnType<typeof prisma.product.findMany>
->[number] & { instrumentCategory: { id: number; parent_id: number | null; name: string } | null };
+>[number] & {
+  instrumentCategory: {
+    id: number;
+    parent_id: number | null;
+    name: string;
+  } | null;
+};
 
 function flattenInstrument(p: ProductWithCategory) {
   const { instrumentCategory, ...rest } = p;
@@ -20,7 +26,9 @@ router.get('/', async (req, res, _next) => {
     const dataPerpage = 20;
     const skip = (page - 1) * dataPerpage;
 
-    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = { type: 1 };
+    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = {
+      type: 1,
+    };
 
     if (Object.keys(req.query).length !== 0) {
       const brandSelectRaw = parseInt(String(req.query.brandSelect));
@@ -48,7 +56,9 @@ router.get('/', async (req, res, _next) => {
     ]);
 
     const pageTotal = Math.ceil(total / dataPerpage);
-    const finalData = (instruments as ProductWithCategory[]).map(flattenInstrument);
+    const finalData = (instruments as ProductWithCategory[]).map(
+      flattenInstrument
+    );
 
     res.status(200).json({ instrument: finalData, pageTotal, page });
   } catch (error) {
@@ -74,7 +84,9 @@ router.get('/categories', async (req, res) => {
 router.get('/category/:category', async (req, res) => {
   try {
     const category = req.params.category;
-    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = { type: 1 };
+    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = {
+      type: 1,
+    };
 
     if (category !== '' && category !== '0') {
       where.instrument_category_id = Number(category);
@@ -86,7 +98,9 @@ router.get('/category/:category', async (req, res) => {
     });
 
     if (instruments.length > 0) {
-      res.status(200).json((instruments as ProductWithCategory[]).map(flattenInstrument));
+      res
+        .status(200)
+        .json((instruments as ProductWithCategory[]).map(flattenInstrument));
     } else {
       res.status(404).send({ message: '沒有找到相應的資訊' });
     }

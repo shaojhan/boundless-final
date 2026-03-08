@@ -7,7 +7,11 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   const rows = await prisma.product.findMany({
     where: { lessonCategory: { isNot: null } },
-    select: { img: true, puid: true, lessonCategory: { select: { name: true } } },
+    select: {
+      img: true,
+      puid: true,
+      lessonCategory: { select: { name: true } },
+    },
     orderBy: { sales: 'asc' },
     take: 4,
   });

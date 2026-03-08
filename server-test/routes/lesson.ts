@@ -4,10 +4,12 @@ import prisma from '#configs/prisma.js';
 const router = express.Router();
 
 type ProductWithIncludes = Awaited<
-  ReturnType<typeof prisma.product.findMany<{
-    include: { reviews: true; teacher: true; lessonCategory: true };
-  }>
->>[number];
+  ReturnType<
+    typeof prisma.product.findMany<{
+      include: { reviews: true; teacher: true; lessonCategory: true };
+    }>
+  >
+>[number];
 
 function computeReviewStats(reviews: { stars: number }[]) {
   const review_count = reviews.length;
@@ -33,7 +35,9 @@ function flattenLesson(p: ProductWithIncludes) {
 router.get('/', async (req, res) => {
   try {
     const { priceLow, priceHigh } = req.query;
-    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = { type: 2 };
+    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = {
+      type: 2,
+    };
 
     if (priceLow && priceHigh) {
       where.price = { gte: Number(priceLow), lte: Number(priceHigh) };
@@ -71,7 +75,9 @@ router.get('/categories', async (_req, res) => {
 router.get('/category/:category', async (req, res) => {
   try {
     const category = req.params.category;
-    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = { type: 2 };
+    const where: Parameters<typeof prisma.product.findMany>[0]['where'] = {
+      type: 2,
+    };
 
     if (category !== '' && category !== '0') {
       where.lesson_category_id = Number(category);

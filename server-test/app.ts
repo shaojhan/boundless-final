@@ -6,10 +6,8 @@ import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 // import router 匯入路由
-import indexRouter from './routes/index.js';
+// routes/index.js, instrument.js, lesson.js superseded by DDD catalog routers
 import jamRouter from './routes/jam.js';
-import instrumentRouter from './routes/instrument.js';
-import lessonRouter from './routes/lesson.js';
 import couponRouter from './routes/coupon.js';
 import userRouter from './routes/user.js';
 import articleRouter from './routes/article.js';
@@ -21,7 +19,10 @@ import ecpayorderRouter from './routes/ecpay-order.js';
 // routes/auth.js kept for reference during Phase 1 — superseded by DDD authRouter
 // import authRouter from './routes/auth.js';
 import { createAuthRouter } from './src/interfaces/routers/authRouter.js';
-import { authService } from './src/container.js';
+import { createInstrumentRouter } from './src/interfaces/routers/instrumentRouter.js';
+import { createLessonRouter } from './src/interfaces/routers/lessonRouter.js';
+import { createCatalogIndexRouter } from './src/interfaces/routers/catalogIndexRouter.js';
+import { authService, instrumentService, lessonService } from './src/container.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -67,12 +68,12 @@ app.use('/api', (req: Request, res: Response, next: NextFunction) => {
   res.set('Surrogate-Control', 'no-store');
   next();
 });
-// 使用路由（indexRouter 必須在 static 之前，避免 GET / 被 public/index.html 攔截）
-app.use('/', indexRouter);
+// 使用路由（catalogIndexRouter 必須在 static 之前，避免 GET / 被 public/index.html 攔截）
+app.use('/', createCatalogIndexRouter(lessonService));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/jam', jamRouter);
-app.use('/api/instrument', instrumentRouter);
-app.use('/api/lesson', lessonRouter);
+app.use('/api/instrument', createInstrumentRouter(instrumentService));
+app.use('/api/lesson', createLessonRouter(lessonService));
 app.use('/api/coupon', couponRouter);
 app.use('/api/user', userRouter);
 app.use('/api/article', articleRouter);

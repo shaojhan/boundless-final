@@ -23,3 +23,12 @@ export const userRepository = new PrismaUserRepository(prisma);
 export const refreshTokenRepository = new PrismaRefreshTokenRepository(prisma);
 export const otpRepository = new PrismaOtpRepository(prisma);
 export const authService = new AuthService(userRepository, refreshTokenRepository, otpRepository);
+
+// ── Catalog Context ────────────────────────────────────────────────────────────
+import { PrismaProductRepository } from './repository/catalog/PrismaProductRepository.js';
+import { InstrumentService } from './service/catalog/InstrumentService.js';
+import { LessonService } from './service/catalog/LessonService.js';
+
+export const productRepository = new PrismaProductRepository(prisma);
+export const instrumentService = new InstrumentService(productRepository);
+export const lessonService = new LessonService(productRepository);

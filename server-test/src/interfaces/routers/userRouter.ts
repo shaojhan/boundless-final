@@ -14,17 +14,22 @@ const storage = multer.diskStorage({
   destination(_req, _file, cb) {
     cb(null, resolve(__dirname, '../../../../public/user'));
   },
-  filename(req, file, cb) {
-    const ts = (req as express.Request & { timestamp?: number }).timestamp ?? Date.now();
-    cb(null, 'avatar_user00' + ts + extname(file.originalname));
+  filename(_req, file, cb) {
+    cb(null, 'avatar_user00' + Date.now() + extname(file.originalname));
   },
 });
-const uploadAvatar = multer({ storage });
-
-const setTimestamp: express.RequestHandler = (req, _res, next) => {
-  (req as express.Request & { timestamp?: number }).timestamp = Date.now();
-  next();
-};
+const uploadAvatar = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter(_req, file, cb) {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    if (allowed.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('僅支援 JPG、PNG、WebP 格式'));
+    }
+  },
+});
 
 // ── Factory ──────────────────────────────────────────────────────────────────
 
@@ -37,18 +42,24 @@ export function createUserRouter(
   // ── POST /api/user/upload1 ─ avatar upload ──────────────────────────────
   router.post(
     '/upload1',
-    setTimestamp,
     checkToken,
     uploadAvatar.single('myFile'),
     async (req, res) => {
-      const id = parseInt(req.body.name as string);
-      if (req.decoded.id !== id) {
-        return res.status(403).json({ status: 'error', message: '無權限修改此頭像' });
+      try {
+        if (!req.file) {
+          return res.status(400).json({ status: 'error', message: '未收到圖片檔案' });
+        }
+        const id = parseInt(req.body.name as string);
+        if (isNaN(id) || req.decoded.id !== id) {
+          return res.status(403).json({ status: 'error', message: '無權限修改此頭像' });
+        }
+        // Use the actual saved filename (preserves original extension)
+        await userService.updateAvatar(id, req.file.filename);
+        return res.json({ status: 'success' });
+      } catch (err) {
+        console.error('[upload1]', err);
+        return res.status(500).json({ status: 'error', message: '上傳處理失敗，請稍後再試' });
       }
-      const ts = (req as express.Request & { timestamp?: number }).timestamp ?? Date.now();
-      const newName = 'avatar_user00' + ts + '.jpg';
-      await userService.updateAvatar(id, newName);
-      res.json({ status: 'success' });
     }
   );
 

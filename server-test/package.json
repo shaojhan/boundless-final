@@ -9,7 +9,9 @@
     "seed": "tsx prisma/seed.ts",
     "backup": "node ./cli/db-backup.js",
     "debug": "DEBUG=express:* node ./bin/www",
-    "debug-win": "set DEBUG=express:* & node ./bin/www"
+    "debug-win": "set DEBUG=express:* & node ./bin/www",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "type": "module",
   "dependencies": {
@@ -57,6 +59,7 @@
     "@types/morgan": "^1.9.10",
     "@types/multer": "^2.0.0",
     "@types/nodemailer": "^7.0.11",
+    "@types/supertest": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
     "eslint": "^10.0.2",
@@ -66,8 +69,10 @@
     "nodemon": "^3.1.14",
     "prettier": "^3.2.5",
     "prisma": "^7.4.2",
+    "supertest": "^7.2.2",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   },
   "imports": {
     "#db": "./db.ts",

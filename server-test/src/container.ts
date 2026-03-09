@@ -53,3 +53,14 @@ import { UserService } from './service/user/UserService.js';
 
 export const userProfileRepository = new PrismaUserProfileRepository(prisma);
 export const userService = new UserService(userProfileRepository);
+
+// ── Commerce Context ────────────────────────────────────────────────────────────
+import { PrismaCartRepository } from './repository/commerce/PrismaCartRepository.js';
+import { PrismaCouponRepository } from './repository/commerce/PrismaCouponRepository.js';
+import { CartService } from './service/commerce/CartService.js';
+import { CouponService } from './service/commerce/CouponService.js';
+
+export const cartRepository = new PrismaCartRepository(prisma);
+export const couponRepository = new PrismaCouponRepository(prisma);
+export const cartService = new CartService(cartRepository);
+export const couponService = new CouponService(couponRepository);

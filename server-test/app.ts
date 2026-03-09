@@ -8,11 +8,11 @@ import cors from 'cors';
 // import router 匯入路由
 // routes/index.js, instrument.js, lesson.js superseded by DDD catalog routers
 // import jamRouter from './routes/jam.js'; // superseded by DDD jamRouter
-import couponRouter from './routes/coupon.js';
+// import couponRouter from './routes/coupon.js'; // superseded by DDD couponRouter
 // import userRouter from './routes/user.js'; // superseded by DDD userRouter
 // import articleRouter from './routes/article.js'; // superseded by DDD articleRouter
 import googleLoginRouter from './routes/google-login.js';
-import cartRouter from './routes/cart.js';
+// import cartRouter from './routes/cart.js'; // superseded by DDD cartRouter
 import forgetpasswordRouter from './routes/reset-password.js';
 import ecpayusersRouter from './routes/ecpay-users.js';
 import ecpayorderRouter from './routes/ecpay-order.js';
@@ -25,7 +25,9 @@ import { createCatalogIndexRouter } from './src/interfaces/routers/catalogIndexR
 import { createArticleRouter } from './src/interfaces/routers/articleRouter.js';
 import { createJamRouter } from './src/interfaces/routers/jamRouter.js';
 import { createUserRouter } from './src/interfaces/routers/userRouter.js';
-import { authService, instrumentService, lessonService, articleService, jamService, userService } from './src/container.js';
+import { createCartRouter } from './src/interfaces/routers/cartRouter.js';
+import { createCouponRouter } from './src/interfaces/routers/couponRouter.js';
+import { authService, instrumentService, lessonService, articleService, jamService, userService, cartService, couponService } from './src/container.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -77,11 +79,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/jam', createJamRouter(jamService));
 app.use('/api/instrument', createInstrumentRouter(instrumentService));
 app.use('/api/lesson', createLessonRouter(lessonService));
-app.use('/api/coupon', couponRouter);
+app.use('/api/coupon', createCouponRouter(couponService));
 app.use('/api/user', createUserRouter(userService, articleService));
 app.use('/api/article', createArticleRouter(articleService));
 app.use('/api/google-login', googleLoginRouter);
-app.use('/api/cart', cartRouter);
+app.use('/api/cart', createCartRouter(cartService));
 app.use('/api/reset-password', forgetpasswordRouter);
 
 app.use('/api/order', ecpayorderRouter);

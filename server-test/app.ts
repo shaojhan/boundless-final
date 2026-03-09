@@ -9,7 +9,7 @@ import cors from 'cors';
 // routes/index.js, instrument.js, lesson.js superseded by DDD catalog routers
 // import jamRouter from './routes/jam.js'; // superseded by DDD jamRouter
 import couponRouter from './routes/coupon.js';
-import userRouter from './routes/user.js';
+// import userRouter from './routes/user.js'; // superseded by DDD userRouter
 // import articleRouter from './routes/article.js'; // superseded by DDD articleRouter
 import googleLoginRouter from './routes/google-login.js';
 import cartRouter from './routes/cart.js';
@@ -24,7 +24,8 @@ import { createLessonRouter } from './src/interfaces/routers/lessonRouter.js';
 import { createCatalogIndexRouter } from './src/interfaces/routers/catalogIndexRouter.js';
 import { createArticleRouter } from './src/interfaces/routers/articleRouter.js';
 import { createJamRouter } from './src/interfaces/routers/jamRouter.js';
-import { authService, instrumentService, lessonService, articleService, jamService } from './src/container.js';
+import { createUserRouter } from './src/interfaces/routers/userRouter.js';
+import { authService, instrumentService, lessonService, articleService, jamService, userService } from './src/container.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -77,7 +78,7 @@ app.use('/api/jam', createJamRouter(jamService));
 app.use('/api/instrument', createInstrumentRouter(instrumentService));
 app.use('/api/lesson', createLessonRouter(lessonService));
 app.use('/api/coupon', couponRouter);
-app.use('/api/user', userRouter);
+app.use('/api/user', createUserRouter(userService, articleService));
 app.use('/api/article', createArticleRouter(articleService));
 app.use('/api/google-login', googleLoginRouter);
 app.use('/api/cart', cartRouter);

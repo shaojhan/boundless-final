@@ -46,3 +46,10 @@ import { JamService } from './service/jam/JamService.js';
 
 export const jamRepository = new PrismaJamRepository(prisma);
 export const jamService = new JamService(jamRepository);
+
+// ── User Context ───────────────────────────────────────────────────────────────
+import { PrismaUserProfileRepository } from './repository/user/PrismaUserProfileRepository.js';
+import { UserService } from './service/user/UserService.js';
+
+export const userProfileRepository = new PrismaUserProfileRepository(prisma);
+export const userService = new UserService(userProfileRepository);

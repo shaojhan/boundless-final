@@ -279,7 +279,10 @@ export default function Publish() {
             </div>
             {/* pagination */}
             <div className="page-button flex justify-between pt-12 pb-6">
-              <Link href={`/article/article-list`} className="btn">
+              <Link
+                href={`/article/article-list`}
+                className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer border border-gray-400 text-gray-600 hover:bg-gray-100"
+              >
                 上一步
               </Link>
               <button
@@ -325,7 +328,7 @@ export default function Publish() {
           flex-direction: row;
         }
         .rwd-title {
-          width: calc(60%);
+          width: calc(40%);
         }
         .rwd-content {
           width: calc(60%);

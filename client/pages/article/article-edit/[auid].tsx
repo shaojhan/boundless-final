@@ -142,7 +142,10 @@ export default function Auid() {
           </div>
         </div>
         <div className="page-button flex justify-between pt-12 pb-6">
-          <Link href={`/article/article-list/${auid}`} className="btn">
+          <Link
+            href={`/article/article-list/${auid}`}
+            className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer border border-gray-400 text-gray-600 hover:bg-gray-100"
+          >
             上一步
           </Link>
           <button

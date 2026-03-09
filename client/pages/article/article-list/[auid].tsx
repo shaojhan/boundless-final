@@ -87,7 +87,7 @@ export default function Auid() {
         </div>
         <div className="flex flex-wrap -mx-3">
           {/* 麵包屑 */}
-          <div className="breadcrumb-wrapper-ns">
+          <div className="breadcrumb-wrapper-ns w-full">
             <ul className="flex items-center p-0 m-0 flex-wrap">
               <IoHome size={20} />
               <Link href="/article/article-list">
@@ -111,7 +111,7 @@ export default function Auid() {
               <li style={{ marginLeft: '10px' }}>{articleDetail.title}</li>
             </ul>
           </div>
-          <div className="">
+          <div className="w-full">
             {/* 主內容 */}
             <main className="content pt-0">
               <div className="flex justify-end">
@@ -249,7 +249,7 @@ export default function Auid() {
         }
         .main-img {
           position: relative;
-          weight: 1000px;
+          width: 1000px;
           height: 500px;
         }
         .big-pic {
@@ -259,7 +259,7 @@ export default function Auid() {
         }
         @media screen and (max-width: 576px) {
           .main-img {
-            weight: 576px;
+            width: 576px;
             height: 300px;
           }
         }

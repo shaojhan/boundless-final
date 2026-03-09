@@ -263,7 +263,7 @@ export default function LessonDetailPage() {
                           {review.name}
                         </span>
                         <span className="text-gray-400 text-xs">
-                          {format(new Date(review.created_time), 'yyyy-MM-dd')}
+                          {review.created_time ? format(new Date(review.created_time), 'yyyy-MM-dd') : ''}
                         </span>
                       </div>
                       <div className="flex gap-0.5 mt-1">

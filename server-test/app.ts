@@ -10,7 +10,7 @@ import cors from 'cors';
 import jamRouter from './routes/jam.js';
 import couponRouter from './routes/coupon.js';
 import userRouter from './routes/user.js';
-import articleRouter from './routes/article.js';
+// import articleRouter from './routes/article.js'; // superseded by DDD articleRouter
 import googleLoginRouter from './routes/google-login.js';
 import cartRouter from './routes/cart.js';
 import forgetpasswordRouter from './routes/reset-password.js';
@@ -22,7 +22,8 @@ import { createAuthRouter } from './src/interfaces/routers/authRouter.js';
 import { createInstrumentRouter } from './src/interfaces/routers/instrumentRouter.js';
 import { createLessonRouter } from './src/interfaces/routers/lessonRouter.js';
 import { createCatalogIndexRouter } from './src/interfaces/routers/catalogIndexRouter.js';
-import { authService, instrumentService, lessonService } from './src/container.js';
+import { createArticleRouter } from './src/interfaces/routers/articleRouter.js';
+import { authService, instrumentService, lessonService, articleService } from './src/container.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -76,7 +77,7 @@ app.use('/api/instrument', createInstrumentRouter(instrumentService));
 app.use('/api/lesson', createLessonRouter(lessonService));
 app.use('/api/coupon', couponRouter);
 app.use('/api/user', userRouter);
-app.use('/api/article', articleRouter);
+app.use('/api/article', createArticleRouter(articleService));
 app.use('/api/google-login', googleLoginRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/reset-password', forgetpasswordRouter);

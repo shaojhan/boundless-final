@@ -32,3 +32,10 @@ import { LessonService } from './service/catalog/LessonService.js';
 export const productRepository = new PrismaProductRepository(prisma);
 export const instrumentService = new InstrumentService(productRepository);
 export const lessonService = new LessonService(productRepository);
+
+// ── Article Context ────────────────────────────────────────────────────────────
+import { PrismaArticleRepository } from './repository/article/PrismaArticleRepository.js';
+import { ArticleService } from './service/article/ArticleService.js';
+
+export const articleRepository = new PrismaArticleRepository(prisma);
+export const articleService = new ArticleService(articleRepository);

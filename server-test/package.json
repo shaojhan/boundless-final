@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --exec tsx ./bin/www",
-    "start": "nodemon --exec tsx ./bin/www",
+    "dev": "nodemon --exec tsx ./bin/www.ts",
+    "start": "nodemon --exec tsx ./bin/www.ts",
     "lint": "eslint . --ext .ts,.js --ignore-pattern 'node_modules/**' --ignore-pattern 'generated/**' --ignore-pattern 'public/**'",
     "seed": "tsx prisma/seed.ts",
     "backup": "node ./cli/db-backup.js",

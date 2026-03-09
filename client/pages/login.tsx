@@ -27,7 +27,7 @@ export default function Test() {
   const handleLogin = async (e) => {
     e.preventDefault()
 
-    const response = await fetch(`${apiBaseUrl}/api/auth/login`, {
+    const response = await fetch(`${apiBaseUrl}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -85,7 +85,7 @@ export default function Test() {
   const loginGooglePopup = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const response = await fetch(`${apiBaseUrl}/api/google-login`, {
+        const response = await fetch(`${apiBaseUrl}/google-login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

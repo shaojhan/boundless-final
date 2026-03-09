@@ -18,7 +18,10 @@ import cartRouter from './routes/cart.js';
 import forgetpasswordRouter from './routes/reset-password.js';
 import ecpayusersRouter from './routes/ecpay-users.js';
 import ecpayorderRouter from './routes/ecpay-order.js';
-import authRouter from './routes/auth.js';
+// routes/auth.js kept for reference during Phase 1 — superseded by DDD authRouter
+// import authRouter from './routes/auth.js';
+import { createAuthRouter } from './src/interfaces/routers/authRouter.js';
+import { authService } from './src/container.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -79,7 +82,7 @@ app.use('/api/reset-password', forgetpasswordRouter);
 
 app.use('/api/order', ecpayorderRouter);
 app.use('/api/users', ecpayusersRouter);
-app.use('/api/auth', authRouter);
+app.use('/api/auth', createAuthRouter(authService));
 // catch 404 and forward to error handler
 app.use(function (_req: Request, _res: Response, next: NextFunction) {
   next(createError(404));

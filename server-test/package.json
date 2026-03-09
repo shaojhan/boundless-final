@@ -34,7 +34,8 @@
     "multer": "^2.1.0",
     "mysql2": "^3.18.2",
     "nodemailer": "^8.0.1",
-    "otpauth": "^9.2.2"
+    "otpauth": "^9.2.2",
+    "zod": "^4.3.6"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -73,6 +74,7 @@
     "#db-helpers/*": "./db-helpers/*",
     "#configs/*": "./configs/*",
     "#controller/*": "./controller/*",
-    "#generated/*": "./generated/*"
+    "#generated/*": "./generated/*",
+    "#src/*": "./src/*"
   }
 }

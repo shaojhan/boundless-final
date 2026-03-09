@@ -12,7 +12,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // ── multer avatar storage ────────────────────────────────────────────────────
 const storage = multer.diskStorage({
   destination(_req, _file, cb) {
-    cb(null, resolve(__dirname, '../../../../public/user'));
+    cb(null, resolve(__dirname, '../../../public/user'));
   },
   filename(_req, file, cb) {
     cb(null, 'avatar_user00' + Date.now() + extname(file.originalname));

@@ -67,18 +67,21 @@ export default function ArticleList() {
 
   // 全部article資料
   useEffect(() => {
+    const controller = new AbortController()
     const getDatas = async () => {
       try {
-        const res = await fetch(`${apiBaseUrl}/article`)
+        const res = await fetch(`${apiBaseUrl}/article`, { signal: controller.signal })
         const datas = await res.json()
         if (datas) {
           setArticle(datas) // 設定獲取的文章數據到狀態中
         }
       } catch (e) {
+        if (e instanceof Error && e.name === 'AbortError') return
         console.error(e)
       }
     }
     getDatas() // 在元件渲染後立即獲取文章數據
+    return () => controller.abort()
   }, []) // 空的依賴陣列表示只在元件第一次渲染時執行一次
 
   // article-category資料

@@ -77,12 +77,13 @@ export default function LessonList() {
   const [totalPage, setTotalPage] = useState(0)
   const [LessonArray, setLessonArray] = useState([])
 
-  function getLesson() {
+  function getLesson(signal?: AbortSignal) {
     return new Promise((resolve, reject) => {
       let url = `${apiBaseUrl}/lesson`
       fetch(url, {
         method: 'GET',
         credentials: 'include',
+        signal,
       })
         .then((response) => {
           return response.json()
@@ -99,17 +100,18 @@ export default function LessonList() {
           }, [])
           setTotalPage(pages.length)
           setLessonArray(pages[currentPage]) // 将分页后的结果传递给 resolve
-
-          setLessonArray(pages[currentPage]) // 将分页后的结果传递给 resolve
         })
         .catch((error) => {
+          if (error.name === 'AbortError') return
           console.error(error)
           reject()
         })
     })
   }
   useEffect(() => {
-    getLesson()
+    const controller = new AbortController()
+    getLesson(controller.signal)
+    return () => controller.abort()
   }, [currentPage])
 
   const handlePageClick = (event) => {

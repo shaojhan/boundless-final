@@ -137,7 +137,7 @@ export default function Test({ onSearch: _onSearch }) {
 
   const [instrument, setInstrument] = useState([])
   // const [brandData, setBrandData] = useState('')
-  const getDatas = async (params) => {
+  const getDatas = async (params, signal?: AbortSignal) => {
     // 用URLSearchParams產生查詢字串
     // const searchParams = new URLSearchParams(params)
 
@@ -145,7 +145,7 @@ export default function Test({ onSearch: _onSearch }) {
     const queryString = searchParams.toString()
 
     try {
-      const res = await fetch(`${apiBaseUrl}/instrument?${queryString}`)
+      const res = await fetch(`${apiBaseUrl}/instrument?${queryString}`, { signal })
 
       // res.json()是解析res的body的json格式資料，得到JS的資料格式
       const datas = await res.json()
@@ -160,6 +160,7 @@ export default function Test({ onSearch: _onSearch }) {
       setPriceHigh(datas.priceHigh)
       setKeyword(datas.Keyword)
     } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') return
       console.error('Error fetching data:', error)
     }
   }
@@ -181,32 +182,33 @@ export default function Test({ onSearch: _onSearch }) {
   // }
 
   useEffect(() => {
-    if (router.isReady) {
-      // 從router.query得到所有查詢字串參數
-      const {
-        orderby,
-        page,
-        brandSelect,
-        priceLow,
-        priceHigh,
-        score,
-        promotion,
-        keyword,
-      } = router.query
-      // 要送至伺服器的query string參數
+    if (!router.isReady) return
+    const controller = new AbortController()
+    // 從router.query得到所有查詢字串參數
+    const {
+      orderby,
+      page,
+      brandSelect,
+      priceLow,
+      priceHigh,
+      score,
+      promotion,
+      keyword,
+    } = router.query
+    // 要送至伺服器的query string參數
 
-      // 設定回所有狀態(注意所有從查詢字串來都是字串類型)，都要給預設值
-      setPage(Number(page) || 1)
-      setOrderby((orderby as string) || 'DESC')
-      setBrandSelect((brandSelect as string) || 'all')
-      setPriceLow((priceLow as string) || '')
-      setPriceHigh((priceHigh as string) || '')
-      setScore((score as string) || 'all')
-      setKeyword((keyword as string) || '')
-      setPromotion(!!promotion)
-      // 載入資料
-      getDatas(router.query)
-    }
+    // 設定回所有狀態(注意所有從查詢字串來都是字串類型)，都要給預設值
+    setPage(Number(page) || 1)
+    setOrderby((orderby as string) || 'DESC')
+    setBrandSelect((brandSelect as string) || 'all')
+    setPriceLow((priceLow as string) || '')
+    setPriceHigh((priceHigh as string) || '')
+    setScore((score as string) || 'all')
+    setKeyword((keyword as string) || '')
+    setPromotion(!!promotion)
+    // 載入資料
+    getDatas(router.query, controller.signal)
+    return () => controller.abort()
   }, [router.query, router.isReady])
 
   // useEffect(() => {

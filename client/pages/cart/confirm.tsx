@@ -87,6 +87,7 @@ export default function Test() {
   // Fetch server-authoritative prices on mount
   useEffect(() => {
     if (!uid || !cartItems.length) return
+    let mounted = true
     authFetch(`${apiBaseUrl}/cart/calculate`, {
       method: 'POST',
       body: JSON.stringify({
@@ -97,6 +98,7 @@ export default function Test() {
     })
       .then((r) => r.json())
       .then((data) => {
+        if (!mounted) return
         if (data.status === 'success') {
           setServerPrice({
             totalPrice: data.totalPrice,
@@ -108,6 +110,7 @@ export default function Test() {
       .catch(() => {
         /* fallback to client values if network fails */
       })
+    return () => { mounted = false }
   }, [uid])
 
   // Display helpers — prefer server values, fall back to Redux selectors

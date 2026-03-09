@@ -172,64 +172,56 @@ export default function Publish() {
           </div>
           <div className="w-full">
             {/* 主內容 */}
-            {/* XLg */}
-            <div className="x-lg text-right pb-6">
-              <Link href={`/article/article-list`} className="icon-btn">
-                <IoCloseOutline size={50} />
+            {/* Close button */}
+            <div className="flex justify-end py-4">
+              <Link
+                href={`/article/article-list`}
+                className="text-gray-400 hover:text-gray-700 transition-colors"
+              >
+                <IoCloseOutline size={36} />
               </Link>
             </div>
             {/* setting title */}
-            <div className="set-rwd">
+            <div className="set-rwd py-6 items-start">
               <div className="rwd-title">
                 <h3>自訂文章標題</h3>
               </div>
               <div className="rwd-content">
-                <h5 className="text-secondary">
+                <p className="text-secondary text-sm mb-3">
                   上限15個字，系統已經先擷取，你也可以自行修改標題。(
                   {title.length}/15)
-                </h5>
-                <div>
-                  <label
-                    htmlFor="exampleFormControlTextarea1"
-                    className="block text-sm font-medium text-dark mb-1"
-                  >
-                    文章標題
-                  </label>
-                  <textarea
-                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                    id="exampleFormControlTextarea1"
-                    rows={3}
-                    onChange={(e) => {
-                      setTitle(e.target.value)
-                    }}
-                    placeholder="輸入內容..."
-                    maxLength={15}
-                    defaultValue={''}
-                  />
-                </div>
-                {titleCheck ? (
-                  ''
-                ) : (
-                  <div className="bad-words">偵測到不雅字詞</div>
+                </p>
+                <textarea
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  id="exampleFormControlTextarea1"
+                  rows={3}
+                  onChange={(e) => {
+                    setTitle(e.target.value)
+                  }}
+                  placeholder="輸入文章標題..."
+                  maxLength={15}
+                  defaultValue={''}
+                />
+                {titleCheck ? null : (
+                  <div className="bad-words mt-1">偵測到不雅字詞</div>
                 )}
               </div>
             </div>
             <hr />
-            {/* TipTap */}
-            <div className="set-rwd">
-              <div className="rwd-title">
-                <h3>自訂文章內文</h3>
-              </div>
-            </div>
-            <div className="content">
+            {/* TipTap — full-width section */}
+            <div className="py-6">
+              <h3 className="mb-4">自訂文章內文</h3>
               <Tiptap
                 setDescription={handleDescriptionChange}
                 initialContent=""
               />
+              {descriptionCheck ? null : (
+                <div className="bad-words mt-1">偵測到不雅字詞</div>
+              )}
             </div>
             <hr />
             {/* setting category */}
-            <div className="set-rwd">
+            <div className="set-rwd py-6 items-center">
               <div className="rwd-title">
                 <h3>設定文章分類</h3>
               </div>
@@ -242,43 +234,37 @@ export default function Publish() {
                   }}
                   value={category_id}
                 >
-                  <option selected value="1">
-                    樂評
-                  </option>
+                  <option value="1">樂評</option>
                   <option value="2">技術</option>
                 </select>
               </div>
             </div>
             <hr />
             {/* setting img */}
-            <div className="set-rwd">
+            <div className="set-rwd py-6 items-start">
               <div className="rwd-title">
                 <h3>自訂文章縮圖</h3>
               </div>
               <div className="rwd-content">
-                <h5 className="text-secondary">
+                <p className="text-secondary text-sm mb-3">
                   選擇或上傳照片作為文章縮圖(同時也是社群分享文章連結時的縮圖)。
-                </h5>
-                <div className="upload-img flex items-center mt-6">
-                  <input
-                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                    type="file"
-                    name="myFile"
-                    id="myFile"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                </div>
-                <h5 className="text-secondary mt-6">
+                </p>
+                <input
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  type="file"
+                  name="myFile"
+                  id="myFile"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+                <p className="text-secondary text-sm mt-3">
                   建議尺寸: 寬1200 x 高630 像素的等比例圖片 <br />
-                  大小限制: 5 MB
-                  <br />
-                  格式限制: jpeg(jpg) 、 PNG 、GIF
-                </h5>
+                  大小限制: 5 MB &nbsp;|&nbsp; 格式限制: jpeg(jpg)、PNG、GIF
+                </p>
               </div>
             </div>
             {/* pagination */}
-            <div className="page-button flex justify-between pt-12 pb-6">
+            <div className="flex justify-between pt-8 pb-6">
               <Link
                 href={`/article/article-list`}
                 className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer border border-gray-400 text-gray-600 hover:bg-gray-100"
@@ -326,32 +312,26 @@ export default function Publish() {
         .set-rwd {
           display: flex;
           flex-direction: row;
+          gap: 24px;
         }
         .rwd-title {
-          width: calc(40%);
+          width: 30%;
+          flex-shrink: 0;
+          padding-top: 4px;
         }
         .rwd-content {
-          width: calc(60%);
+          flex: 1;
         }
         .bad-words {
           color: red;
-        }
-        .tag-btns {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: start;
-          .btn {
-            margin-right: 20px;
-          }
+          font-size: 0.875rem;
         }
         @media screen and (max-width: 576px) {
           .set-rwd {
             flex-direction: column;
+            gap: 8px;
           }
           .rwd-title {
-            width: 100%;
-          }
-          .rwd-content {
             width: 100%;
           }
         }

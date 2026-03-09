@@ -12,7 +12,7 @@ import NavbarMb from '@/components/common/navbar-mb'
 
 // 會員認證hook
 import { useAuth } from '@/hooks/user/use-auth'
-import { authFetch } from '@/lib/api-client'
+import { authFetch, getAccessToken } from '@/lib/api-client'
 import { useAvatarImage } from '@/hooks/useAvatarImage'
 
 //選項資料 data
@@ -274,6 +274,26 @@ export default function Test() {
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0])
+  }
+
+  const handleAvatarSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!selectedFile || !auth?.user?.id) return
+    const formData = new FormData()
+    formData.append('myFile', selectedFile)
+    formData.append('name', String(auth.user.id))
+    const token = getAccessToken()
+    const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3005'
+    const res = await fetch(`${apiBase}/api/user/upload1`, {
+      method: 'POST',
+      body: formData,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      credentials: 'include',
+    })
+    const result = await res.json()
+    if (result.status === 'success') {
+      postAlert()
+    }
   }
 
   // ----------------------會員資料處理  ----------------------
@@ -554,9 +574,7 @@ export default function Test() {
                           </div>
                           <div>
                             <form
-                              action={`/user/upload1`}
-                              method="post"
-                              encType="multipart/form-data"
+                              onSubmit={handleAvatarSubmit}
                               className=""
                             >
                               <div className="hidden mb-2">

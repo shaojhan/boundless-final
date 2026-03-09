@@ -48,7 +48,7 @@ export function createUserRouter(
       const ts = (req as express.Request & { timestamp?: number }).timestamp ?? Date.now();
       const newName = 'avatar_user00' + ts + '.jpg';
       await userService.updateAvatar(id, newName);
-      res.redirect('http://localhost:3000/user/user-info-edit');
+      res.json({ status: 'success' });
     }
   );
 

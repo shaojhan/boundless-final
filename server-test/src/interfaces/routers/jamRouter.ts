@@ -54,7 +54,8 @@ export function createJamRouter(jamService: JamService) {
   });
 
   // ── GET /api/jam/singleJam/:juid/:uid? ──────────────────────────────────────
-  router.get('/singleJam/:juid/:uid?', async (req, res, next) => {
+  // path-to-regexp v8+ dropped `:param?` syntax — register two routes instead
+  const handleSingleJam: import('express').RequestHandler = async (req, res, next) => {
     const parsed = JuidUidParamSchema.safeParse(req.params);
     if (!parsed.success) {
       return res.status(400).json({ status: 'error', message: '無效的參數' });
@@ -71,7 +72,9 @@ export function createJamRouter(jamService: JamService) {
     } catch (err) {
       next(err);
     }
-  });
+  };
+  router.get('/singleJam/:juid/:uid', handleSingleJam);
+  router.get('/singleJam/:juid', handleSingleJam);
 
   // ── GET /api/jam/getMyApply/:uid ────────────────────────────────────────────
   router.get('/getMyApply/:uid', async (req, res, next) => {

@@ -155,53 +155,92 @@ export default function UserInfoEdit() {
 
   // avatar upload
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle')
+  const [uploadError, setUploadError] = useState('')
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedFile(event.target.files?.[0] ?? null)
+    const file = event.target.files?.[0] ?? null
+    setSelectedFile(file)
+    setUploadStatus('idle')
+    setUploadError('')
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file))
+    }
   }
+
   const handleAvatarSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!selectedFile || !auth?.user?.id) return
-    const formData = new FormData()
-    formData.append('myFile', selectedFile)
-    formData.append('name', String(auth.user.id))
-    const token = getAccessToken()
-    const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3005'
-    const res = await fetch(`${apiBase}/api/user/upload1`, {
-      method: 'POST',
-      body: formData,
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-      credentials: 'include',
-    })
-    const result = await res.json()
-    if (result.status === 'success') postAlert()
+    if (!selectedFile) {
+      setUploadError('請先選擇圖片')
+      return
+    }
+    if (!auth?.user?.id) {
+      setUploadError('尚未登入，請重新整理頁面')
+      return
+    }
+    setUploadStatus('uploading')
+    setUploadError('')
+    try {
+      const formData = new FormData()
+      formData.append('myFile', selectedFile)
+      formData.append('name', String(auth.user.id))
+      const token = getAccessToken()
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3005'
+      const res = await fetch(`${apiBase}/api/user/upload1`, {
+        method: 'POST',
+        body: formData,
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        credentials: 'include',
+      })
+      if (!res.ok) {
+        throw new Error(`伺服器回應 ${res.status}`)
+      }
+      const result = await res.json()
+      if (result.status === 'success') {
+        setUploadStatus('success')
+        setSelectedFile(null)
+        // keep previewUrl so the new avatar shows immediately
+      } else {
+        throw new Error(result.message ?? '上傳失敗')
+      }
+    } catch (err) {
+      setUploadStatus('error')
+      setUploadError(err instanceof Error ? err.message : '上傳失敗，請稍後再試')
+    }
   }
 
   // profile form submit
+  const mySwal = withReactContent(Swal)
+
   const postForm = async (e: React.MouseEvent) => {
     e.preventDefault()
     if (!auth?.user?.id) return
-    const res = await authFetch(`/api/user/editProfile/${auth.user.id}`, {
-      method: 'POST',
-      body: JSON.stringify(userData),
-    })
-    const result = await res.json()
-    if (result.status === 'success') postAlert()
-  }
-
-  const mySwal = withReactContent(Swal)
-  const postAlert = () => {
-    mySwal
-      .fire({
-        position: 'center',
-        icon: 'success',
-        iconColor: '#1581cc',
-        title: '修改成功，將為您跳轉到會員資訊頁面',
-        showConfirmButton: false,
-        timer: 2000,
+    try {
+      const res = await authFetch(`/api/user/editProfile/${auth.user.id}`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
       })
-      .then(() => setTimeout(() => {
-        router.push('/user/user-info').then(() => window.location.reload())
-      }, 2000))
+      const result = await res.json()
+      if (result.status === 'success') {
+        mySwal
+          .fire({
+            position: 'center',
+            icon: 'success',
+            iconColor: '#1581cc',
+            title: '修改成功',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          .then(() => setTimeout(() => {
+            router.push('/user/user-info').then(() => window.location.reload())
+          }, 1500))
+      } else {
+        mySwal.fire({ icon: 'error', title: result.message ?? '儲存失敗，請稍後再試' })
+      }
+    } catch {
+      mySwal.fire({ icon: 'error', title: '網路錯誤，請稍後再試' })
+    }
   }
 
   const { showMenu, menuMbToggle, showSidebar, sidebarToggle, setShowSidebar } = useMenuToggle()
@@ -291,7 +330,7 @@ export default function UserInfoEdit() {
                 <div className="avatar-section">
                   <div className="avatar-wrap">
                     <Image
-                      src={selectedFile ? URL.createObjectURL(selectedFile) : avatarImage}
+                      src={previewUrl ?? avatarImage}
                       alt="avatar preview"
                       fill
                       sizes="100px"
@@ -302,11 +341,11 @@ export default function UserInfoEdit() {
                     <input type="hidden" name="name" value={LoginUserData.id} />
                     <label className="file-label">
                       <IoCamera size={16} />
-                      選擇圖片（JPG）
+                      選擇圖片
                       <input
                         type="file"
                         name="myFile"
-                        accept="image/jpeg"
+                        accept="image/jpeg,image/png,image/webp"
                         className="hidden"
                         onChange={handleFileChange}
                       />
@@ -314,9 +353,19 @@ export default function UserInfoEdit() {
                     {selectedFile && (
                       <div className="avatar-filename">{selectedFile.name}</div>
                     )}
-                    <button type="submit" className="btn-upload">
-                      上傳頭像
+                    <button
+                      type="submit"
+                      className={`btn-upload ${uploadStatus === 'uploading' ? 'btn-upload-loading' : ''}`}
+                      disabled={uploadStatus === 'uploading'}
+                    >
+                      {uploadStatus === 'uploading' ? '上傳中…' : '上傳頭像'}
                     </button>
+                    {uploadStatus === 'success' && (
+                      <span className="upload-msg upload-ok">✓ 上傳成功</span>
+                    )}
+                    {uploadStatus === 'error' && (
+                      <span className="upload-msg upload-err">✗ {uploadError}</span>
+                    )}
                   </form>
                 </div>
               </section>
@@ -671,7 +720,15 @@ export default function UserInfoEdit() {
           cursor: pointer;
           transition: background 0.15s;
         }
-        .btn-upload:hover { background: #0d8de6; }
+        .btn-upload:hover:not(:disabled) { background: #0d8de6; }
+        .btn-upload-loading { opacity: 0.7; cursor: not-allowed; }
+        .upload-msg {
+          font-size: 13px;
+          font-weight: 600;
+          font-family: 'Noto Sans TC';
+        }
+        .upload-ok { color: #1a7f45; }
+        .upload-err { color: #ec3f3f; }
 
         /* form grid */
         .form-grid {

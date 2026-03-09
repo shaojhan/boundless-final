@@ -39,3 +39,10 @@ import { ArticleService } from './service/article/ArticleService.js';
 
 export const articleRepository = new PrismaArticleRepository(prisma);
 export const articleService = new ArticleService(articleRepository);
+
+// ── Jam Context ────────────────────────────────────────────────────────────────
+import { PrismaJamRepository } from './repository/jam/PrismaJamRepository.js';
+import { JamService } from './service/jam/JamService.js';
+
+export const jamRepository = new PrismaJamRepository(prisma);
+export const jamService = new JamService(jamRepository);

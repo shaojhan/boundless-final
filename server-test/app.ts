@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 // import router 匯入路由
 // routes/index.js, instrument.js, lesson.js superseded by DDD catalog routers
-import jamRouter from './routes/jam.js';
+// import jamRouter from './routes/jam.js'; // superseded by DDD jamRouter
 import couponRouter from './routes/coupon.js';
 import userRouter from './routes/user.js';
 // import articleRouter from './routes/article.js'; // superseded by DDD articleRouter
@@ -23,7 +23,8 @@ import { createInstrumentRouter } from './src/interfaces/routers/instrumentRoute
 import { createLessonRouter } from './src/interfaces/routers/lessonRouter.js';
 import { createCatalogIndexRouter } from './src/interfaces/routers/catalogIndexRouter.js';
 import { createArticleRouter } from './src/interfaces/routers/articleRouter.js';
-import { authService, instrumentService, lessonService, articleService } from './src/container.js';
+import { createJamRouter } from './src/interfaces/routers/jamRouter.js';
+import { authService, instrumentService, lessonService, articleService, jamService } from './src/container.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -72,7 +73,7 @@ app.use('/api', (req: Request, res: Response, next: NextFunction) => {
 // 使用路由（catalogIndexRouter 必須在 static 之前，避免 GET / 被 public/index.html 攔截）
 app.use('/', createCatalogIndexRouter(lessonService));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/api/jam', jamRouter);
+app.use('/api/jam', createJamRouter(jamService));
 app.use('/api/instrument', createInstrumentRouter(instrumentService));
 app.use('/api/lesson', createLessonRouter(lessonService));
 app.use('/api/coupon', couponRouter);

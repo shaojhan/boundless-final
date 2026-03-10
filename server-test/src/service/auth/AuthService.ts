@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config.js';
 import { compareHash, generateHash } from '#db-helpers/password-hash.js';
-import type { IUserRepository } from '../../repository/auth/IUserRepository.js';
-import type { IRefreshTokenRepository } from '../../repository/auth/IRefreshTokenRepository.js';
-import type { IOtpRepository } from '../../repository/auth/IOtpRepository.js';
-import type { UserPublic } from '../../domain/auth/User.js';
-import { AuthError } from '../../domain/auth/AuthError.js';
+import type { IUserRepository } from '#repository/auth/IUserRepository.js';
+import type { IRefreshTokenRepository } from '#repository/auth/IRefreshTokenRepository.js';
+import type { IOtpRepository } from '#repository/auth/IOtpRepository.js';
+import type { UserPublic } from '#domain/auth/User.js';
+import { AuthError } from '#domain/auth/AuthError.js';
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
 const ACCESS_TOKEN_TTL = '15m';

@@ -4,8 +4,8 @@ import type {
   InstrumentProductDetail,
   LessonProductDetail,
   HomepageLesson,
-} from '../../domain/catalog/Product.js';
-import type { InstrumentCategory, LessonCategory } from '../../domain/catalog/Category.js';
+} from '#domain/catalog/Product.js';
+import type { InstrumentCategory, LessonCategory } from '#domain/catalog/Category.js';
 
 export interface InstrumentFilters {
   page?: number;

@@ -2,10 +2,10 @@ import express from 'express';
 import multer from 'multer';
 import { dirname, resolve, extname } from 'path';
 import { fileURLToPath } from 'url';
-import { checkToken } from '../../../middleware/checkToken.js';
-import { UpdateProfileSchema } from '../schemas/userSchema.js';
-import type { UserService } from '../../service/user/UserService.js';
-import type { ArticleService } from '../../service/article/ArticleService.js';
+import { checkToken } from '#middleware/checkToken.js';
+import { UpdateProfileSchema } from '#interfaces/schemas/userSchema.js';
+import type { UserService } from '#service/user/UserService.js';
+import type { ArticleService } from '#service/article/ArticleService.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

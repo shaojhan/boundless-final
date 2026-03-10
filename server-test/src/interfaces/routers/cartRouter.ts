@@ -1,7 +1,7 @@
 import express from 'express';
 import { z } from 'zod';
-import { checkToken } from '../../../middleware/checkToken.js';
-import type { CartService } from '../../service/commerce/CartService.js';
+import { checkToken } from '#middleware/checkToken.js';
+import type { CartService } from '#service/commerce/CartService.js';
 
 const CalculateSchema = z.object({
   cartdata: z.string(),

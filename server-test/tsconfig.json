@@ -3,7 +3,9 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "allowJs": true,
     "checkJs": false,
     "strict": false,
@@ -13,12 +15,42 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "paths": {
-      "#src/*": ["./src/*"],
-      "#db-helpers/*": ["./db-helpers/*"],
-      "#configs/*": ["./configs/*"],
-      "#generated/*": ["./generated/*"]
+      "#src/*": [
+        "./src/*"
+      ],
+      "#db-helpers/*": [
+        "./db-helpers/*"
+      ],
+      "#configs/*": [
+        "./configs/*"
+      ],
+      "#generated/*": [
+        "./generated/*"
+      ],
+      "#domain/*": [
+        "./src/domain/*"
+      ],
+      "#service/*": [
+        "./src/service/*"
+      ],
+      "#repository/*": [
+        "./src/repository/*"
+      ],
+      "#interfaces/*": [
+        "./src/interfaces/*"
+      ],
+      "#middleware/*": [
+        "./middleware/*"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.js", "src/**/*.ts"],
-  "exclude": ["node_modules", "generated"]
+  "include": [
+    "**/*.ts",
+    "**/*.js",
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "generated"
+  ]
 }

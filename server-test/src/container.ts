@@ -9,7 +9,7 @@
  *   export const fooRepository = new PrismaFooRepository(prisma);
  *   export const fooService     = new FooService(fooRepository);
  */
-import prisma from '../configs/prisma.ts';
+import prisma from '#configs/prisma.js';
 
 export { prisma };
 

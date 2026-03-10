@@ -7,7 +7,7 @@ import type {
   ArticleListItem,
   ArticleDetailRow,
   CreateArticleInput,
-} from '../../domain/article/Article.js';
+} from '#domain/article/Article.js';
 
 // ── UID generator (moved from routes/article.ts) ─────────────────────────────
 

@@ -1,5 +1,5 @@
-import type { ICouponRepository } from '../../repository/commerce/ICouponRepository.js';
-import type { UserCouponDetail, RedeemResult } from '../../domain/commerce/Coupon.js';
+import type { ICouponRepository } from '#repository/commerce/ICouponRepository.js';
+import type { UserCouponDetail, RedeemResult } from '#domain/commerce/Coupon.js';
 
 export class CouponService {
   constructor(private readonly repo: ICouponRepository) {}

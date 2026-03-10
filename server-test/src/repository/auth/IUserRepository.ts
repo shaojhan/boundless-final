@@ -1,4 +1,4 @@
-import type { User, UserPublic, NewUserInput, GoogleUserInput } from '../../domain/auth/User.js';
+import type { User, UserPublic, NewUserInput, GoogleUserInput } from '#domain/auth/User.js';
 
 export interface IUserRepository {
   findById(id: number): Promise<User | null>;

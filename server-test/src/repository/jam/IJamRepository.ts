@@ -10,7 +10,7 @@ import type {
   CreateApplyInput,
   UpdateJamFormInput,
   EditJamInfoInput,
-} from '../../domain/jam/Jam.js';
+} from '#domain/jam/Jam.js';
 
 export interface IJamRepository {
   // ── Queries ─────────────────────────────────────────────────────────────────

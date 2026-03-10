@@ -1,11 +1,11 @@
-import type { IUserProfileRepository } from '../../repository/user/IUserProfileRepository.js';
+import type { IUserProfileRepository } from '#repository/user/IUserProfileRepository.js';
 import type {
   UserProfile,
   PublicUserHomepage,
   UserWithJam,
   UpdateProfileInput,
   OrderItem,
-} from '../../domain/user/UserProfile.js';
+} from '#domain/user/UserProfile.js';
 
 export class UserService {
   constructor(private readonly repo: IUserProfileRepository) {}

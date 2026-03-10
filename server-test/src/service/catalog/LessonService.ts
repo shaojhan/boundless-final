@@ -1,6 +1,6 @@
-import type { IProductRepository, LessonFilters } from '../../repository/catalog/IProductRepository.js';
-import type { LessonProduct, LessonProductDetail, HomepageLesson } from '../../domain/catalog/Product.js';
-import type { LessonCategory } from '../../domain/catalog/Category.js';
+import type { IProductRepository, LessonFilters } from '#repository/catalog/IProductRepository.js';
+import type { LessonProduct, LessonProductDetail, HomepageLesson } from '#domain/catalog/Product.js';
+import type { LessonCategory } from '#domain/catalog/Category.js';
 
 export class LessonService {
   constructor(private readonly repo: IProductRepository) {}

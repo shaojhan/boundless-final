@@ -1,6 +1,6 @@
 import type { PrismaClient } from '#generated/prisma/client.js';
 import type { ICartRepository, ProductPrice, ProductInfo, DiscountRule, UserEmailInfo } from './ICartRepository.js';
-import type { CartEntry, OrderInput, PriceResult } from '../../domain/commerce/Cart.js';
+import type { CartEntry, OrderInput, PriceResult } from '#domain/commerce/Cart.js';
 
 export class PrismaCartRepository implements ICartRepository {
   constructor(private readonly prisma: PrismaClient) {}

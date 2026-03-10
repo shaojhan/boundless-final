@@ -1,5 +1,5 @@
 import express from 'express';
-import type { LessonService } from '../../service/catalog/LessonService.js';
+import type { LessonService } from '#service/catalog/LessonService.js';
 
 export function createCatalogIndexRouter(lessonService: LessonService) {
   const router = express.Router();

@@ -1,4 +1,4 @@
-import type { UserCouponDetail, RedeemResult } from '../../domain/commerce/Coupon.js';
+import type { UserCouponDetail, RedeemResult } from '#domain/commerce/Coupon.js';
 
 export interface ICouponRepository {
   findByUserId(userId: number): Promise<UserCouponDetail[]>;

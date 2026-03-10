@@ -1,7 +1,7 @@
 import { format, addDays, differenceInDays } from 'date-fns';
 import type { PrismaClient } from '#generated/prisma/client.js';
 import type { ICouponRepository } from './ICouponRepository.js';
-import type { UserCouponDetail, RedeemResult } from '../../domain/commerce/Coupon.js';
+import type { UserCouponDetail, RedeemResult } from '#domain/commerce/Coupon.js';
 
 export class PrismaCouponRepository implements ICouponRepository {
   constructor(private readonly prisma: PrismaClient) {}

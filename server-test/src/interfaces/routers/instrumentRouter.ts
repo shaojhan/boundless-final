@@ -1,6 +1,6 @@
 import express from 'express';
-import type { InstrumentService } from '../../service/catalog/InstrumentService.js';
-import { InstrumentQuerySchema, CategoryParamSchema } from '../schemas/catalogSchema.js';
+import type { InstrumentService } from '#service/catalog/InstrumentService.js';
+import { InstrumentQuerySchema, CategoryParamSchema } from '#interfaces/schemas/catalogSchema.js';
 
 export function createInstrumentRouter(instrumentService: InstrumentService) {
   const router = express.Router();

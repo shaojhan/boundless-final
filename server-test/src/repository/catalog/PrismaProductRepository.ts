@@ -8,8 +8,8 @@ import type {
   HomepageLesson,
   InstrumentReview,
   LessonReview,
-} from '../../domain/catalog/Product.js';
-import type { InstrumentCategory, LessonCategory } from '../../domain/catalog/Category.js';
+} from '#domain/catalog/Product.js';
+import type { InstrumentCategory, LessonCategory } from '#domain/catalog/Category.js';
 
 const DATA_PER_PAGE = 20;
 

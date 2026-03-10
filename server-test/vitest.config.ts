@@ -29,6 +29,26 @@ export default defineConfig({
         find: /^#src\/(.+?)(?:\.js)?$/,
         replacement: path.resolve(__dirname, 'src/$1'),
       },
+      {
+        find: /^#domain\/(.+?)(?:\.js)?$/,
+        replacement: path.resolve(__dirname, 'src/domain/$1'),
+      },
+      {
+        find: /^#service\/(.+?)(?:\.js)?$/,
+        replacement: path.resolve(__dirname, 'src/service/$1'),
+      },
+      {
+        find: /^#repository\/(.+?)(?:\.js)?$/,
+        replacement: path.resolve(__dirname, 'src/repository/$1'),
+      },
+      {
+        find: /^#interfaces\/(.+?)(?:\.js)?$/,
+        replacement: path.resolve(__dirname, 'src/interfaces/$1'),
+      },
+      {
+        find: /^#middleware\/(.+?)(?:\.js)?$/,
+        replacement: path.resolve(__dirname, 'middleware/$1'),
+      },
     ],
   },
 });

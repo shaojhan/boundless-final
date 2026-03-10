@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import type { PrismaClient } from '#generated/prisma/client.js';
 import type { IUserRepository } from './IUserRepository.js';
-import type { User, UserPublic, NewUserInput, GoogleUserInput } from '../../domain/auth/User.js';
+import type { User, UserPublic, NewUserInput, GoogleUserInput } from '#domain/auth/User.js';
 import { generateHash } from '#db-helpers/password-hash.js';
 
 const USER_PUBLIC_SELECT = {

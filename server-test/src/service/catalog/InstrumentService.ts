@@ -1,6 +1,6 @@
-import type { IProductRepository, InstrumentFilters } from '../../repository/catalog/IProductRepository.js';
-import type { InstrumentProduct, InstrumentProductDetail } from '../../domain/catalog/Product.js';
-import type { InstrumentCategory } from '../../domain/catalog/Category.js';
+import type { IProductRepository, InstrumentFilters } from '#repository/catalog/IProductRepository.js';
+import type { InstrumentProduct, InstrumentProductDetail } from '#domain/catalog/Product.js';
+import type { InstrumentCategory } from '#domain/catalog/Category.js';
 
 export class InstrumentService {
   constructor(private readonly repo: IProductRepository) {}

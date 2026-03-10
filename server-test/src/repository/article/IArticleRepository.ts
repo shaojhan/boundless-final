@@ -2,7 +2,7 @@ import type {
   ArticleListItem,
   ArticleDetailRow,
   CreateArticleInput,
-} from '../../domain/article/Article.js';
+} from '#domain/article/Article.js';
 
 export interface ArticleFindOptions {
   categoryId?: number;

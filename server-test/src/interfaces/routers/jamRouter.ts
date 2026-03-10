@@ -3,7 +3,7 @@ import { rename } from 'fs/promises';
 import { dirname, resolve, extname } from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
-import type { JamService } from '../../service/jam/JamService.js';
+import type { JamService } from '#service/jam/JamService.js';
 import {
   JamListQuerySchema,
   FormedJamListQuerySchema,
@@ -20,7 +20,7 @@ import {
   QuitSchema,
   FormRightNowSchema,
   EditJamInfoSchema,
-} from '../schemas/jamSchema.js';
+} from '#interfaces/schemas/jamSchema.js';
 
 const __dirname = dirname(dirname(fileURLToPath(import.meta.url)));
 const publicDir = resolve(__dirname, '..', '..', 'public');

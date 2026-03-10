@@ -1,12 +1,12 @@
 import type {
   IArticleRepository,
   ArticleFindOptions,
-} from '../../repository/article/IArticleRepository.js';
+} from '#repository/article/IArticleRepository.js';
 import type {
   ArticleListItem,
   ArticleDetailRow,
   CreateArticleInput,
-} from '../../domain/article/Article.js';
+} from '#domain/article/Article.js';
 
 export class ArticleService {
   constructor(private readonly repo: IArticleRepository) {}

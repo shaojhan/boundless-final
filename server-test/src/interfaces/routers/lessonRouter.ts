@@ -1,6 +1,6 @@
 import express from 'express';
-import type { LessonService } from '../../service/catalog/LessonService.js';
-import { LessonQuerySchema, CategoryParamSchema } from '../schemas/catalogSchema.js';
+import type { LessonService } from '#service/catalog/LessonService.js';
+import { LessonQuerySchema, CategoryParamSchema } from '#interfaces/schemas/catalogSchema.js';
 
 export function createLessonRouter(lessonService: LessonService) {
   const router = express.Router();

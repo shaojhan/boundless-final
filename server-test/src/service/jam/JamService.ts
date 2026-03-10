@@ -1,4 +1,4 @@
-import type { IJamRepository } from '../../repository/jam/IJamRepository.js';
+import type { IJamRepository } from '#repository/jam/IJamRepository.js';
 import type {
   JamFindOptions,
   JamListResult,
@@ -11,7 +11,7 @@ import type {
   CreateApplyInput,
   UpdateJamFormInput,
   EditJamInfoInput,
-} from '../../domain/jam/Jam.js';
+} from '#domain/jam/Jam.js';
 
 function generateUid(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

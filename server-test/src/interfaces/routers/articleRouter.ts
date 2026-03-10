@@ -3,12 +3,12 @@ import { rename } from 'fs/promises';
 import { dirname, resolve, extname } from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
-import type { ArticleService } from '../../service/article/ArticleService.js';
+import type { ArticleService } from '#service/article/ArticleService.js';
 import {
   CreateArticleSchema,
   UpdateArticleSchema,
   AuidParamSchema,
-} from '../schemas/articleSchema.js';
+} from '#interfaces/schemas/articleSchema.js';
 
 const __dirname = dirname(dirname(fileURLToPath(import.meta.url)));
 // public/ is two levels up from src/interfaces/routers/

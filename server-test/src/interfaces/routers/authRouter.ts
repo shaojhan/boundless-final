@@ -1,15 +1,15 @@
 import express from 'express';
 import transporter from '#configs/mail.js';
-import type { AuthService, LoginPayload } from '../../service/auth/AuthService.js';
-import { REFRESH_COOKIE_OPTIONS } from '../../service/auth/AuthService.js';
-import { AuthError } from '../../domain/auth/AuthError.js';
+import type { AuthService, LoginPayload } from '#service/auth/AuthService.js';
+import { REFRESH_COOKIE_OPTIONS } from '#service/auth/AuthService.js';
+import { AuthError } from '#domain/auth/AuthError.js';
 import {
   LoginSchema,
   RegisterSchema,
   GoogleLoginSchema,
   OtpRequestSchema,
   ResetPasswordSchema,
-} from '../schemas/authSchema.js';
+} from '#interfaces/schemas/authSchema.js';
 
 const CLEAR_COOKIE_OPTIONS = { ...REFRESH_COOKIE_OPTIONS, maxAge: 0 };
 

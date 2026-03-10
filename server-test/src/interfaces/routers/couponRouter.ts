@@ -1,6 +1,6 @@
 import express from 'express';
 import { z } from 'zod';
-import type { CouponService } from '../../service/commerce/CouponService.js';
+import type { CouponService } from '#service/commerce/CouponService.js';
 
 const CreateSchema = z.object({
   user_id: z.number(),

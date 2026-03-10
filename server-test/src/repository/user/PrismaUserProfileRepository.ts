@@ -6,7 +6,7 @@ import type {
   UserWithJam,
   UpdateProfileInput,
   OrderItem,
-} from '../../domain/user/UserProfile.js';
+} from '#domain/user/UserProfile.js';
 
 export class PrismaUserProfileRepository implements IUserProfileRepository {
   constructor(private readonly prisma: PrismaClient) {}

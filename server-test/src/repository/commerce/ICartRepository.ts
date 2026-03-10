@@ -1,4 +1,4 @@
-import type { CartEntry, OrderInput, PriceResult } from '../../domain/commerce/Cart.js';
+import type { CartEntry, OrderInput, PriceResult } from '#domain/commerce/Cart.js';
 
 export interface ProductPrice {
   id: number;

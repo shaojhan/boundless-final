@@ -4,7 +4,7 @@ import type {
   UserWithJam,
   UpdateProfileInput,
   OrderItem,
-} from '../../domain/user/UserProfile.js';
+} from '#domain/user/UserProfile.js';
 
 export interface IUserProfileRepository {
   findById(id: number): Promise<UserProfile | null>;

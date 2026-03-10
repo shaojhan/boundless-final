@@ -1,10 +1,10 @@
 import transporter from '#configs/mail.js';
-import type { ICartRepository } from '../../repository/commerce/ICartRepository.js';
+import type { ICartRepository } from '#repository/commerce/ICartRepository.js';
 import type {
   CartEntry,
   OrderInput,
   PriceResult,
-} from '../../domain/commerce/Cart.js';
+} from '#domain/commerce/Cart.js';
 
 function generateOuid(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

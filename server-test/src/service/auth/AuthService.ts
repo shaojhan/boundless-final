@@ -127,7 +127,10 @@ export class AuthService {
 
   async resetPassword(email: string, token: string, password: string): Promise<boolean> {
     const hash = await generateHash(password);
-    return this.otpRepo.updatePassword(email, token, hash);
+    const userId = await this.otpRepo.updatePassword(email, token, hash);
+    if (!userId) return false;
+    await this.tokenRepo.deleteByUserId(userId);
+    return true;
   }
 }
 

@@ -26,7 +26,7 @@ export class PrismaOtpRepository implements IOtpRepository {
       if (withinCooldown) return null; // too soon
 
       // refresh
-      const token = generateToken(email);
+      const token = generateToken();
       const exp_timestamp = BigInt(Date.now() + expMs);
       await this.prisma.otp.update({
         where: { id: existing.id },
@@ -36,7 +36,7 @@ export class PrismaOtpRepository implements IOtpRepository {
     }
 
     // create new
-    const token = generateToken(email);
+    const token = generateToken();
     const exp_timestamp = BigInt(Date.now() + expMs);
     await this.prisma.otp.create({
       data: {
@@ -55,16 +55,16 @@ export class PrismaOtpRepository implements IOtpRepository {
     email: string,
     token: string,
     newPasswordHash: string,
-  ): Promise<boolean> {
+  ): Promise<number | null> {
     const otp = await this.prisma.otp.findFirst({ where: { email, token } });
-    if (!otp) return false;
-    if (Date.now() > Number(otp.exp_timestamp)) return false;
+    if (!otp) return null;
+    if (Date.now() > Number(otp.exp_timestamp)) return null;
 
     await this.prisma.user.updateMany({
       where: { id: otp.user_id },
       data: { password: newPasswordHash },
     });
     await this.prisma.otp.delete({ where: { id: otp.id } });
-    return true;
+    return otp.user_id;
   }
 }

@@ -8,7 +8,7 @@ export interface IOtpRepository {
 
   /**
    * Validate the OTP token and update the user's password.
-   * Returns true on success, false if OTP is invalid/expired.
+   * Returns the userId on success, or null if OTP is invalid/expired.
    */
-  updatePassword(email: string, token: string, newPasswordHash: string): Promise<boolean>;
+  updatePassword(email: string, token: string, newPasswordHash: string): Promise<number | null>;
 }

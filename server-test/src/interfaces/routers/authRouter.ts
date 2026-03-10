@@ -1,4 +1,5 @@
 import express from 'express';
+import { rateLimit } from 'express-rate-limit';
 import transporter from '#configs/mail.js';
 import type { AuthService, LoginPayload } from '#service/auth/AuthService.js';
 import { REFRESH_COOKIE_OPTIONS } from '#service/auth/AuthService.js';
@@ -12,6 +13,9 @@ import {
 } from '#interfaces/schemas/authSchema.js';
 
 const CLEAR_COOKIE_OPTIONS = { ...REFRESH_COOKIE_OPTIONS, maxAge: 0 };
+
+const otpLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false });
+const resetLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false });
 
 export function createAuthRouter(authService: AuthService) {
   const router = express.Router();
@@ -97,29 +101,27 @@ export function createAuthRouter(authService: AuthService) {
   });
 
   // ── POST /api/auth/otp ───────────────────────────────────────────────────
-  router.post('/otp', async (req, res) => {
+  router.post('/otp', otpLimiter, async (req, res) => {
     const parsed = OtpRequestSchema.safeParse(req.body);
     if (!parsed.success) {
       return res.json({ status: 'error', message: '缺少必要資料' });
     }
     const token = await authService.requestOtp(parsed.data.email);
-    if (!token) {
-      return res.json({ status: 'error', message: 'Email錯誤或期間內重覆要求' });
+    if (token) {
+      // Fire-and-forget: don't disclose outcome to prevent email enumeration
+      transporter.sendMail({
+        from: `"boundless"<${process.env.MAIL_FROM}>`,
+        to: parsed.data.email,
+        subject: '重新設定密碼',
+        text: buildOtpMailText(token),
+      });
     }
-    const mailOptions = {
-      from: `"boundless"<${process.env.MAIL_FROM}>`,
-      to: parsed.data.email,
-      subject: '重新設定密碼',
-      text: buildOtpMailText(token),
-    };
-    transporter.sendMail(mailOptions, (err) => {
-      if (err) return res.json({ status: 'error', message: '發送電子郵件失敗' });
-      return res.json({ status: 'success', data: null });
-    });
+    // Always return success — prevents email enumeration
+    return res.json({ status: 'success', data: null });
   });
 
   // ── POST /api/auth/reset-password ────────────────────────────────────────
-  router.post('/reset-password', async (req, res) => {
+  router.post('/reset-password', resetLimiter, async (req, res) => {
     const parsed = ResetPasswordSchema.safeParse(req.body);
     if (!parsed.success) {
       return res.json({ status: 'error', message: '缺少必要資料' });

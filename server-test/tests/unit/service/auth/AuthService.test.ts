@@ -60,6 +60,7 @@ function makeRepos() {
     create: vi.fn().mockResolvedValue('refresh-token-xyz'),
     findValid: vi.fn(),
     delete: vi.fn(),
+    deleteByUserId: vi.fn(),
   };
   const otpRepo: IOtpRepository = {
     createOrRefresh: vi.fn(),
@@ -230,25 +231,27 @@ describe('AuthService.requestOtp', () => {
 describe('AuthService.resetPassword', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('成功重設密碼回傳 true', async () => {
+  it('成功重設密碼回傳 true，並撤銷所有 refresh token', async () => {
     const { userRepo, tokenRepo, otpRepo } = makeRepos();
     vi.mocked(passwordHash.generateHash).mockResolvedValue('hashed_new_pw');
-    vi.mocked(otpRepo.updatePassword).mockResolvedValue(true);
+    vi.mocked(otpRepo.updatePassword).mockResolvedValue(3); // userId on success
 
     const service = new AuthService(userRepo, tokenRepo, otpRepo);
-    const ok = await service.resetPassword('user@example.com', '123456', 'newPassword');
+    const ok = await service.resetPassword('user@example.com', 'valid_token', 'newPassword');
 
     expect(passwordHash.generateHash).toHaveBeenCalledWith('newPassword');
-    expect(otpRepo.updatePassword).toHaveBeenCalledWith('user@example.com', '123456', 'hashed_new_pw');
+    expect(otpRepo.updatePassword).toHaveBeenCalledWith('user@example.com', 'valid_token', 'hashed_new_pw');
+    expect(tokenRepo.deleteByUserId).toHaveBeenCalledWith(3);
     expect(ok).toBe(true);
   });
 
-  it('OTP 無效 → 回傳 false', async () => {
+  it('OTP 無效 → 回傳 false，不撤銷 refresh token', async () => {
     const { userRepo, tokenRepo, otpRepo } = makeRepos();
     vi.mocked(passwordHash.generateHash).mockResolvedValue('hashed_new_pw');
-    vi.mocked(otpRepo.updatePassword).mockResolvedValue(false);
+    vi.mocked(otpRepo.updatePassword).mockResolvedValue(null);
 
     const service = new AuthService(userRepo, tokenRepo, otpRepo);
     expect(await service.resetPassword('user@example.com', 'wrong', 'newPassword')).toBe(false);
+    expect(tokenRepo.deleteByUserId).not.toHaveBeenCalled();
   });
 });

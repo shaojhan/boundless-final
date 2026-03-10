@@ -1,5 +1,7 @@
 import createError from 'http-errors';
 import express, { Request, Response, NextFunction } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import { generateOpenApiSpec } from './src/interfaces/docs/registry.js';
 import path, { dirname } from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
@@ -73,6 +75,10 @@ app.use('/api', (req: Request, res: Response, next: NextFunction) => {
   res.set('Surrogate-Control', 'no-store');
   next();
 });
+// Swagger UI
+const apiSpec = generateOpenApiSpec();
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(apiSpec));
+
 // 使用路由（catalogIndexRouter 必須在 static 之前，避免 GET / 被 public/index.html 攔截）
 app.use('/', createCatalogIndexRouter(lessonService));
 app.use(express.static(path.join(__dirname, 'public')));

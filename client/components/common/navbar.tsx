@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import { IoCart, IoMenu } from 'react-icons/io5'
+import { IoCart, IoMenu, IoMoon, IoSunny } from 'react-icons/io5'
+import { useDarkMode } from '@/hooks/useDarkMode'
 import Image from 'next/image'
 import logo from '@/assets/logo.svg'
 import logoMb from '@/assets/logo_mb.svg'
@@ -24,6 +25,7 @@ export default function Navbar({
   menuMbToggle?: (..._args: unknown[]) => void
 }) {
   const { calcTotalItems, cartNull, items } = useCart()
+  const { isDark, toggle: toggleDark } = useDarkMode()
   // ----------------------會員登入狀態 & 會員資料獲取  ----------------------
   //從hook 獲得使用者登入的資訊  儲存在變數LoginUserData裡面
   const { LoginUserData, handleLogout } = useAuth()
@@ -92,6 +94,15 @@ export default function Navbar({
             </li>
             <li>
               <Link href="/article/article-list">樂友論壇</Link>
+            </li>
+            <li>
+              <button
+                onClick={toggleDark}
+                aria-label="切換暗黑模式"
+                className="dark-toggle"
+              >
+                {isDark ? <IoSunny size={22} /> : <IoMoon size={22} />}
+              </button>
             </li>
             <li className="ml-6 cart-icon">
               <div
@@ -187,6 +198,13 @@ export default function Navbar({
               </div>
             </div>
 
+            <button
+              onClick={toggleDark}
+              aria-label="切換暗黑模式"
+              className="dark-toggle mr-4"
+            >
+              {isDark ? <IoSunny size={22} /> : <IoMoon size={22} />}
+            </button>
             <IoMenu size={30} className="ml-6" onClick={menuMbToggle} />
           </div>
           {/* 登入狀態下 點擊右上角叫出小視窗          */}
@@ -288,6 +306,19 @@ export default function Navbar({
         }
         .menu-active {
           top: -580px;
+        }
+        .dark-toggle {
+          background: none;
+          border: none;
+          color: #fff;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          padding: 5px 8px;
+          border-radius: 8px;
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+          }
         }
         .cart-icon {
           position: relative;

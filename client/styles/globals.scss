@@ -116,6 +116,19 @@ $small: 14px;
     font-family: "Noto Sans TC", sans-serif;
     padding-right: 0 !important;
     background-color: #fff;
+    color: #1d1d1d;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .dark body {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
+  .dark .ProseMirror {
+    background: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #444;
   }
 
   a {

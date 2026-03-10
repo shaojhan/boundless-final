@@ -5,8 +5,14 @@ import type { OrderInput, PriceResult } from '#src/domain/commerce/Cart.js';
 
 // ── Prisma mock factory ────────────────────────────────────────────────────────
 
+type TxMock = {
+  orderTotal: { create: ReturnType<typeof vi.fn> };
+  orderItem: { createMany: ReturnType<typeof vi.fn> };
+  coupon: { updateMany: ReturnType<typeof vi.fn> };
+};
+
 function makePrisma() {
-  const tx = {
+  const tx: TxMock = {
     orderTotal: { create: vi.fn() },
     orderItem: { createMany: vi.fn() },
     coupon: { updateMany: vi.fn() },
@@ -16,11 +22,11 @@ function makePrisma() {
     coupon: { findFirst: vi.fn() },
     couponTemplate: { findFirst: vi.fn() },
     user: { findFirst: vi.fn() },
-    $transaction: vi.fn().mockImplementation((fn: (tx: typeof tx) => Promise<unknown>) =>
+    $transaction: vi.fn().mockImplementation((fn: (tx: TxMock) => Promise<unknown>) =>
       fn(tx)
     ),
     _tx: tx,  // 方便測試存取 transaction mock
-  } as unknown as PrismaClient & { _tx: typeof tx };
+  } as unknown as PrismaClient & { _tx: TxMock };
 }
 
 // ── findProductPrices ──────────────────────────────────────────────────────────

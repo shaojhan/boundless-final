@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { User, UserPublic, NewUserInput, GoogleUserInput } from '../../../../src/domain/auth/User.js';
+import type { User, UserPublic, NewUserInput, GoogleUserInput } from '#src/domain/auth/User.js';
 
 describe('User domain entity', () => {
   const now = new Date();

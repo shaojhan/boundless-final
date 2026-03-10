@@ -11,7 +11,13 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "#src/*": ["./src/*"],
+      "#db-helpers/*": ["./db-helpers/*"],
+      "#configs/*": ["./configs/*"],
+      "#generated/*": ["./generated/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.js", "src/**/*.ts"],
   "exclude": ["node_modules", "generated"]

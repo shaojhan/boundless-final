@@ -4,7 +4,7 @@ import type {
   PublicUserHomepage,
   UserWithJam,
   UpdateProfileInput,
-} from '../../../../src/domain/user/UserProfile.js';
+} from '#src/domain/user/UserProfile.js';
 
 // ── UserProfile 型別結構測試 ────────────────────────────────────────────────────
 

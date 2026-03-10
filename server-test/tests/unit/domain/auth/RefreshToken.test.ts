@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { RefreshToken } from '../../../../src/domain/auth/RefreshToken.js';
+import type { RefreshToken } from '#src/domain/auth/RefreshToken.js';
 
 describe('RefreshToken domain entity', () => {
   const makeToken = (expiresAt: Date): RefreshToken => ({

@@ -1,13 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { JamService } from '../../../../src/service/jam/JamService.js';
-import type { IJamRepository } from '../../../../src/repository/jam/IJamRepository.js';
+import { JamService } from '#src/service/jam/JamService.js';
+import type { IJamRepository } from '#src/repository/jam/IJamRepository.js';
 import type {
   JamListResult,
   JamDetailResult,
   MyApplyItem,
   FormedJamListResult,
   FormedJamDetailResult,
-} from '../../../../src/domain/jam/Jam.js';
+} from '#src/domain/jam/Jam.js';
 
 // ── Fixtures ───────────────────────────────────────────────────────────────────
 

@@ -4,7 +4,7 @@ import type {
   UserCoupon,
   UserCouponDetail,
   RedeemResult,
-} from '../../../../src/domain/commerce/Coupon.js';
+} from '#src/domain/commerce/Coupon.js';
 
 // ── CouponTemplate 型別結構測試 ─────────────────────────────────────────────────
 

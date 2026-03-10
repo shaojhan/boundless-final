@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { IUserRepository } from '../../../../src/repository/auth/IUserRepository.js';
-import type { IRefreshTokenRepository } from '../../../../src/repository/auth/IRefreshTokenRepository.js';
-import type { IOtpRepository } from '../../../../src/repository/auth/IOtpRepository.js';
-import type { User } from '../../../../src/domain/auth/User.js';
-import { AuthError } from '../../../../src/domain/auth/AuthError.js';
+import type { IUserRepository } from '#src/repository/auth/IUserRepository.js';
+import type { IRefreshTokenRepository } from '#src/repository/auth/IRefreshTokenRepository.js';
+import type { IOtpRepository } from '#src/repository/auth/IOtpRepository.js';
+import type { User } from '#src/domain/auth/User.js';
+import { AuthError } from '#src/domain/auth/AuthError.js';
 
 // Mock the password-hash helpers before importing AuthService
 vi.mock('#db-helpers/password-hash', () => ({
@@ -12,8 +12,8 @@ vi.mock('#db-helpers/password-hash', () => ({
 }));
 vi.mock('dotenv/config.js', () => ({}));
 
-import * as passwordHash from '../../../../db-helpers/password-hash.js';
-import { AuthService } from '../../../../src/service/auth/AuthService.js';
+import * as passwordHash from '#db-helpers/password-hash.js';
+import { AuthService } from '#src/service/auth/AuthService.js';
 
 // ── Fixtures ───────────────────────────────────────────────────────────────────
 

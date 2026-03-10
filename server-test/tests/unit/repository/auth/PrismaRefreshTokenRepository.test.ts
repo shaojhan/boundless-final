@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { PrismaClient } from '#generated/prisma/client.js';
-import { PrismaRefreshTokenRepository } from '../../../../src/repository/auth/PrismaRefreshTokenRepository.js';
+import { PrismaRefreshTokenRepository } from '#src/repository/auth/PrismaRefreshTokenRepository.js';
 
 // ── Prisma mock ────────────────────────────────────────────────────────────────
 

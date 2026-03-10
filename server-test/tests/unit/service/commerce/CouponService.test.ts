@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { ICouponRepository } from '../../../../src/repository/commerce/ICouponRepository.js';
-import type { UserCouponDetail, RedeemResult } from '../../../../src/domain/commerce/Coupon.js';
-import { CouponService } from '../../../../src/service/commerce/CouponService.js';
+import type { ICouponRepository } from '#src/repository/commerce/ICouponRepository.js';
+import type { UserCouponDetail, RedeemResult } from '#src/domain/commerce/Coupon.js';
+import { CouponService } from '#src/service/commerce/CouponService.js';
 
 // ── Mock repository factory ────────────────────────────────────────────────────
 

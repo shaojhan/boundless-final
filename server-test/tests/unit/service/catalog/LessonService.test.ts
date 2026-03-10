@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { LessonService } from '../../../../src/service/catalog/LessonService.js';
-import type { IProductRepository } from '../../../../src/repository/catalog/IProductRepository.js';
-import type { LessonProduct, LessonProductDetail, HomepageLesson } from '../../../../src/domain/catalog/Product.js';
-import type { LessonCategory } from '../../../../src/domain/catalog/Category.js';
+import { LessonService } from '#src/service/catalog/LessonService.js';
+import type { IProductRepository } from '#src/repository/catalog/IProductRepository.js';
+import type { LessonProduct, LessonProductDetail, HomepageLesson } from '#src/domain/catalog/Product.js';
+import type { LessonCategory } from '#src/domain/catalog/Category.js';
 
 // ── Fixtures ───────────────────────────────────────────────────────────────────
 

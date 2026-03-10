@@ -3,7 +3,7 @@ import {
   CreateArticleSchema,
   UpdateArticleSchema,
   AuidParamSchema,
-} from '../../../src/interfaces/schemas/articleSchema.js';
+} from '#src/interfaces/schemas/articleSchema.js';
 
 // ── CreateArticleSchema ────────────────────────────────────────────────────────
 

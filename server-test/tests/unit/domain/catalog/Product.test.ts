@@ -7,7 +7,7 @@ import type {
   InstrumentProductDetail,
   LessonProductDetail,
   HomepageLesson,
-} from '../../../../src/domain/catalog/Product.js';
+} from '#src/domain/catalog/Product.js';
 
 // ── Factories ──────────────────────────────────────────────────────────────────
 

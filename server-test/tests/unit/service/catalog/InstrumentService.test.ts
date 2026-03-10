@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { InstrumentService } from '../../../../src/service/catalog/InstrumentService.js';
-import type { IProductRepository } from '../../../../src/repository/catalog/IProductRepository.js';
-import type { InstrumentProduct, InstrumentProductDetail } from '../../../../src/domain/catalog/Product.js';
-import type { InstrumentCategory } from '../../../../src/domain/catalog/Category.js';
+import { InstrumentService } from '#src/service/catalog/InstrumentService.js';
+import type { IProductRepository } from '#src/repository/catalog/IProductRepository.js';
+import type { InstrumentProduct, InstrumentProductDetail } from '#src/domain/catalog/Product.js';
+import type { InstrumentCategory } from '#src/domain/catalog/Category.js';
 
 // ── Fixtures ───────────────────────────────────────────────────────────────────
 

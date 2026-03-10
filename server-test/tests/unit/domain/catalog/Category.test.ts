@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { InstrumentCategory, LessonCategory } from '../../../../src/domain/catalog/Category.js';
+import type { InstrumentCategory, LessonCategory } from '#src/domain/catalog/Category.js';
 
 describe('InstrumentCategory', () => {
   it('top-level category has null parent_id', () => {

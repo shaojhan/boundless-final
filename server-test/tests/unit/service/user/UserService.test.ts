@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { IUserProfileRepository } from '../../../../src/repository/user/IUserProfileRepository.js';
+import type { IUserProfileRepository } from '#src/repository/user/IUserProfileRepository.js';
 import type {
   UserProfile,
   PublicUserHomepage,
   UserWithJam,
-} from '../../../../src/domain/user/UserProfile.js';
-import { UserService } from '../../../../src/service/user/UserService.js';
+} from '#src/domain/user/UserProfile.js';
+import { UserService } from '#src/service/user/UserService.js';
 
 // ── Fixtures ───────────────────────────────────────────────────────────────────
 

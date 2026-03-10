@@ -4,7 +4,7 @@ import type {
   ProductRow,
   PriceResult,
   OrderInput,
-} from '../../../../src/domain/commerce/Cart.js';
+} from '#src/domain/commerce/Cart.js';
 
 // ── CartEntry 型別結構測試 ──────────────────────────────────────────────────────
 

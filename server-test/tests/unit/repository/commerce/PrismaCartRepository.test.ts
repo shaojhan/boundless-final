@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { PrismaClient } from '#generated/prisma/client.js';
-import { PrismaCartRepository } from '../../../../src/repository/commerce/PrismaCartRepository.js';
-import type { OrderInput, PriceResult } from '../../../../src/domain/commerce/Cart.js';
+import { PrismaCartRepository } from '#src/repository/commerce/PrismaCartRepository.js';
+import type { OrderInput, PriceResult } from '#src/domain/commerce/Cart.js';
 
 // ── Prisma mock factory ────────────────────────────────────────────────────────
 

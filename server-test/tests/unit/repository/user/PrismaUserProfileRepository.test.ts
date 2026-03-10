@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { PrismaClient } from '#generated/prisma/client.js';
-import { PrismaUserProfileRepository } from '../../../../src/repository/user/PrismaUserProfileRepository.js';
+import { PrismaUserProfileRepository } from '#src/repository/user/PrismaUserProfileRepository.js';
 
 // ── Prisma mock factory ────────────────────────────────────────────────────────
 

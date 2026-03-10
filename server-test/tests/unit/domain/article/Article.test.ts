@@ -4,7 +4,7 @@ import type {
   ArticleListItem,
   ArticleDetailRow,
   CreateArticleInput,
-} from '../../../../src/domain/article/Article.js';
+} from '#src/domain/article/Article.js';
 
 // ── Factory ────────────────────────────────────────────────────────────────────
 

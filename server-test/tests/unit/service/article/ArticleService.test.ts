@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { ArticleService } from '../../../../src/service/article/ArticleService.js';
-import type { IArticleRepository } from '../../../../src/repository/article/IArticleRepository.js';
+import { ArticleService } from '#src/service/article/ArticleService.js';
+import type { IArticleRepository } from '#src/repository/article/IArticleRepository.js';
 import type {
   ArticleListItem,
   ArticleDetailRow,
-} from '../../../../src/domain/article/Article.js';
+} from '#src/domain/article/Article.js';
 
 // ── Fixtures ───────────────────────────────────────────────────────────────────
 

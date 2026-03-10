@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { PrismaClient } from '#generated/prisma/client.js';
-import { PrismaProductRepository } from '../../../../src/repository/catalog/PrismaProductRepository.js';
+import { PrismaProductRepository } from '#src/repository/catalog/PrismaProductRepository.js';
 
 // ── Prisma mock ────────────────────────────────────────────────────────────────
 

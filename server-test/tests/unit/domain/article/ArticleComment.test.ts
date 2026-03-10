@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { ArticleComment } from '../../../../src/domain/article/ArticleComment.js';
+import type { ArticleComment } from '#src/domain/article/ArticleComment.js';
 
 describe('ArticleComment domain entity', () => {
   const makeComment = (overrides: Partial<ArticleComment> = {}): ArticleComment => ({

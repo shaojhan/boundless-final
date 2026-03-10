@@ -17,7 +17,7 @@ import type {
   CreateApplyInput,
   UpdateJamFormInput,
   EditJamInfoInput,
-} from '../../../../src/domain/jam/Jam.js';
+} from '#src/domain/jam/Jam.js';
 
 // ── Lookup tables ──────────────────────────────────────────────────────────────
 

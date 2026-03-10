@@ -5,9 +5,9 @@ vi.mock('#configs/mail', () => ({
   default: { sendMail: vi.fn().mockResolvedValue(undefined) },
 }));
 
-import type { ICartRepository, ProductPrice, DiscountRule } from '../../../../src/repository/commerce/ICartRepository.js';
-import type { CartEntry, OrderInput } from '../../../../src/domain/commerce/Cart.js';
-import { CartService } from '../../../../src/service/commerce/CartService.js';
+import type { ICartRepository, ProductPrice, DiscountRule } from '#src/repository/commerce/ICartRepository.js';
+import type { CartEntry, OrderInput } from '#src/domain/commerce/Cart.js';
+import { CartService } from '#src/service/commerce/CartService.js';
 
 // ── Mock repository factory ────────────────────────────────────────────────────
 

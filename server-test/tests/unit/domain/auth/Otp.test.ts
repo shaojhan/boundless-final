@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { Otp } from '../../../../src/domain/auth/Otp.js';
+import type { Otp } from '#src/domain/auth/Otp.js';
 
 describe('Otp domain entity', () => {
   const now = new Date();

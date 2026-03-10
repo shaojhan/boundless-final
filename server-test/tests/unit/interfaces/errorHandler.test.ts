@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ZodError, z } from 'zod';
 import type { Request, Response, NextFunction } from 'express';
-import { errorHandler } from '../../../src/interfaces/middlewares/errorHandler.js';
+import { errorHandler } from '#src/interfaces/middlewares/errorHandler.js';
 
 function makeRes() {
   const res = {

@@ -78,7 +78,7 @@ export default function Articlecard({
         </div>
         {/* kind-bookmark */}
         <div className="kind-bookmark flex justify-between items-center">
-          <div className="article-kind text-black bg-body px-2 pt-1 pb-1">
+          <div className="article-kind bg-body px-2 pt-1 pb-1">
             {category_name}
           </div>
           <div className="bookmark">

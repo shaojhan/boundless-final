@@ -662,3 +662,80 @@ header {
     background-color: $secondary;
   }
 }
+
+// ---------------------------------------- 暗黑模式 ------------------------------------------
+.dark {
+  .top-function-container {
+    background-color: #1a1a1a;
+  }
+
+  .menu-mb {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+  }
+
+  .sidebar-mb {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+  }
+
+  .filter {
+    background-color: #1e1e1e;
+    border-color: #444;
+
+    .filter-title {
+      color: #e0e0e0;
+    }
+
+    .filter-radio-group {
+      color: #b0b0b0;
+    }
+  }
+
+  .sidebar {
+    color: #b0b0b0;
+  }
+
+  .sort {
+    color: #b0b0b0;
+
+    .active {
+      color: $light-primary;
+      &:hover {
+        color: $light-primary;
+      }
+    }
+  }
+
+  .breadcrumb-wrapper,
+  .breadcrumb-wrapper-ns {
+    color: #b0b0b0;
+  }
+
+  .filter-text {
+    color: #b0b0b0;
+  }
+
+  .accordion-button {
+    color: #b0b0b0;
+  }
+
+  .accordion-button:not(.collapsed) {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+  }
+
+  .accordion-body {
+    color: #b0b0b0;
+  }
+
+  .carousel-section,
+  .instrument-section,
+  .article-section {
+    background-color: #121212;
+  }
+
+  .page-link {
+    color: #e0e0e0;
+  }
+}

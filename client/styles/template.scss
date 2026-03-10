@@ -22,7 +22,7 @@ header {
 
 .navbar-wrapper {
   flex: 1;
-  max-width: 660px;
+  max-width: 780px;
   & ul {
     margin: 0;
   }
@@ -36,6 +36,7 @@ header {
   font-size: 20px;
   font-weight: 600;
   text-decoration: none;
+  white-space: nowrap;
   &:hover {
     color: $deep-primary;
     background-color: #fff;

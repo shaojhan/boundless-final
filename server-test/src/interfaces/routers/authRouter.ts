@@ -107,7 +107,7 @@ export function createAuthRouter(authService: AuthService) {
       return res.json({ status: 'error', message: 'Email錯誤或期間內重覆要求' });
     }
     const mailOptions = {
-      from: `"boundless"<${process.env.SMTP_TO_EMAIL}>`,
+      from: `"boundless"<${process.env.MAIL_FROM}>`,
       to: parsed.data.email,
       subject: '重新設定密碼',
       text: buildOtpMailText(token),

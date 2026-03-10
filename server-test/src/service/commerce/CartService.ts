@@ -176,7 +176,7 @@ export class CartService {
       </div>`;
 
     await transporter.sendMail({
-      from: `"Boundless" <${process.env.SMTP_TO_EMAIL}>`,
+      from: `"Boundless" <${process.env.MAIL_FROM}>`,
       to: user.email,
       subject: '【Boundless】訂單確認通知',
       html,

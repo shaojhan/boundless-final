@@ -31,7 +31,7 @@ router.post('/otp', async (req, res, _next) => {
   // 寄送email
   const mailOptions = {
     // 這裡要改寄送人名稱，email在.env檔中代入
-    from: `"boundless"<${process.env.SMTP_TO_EMAIL}>`,
+    from: `"boundless"<${process.env.MAIL_FROM}>`,
     to: email,
     subject: '重新設定密碼',
     text: mailText(otp.token),

@@ -557,10 +557,7 @@ export default function Info() {
             <div className={`${styles.jamRight}`}>
               <div className={`${styles.jamTitle}`}>期限倒數</div>
               <div
-                style={{
-                  color: timeWarningState ? '#ec3f3f' : '#1d1d1d',
-                  fontSize: '20px',
-                }}
+                className={timeWarningState ? jStyles.countdownWarning : jStyles.countdownNormal}
               >
                 {countDown.raw <= 0
                   ? '發起失敗'

@@ -153,10 +153,7 @@ export default function RecruitList() {
                       </Disclosure.Button>
                       <Disclosure.Panel>
                         <div
-                          className="p-2 mt-0 rounded-b"
-                          style={{
-                            backgroundColor: 'rgba(185, 185, 185, 0.3)',
-                          }}
+                          className={`p-2 mt-0 rounded-b ${jStyles.panelBg}`}
                         >
                           <ol className="rule-list m-0">
                             <li>未有所屬 JAM 的會員，可進行發起。</li>
@@ -198,10 +195,7 @@ export default function RecruitList() {
                       </Disclosure.Button>
                       <Disclosure.Panel>
                         <div
-                          className="p-2 rounded-b"
-                          style={{
-                            backgroundColor: 'rgba(185, 185, 185, 0.3)',
-                          }}
+                          className={`p-2 rounded-b ${jStyles.panelBg}`}
                         >
                           <p
                             className={`mb-1 pl-1 font-bold ${jStyles.dark}`}
@@ -268,10 +262,7 @@ export default function RecruitList() {
                       </Disclosure.Button>
                       <Disclosure.Panel>
                         <div
-                          className="p-2 rounded-b"
-                          style={{
-                            backgroundColor: 'rgba(185, 185, 185, 0.3)',
-                          }}
+                          className={`p-2 rounded-b ${jStyles.panelBg}`}
                         >
                           <ol className="rule-list">
                             <li>

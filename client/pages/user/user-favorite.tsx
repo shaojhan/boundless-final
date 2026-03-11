@@ -381,8 +381,7 @@ export default function Test() {
                           </div>
                         </div>
                         <div
-                          className="flex justify-between gap-2 mt-2"
-                          style={{ paddingInline: '10px' }}
+                          className={`flex justify-between gap-2 mt-2 ${uStyles.padH10}`}
                         >
                           <div
                             className="filter-btn clean-btn w-full flex justify-center"
@@ -435,10 +434,7 @@ export default function Test() {
               <div className="container mx-auto px-6 custom-container">
                 <div className="flex flex-wrap -mx-3">
                   <div
-                    className="sm:w-5/6 px-6 w-full px-6"
-                    style={{
-                      backgroundColor: 'rgb(255, 255, 255)',
-                    }}
+                    className={`sm:w-5/6 px-6 w-full px-6 ${uStyles.bgWhite}`}
                   >
                     <div className="user-content w-full px-6">
                       <div className="user-content-top">

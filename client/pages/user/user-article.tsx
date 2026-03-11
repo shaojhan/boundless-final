@@ -1,3 +1,4 @@
+import uStyles from './user-layout.module.scss'
 import { useState, useEffect } from 'react'
 import Navbar from '@/components/common/navbar'
 import Footer from '@/components/common/footer'
@@ -185,8 +186,7 @@ export default function Test() {
           <div className="w-full px-6 sm:w-5/6 px-6 page-control">
             {/* 手機版sidebar */}
             <div
-              className={`sidebar-mb sm:hidden ${showSidebar ? 'sidebar-mb-show' : ''}`}
-              style={{ top: '190px' }}
+              className={`sidebar-mb sm:hidden ${showSidebar ? 'sidebar-mb-show' : ''} ${uStyles.sidebarMbTop}`}
             >
               <div className="sm-close">
                 <IoClose
@@ -225,9 +225,9 @@ export default function Test() {
               <div className="breadcrumb-wrapper-ns">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>會員中心</li>
+                  <li className={uStyles.bcItem1}>會員中心</li>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>我的文章</li>
+                  <li className={uStyles.bcItem2}>我的文章</li>
                 </ul>
               </div>
 
@@ -235,9 +235,8 @@ export default function Test() {
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="flex sm:hidden items-center b-btn b-btn-body"
+                    className={`flex sm:hidden items-center b-btn b-btn-body ${uStyles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     選單
@@ -378,8 +377,7 @@ export default function Test() {
                           </div>
                         </div>
                         <div
-                          className="flex justify-between gap-2 mt-2"
-                          style={{ paddingInline: '10px' }}
+                          className={`flex justify-between gap-2 mt-2 ${uStyles.padH10}`}
                         >
                           <div
                             className="filter-btn clean-btn w-full flex justify-center"
@@ -432,10 +430,7 @@ export default function Test() {
               <div className="container mx-auto px-6 custom-container">
                 <div className="flex flex-wrap -mx-3">
                   <div
-                    className="sm:w-5/6 px-6 w-full px-6"
-                    style={{
-                      backgroundColor: 'rgb(255, 255, 255)',
-                    }}
+                    className={`sm:w-5/6 px-6 w-full px-6 ${uStyles.bgWhite}`}
                   >
                     <div className="user-content w-full px-6">
                       <div className="user-content-top">

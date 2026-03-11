@@ -1,3 +1,4 @@
+import tStyles from './template.module.scss'
 import { useEffect, useState } from 'react'
 import Navbar from '@/components/common/navbar'
 import Footer from '@/components/common/footer'
@@ -54,9 +55,8 @@ export default function Test() {
             <div>用戶名稱</div>
           </div>
           <Link
-            className="mm-item"
+            className={`mm-item ${tStyles.menuSep}`}
             href="/user"
-            style={{ borderTop: '1px solid #b9b9b9' }}
           >
             會員中心
           </Link>
@@ -72,7 +72,7 @@ export default function Test() {
           <Link className="mm-item" href="/article/article-list">
             樂友論壇
           </Link>
-          <div className="mm-item" style={{ color: '#1581cc' }}>
+          <div className={`mm-item ${tStyles.primary}`}>
             登出
             <ImExit size={20} className="ml-2" />
           </div>
@@ -81,19 +81,18 @@ export default function Test() {
           <div className="w-full px-6 sm:w-2/3 px-6">
             {/* 麵包屑 */}
             <div
-              className="breadcrumb-wrapper"
-              style={{ paddingBlock: '20px 30px' }}
+              className={`breadcrumb-wrapper ${tStyles.bcWrap}`}
             >
               <ul className="flex items-center p-0 m-0">
                 <IoHome size={20} />
-                <li style={{ marginLeft: '8px' }}>Let&apos;s JAM!</li>
+                <li className={tStyles.bcItem1}>Let&apos;s JAM!</li>
                 <FaChevronRight />
                 <Link href="/jam/recruit-list">
-                  <li style={{ marginLeft: '10px' }}>團員募集</li>
+                  <li className={tStyles.bcItem2}>團員募集</li>
                 </Link>
 
                 <FaChevronRight />
-                <li style={{ marginLeft: '10px' }}>JAM 資訊</li>
+                <li className={tStyles.bcItem2}>JAM 資訊</li>
               </ul>
             </div>
             {/* 主內容 */}

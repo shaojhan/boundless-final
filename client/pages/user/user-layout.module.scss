@@ -35,3 +35,21 @@
 .bcGap {
   gap: 6px;
 }
+
+.padTop60 { padding-top: 60px; }
+.padH10 { padding-inline: 10px; }
+.primary { color: #1581cc; }
+.rejected { color: #ec3f3f; }
+.btnSm { width: 50px; height: 32px; }
+.secondary { color: #666666; }
+.deepPrimary { color: #124365; padding-inline: 0; }
+.noPadH { padding-inline: 0; }
+.hrDark { color: #1d1d1d; }
+.avatarSize { width: 100px; height: 100px; }
+.padTop25 { padding-top: 25px; }
+.padTop15 { padding-top: 15px; }
+.imgRounded { border-radius: 10px; padding: 5px; }
+.bgWhite { background-color: rgb(255, 255, 255); }
+.objContain { object-fit: contain; border-radius: 10px; padding: 5px; }
+.objContainSm { object-fit: contain; border-radius: 6px; padding: 4px; }
+.imgFull { width: 100%; height: 100%; object-fit: contain; border-radius: 10px; padding: 5px; }

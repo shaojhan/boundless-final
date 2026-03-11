@@ -1,3 +1,4 @@
+import uStyles from './user-layout.module.scss'
 import { useEffect, useState } from 'react'
 import Navbar from '@/components/common/navbar'
 import Footer from '@/components/common/footer'
@@ -79,8 +80,7 @@ export default function Test() {
     <>
       <Navbar menuMbToggle={menuMbToggle} />
       <div
-        className="page-shero hidden sm:block"
-        style={{ paddingTop: '60px' }}
+        className={`page-shero hidden sm:block ${uStyles.padTop60}`}
       >
         <Image src={jamHero} className="object-cover w-full" alt="cover" />
       </div>
@@ -101,9 +101,8 @@ export default function Test() {
             <div>用戶名稱</div>
           </div>
           <Link
-            className="mm-item"
+            className={`mm-item ${uStyles.menuSep}`}
             href="/user"
-            style={{ borderTop: '1px solid #b9b9b9' }}
           >
             會員中心
           </Link>
@@ -119,7 +118,7 @@ export default function Test() {
           <Link className="mm-item" href="/article/article-list">
             樂友論壇
           </Link>
-          <div className="mm-item" style={{ color: '#1581cc' }}>
+          <div className={`mm-item ${uStyles.primary}`}>
             登出
             <ImExit size={20} className="ml-2" />
           </div>
@@ -170,9 +169,9 @@ export default function Test() {
               <div className="breadcrumb-wrapper">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>Let&apos;s JAM!</li>
+                  <li className={uStyles.bcItem1}>Let&apos;s JAM!</li>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>團員募集</li>
+                  <li className={uStyles.bcItem2}>團員募集</li>
                 </ul>
               </div>
 
@@ -180,9 +179,8 @@ export default function Test() {
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="flex sm:hidden items-center b-btn b-btn-body"
+                    className={`flex sm:hidden items-center b-btn b-btn-body ${uStyles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     選單
@@ -328,8 +326,7 @@ export default function Test() {
                           </div>
                         </div>
                         <div
-                          className="flex justify-between gap-2 mt-2"
-                          style={{ paddingInline: '10px' }}
+                          className={`flex justify-between gap-2 mt-2 ${uStyles.padH10}`}
                         >
                           <div
                             className="filter-btn clean-btn w-full flex justify-center"

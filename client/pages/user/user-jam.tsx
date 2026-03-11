@@ -1,3 +1,4 @@
+import uStyles from './user-layout.module.scss'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Toaster } from 'react-hot-toast'
@@ -184,12 +185,12 @@ export default function UserJam() {
         return <span>審核中</span>
       case 1:
         return (
-          <span className="font-semibold" style={{ color: '#1581cc' }}>
+          <span className={`font-semibold ${uStyles.primary}`}>
             通過
           </span>
         )
       case 2:
-        return <span style={{ color: '#ec3f3f' }}>拒絕</span>
+        return <span className={uStyles.rejected}>拒絕</span>
       default:
         return null
     }
@@ -201,8 +202,7 @@ export default function UserJam() {
         return (
           <div
             role="presentation"
-            className="b-btn b-btn-body"
-            style={{ width: '50px', height: '32px' }}
+            className={`b-btn b-btn-body ${uStyles.btnSm}`}
             onClick={() => {
               cancelApply(id)
             }}
@@ -214,8 +214,7 @@ export default function UserJam() {
         return (
           <div
             role="presentation"
-            className="b-btn b-btn-primary"
-            style={{ width: '50px', height: '32px' }}
+            className={`b-btn b-btn-primary ${uStyles.btnSm}`}
             onClick={() => {
               notifyJoin(
                 LoginUserData.id,
@@ -232,8 +231,7 @@ export default function UserJam() {
         return (
           <div
             role="presentation"
-            className="b-btn b-btn-body"
-            style={{ width: '50px', height: '32px' }}
+            className={`b-btn b-btn-body ${uStyles.btnSm}`}
             onClick={() => {
               deleteApply(id)
             }}
@@ -388,9 +386,9 @@ export default function UserJam() {
               <div className="breadcrumb-wrapper">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>會員中心</li>
+                  <li className={uStyles.bcItem1}>會員中心</li>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>我的樂團</li>
+                  <li className={uStyles.bcItem2}>我的樂團</li>
                 </ul>
               </div>
 
@@ -398,9 +396,8 @@ export default function UserJam() {
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="flex sm:hidden items-center b-btn b-btn-body"
+                    className={`flex sm:hidden items-center b-btn b-btn-body ${uStyles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     選單
@@ -412,53 +409,45 @@ export default function UserJam() {
             <main className="content">
               <div className="container mx-auto px-6 custom-container">
                 <div
-                  className=""
-                  style={{
-                    backgroundColor: 'rgb(255, 255, 255)',
-                  }}
+                  className={uStyles.bgWhite}
                 >
                   <div className="user-content">
                     <div className="user-content-top">
                       <div className="user-title-userInfo">樂團申請</div>
                     </div>
-                    <div className="noticeText" style={{ color: '#666666' }}>
+                    <div className={`noticeText ${uStyles.secondary}`}>
                       ※ 非招募中、已取消的申請資料不會列出。
                     </div>
 
                     <div className="user-notifyList">
                       <div className="user-notifyList-item flex flex-wrap -mx-3 flex-nowrap">
                         <div
-                          className="font-medium text-center w-1/6 px-6"
-                          style={{ color: '#124365', paddingInline: '0' }}
+                          className={`font-medium text-center w-1/6 px-6 ${uStyles.deepPrimary}`}
                         >
                           連結
                         </div>
                         <div
-                          className="font-medium text-center w-1/3 px-6"
-                          style={{ color: '#124365', paddingInline: '0' }}
+                          className={`font-medium text-center w-1/3 px-6 ${uStyles.deepPrimary}`}
                         >
                           主旨
                         </div>
                         <div
-                          className="font-medium text-center w-1/6 px-6"
-                          style={{ color: '#124365', paddingInline: '0' }}
+                          className={`font-medium text-center w-1/6 px-6 ${uStyles.deepPrimary}`}
                         >
                           職位
                         </div>
                         <div
-                          className="font-medium text-center w-1/6 px-6"
-                          style={{ color: '#124365', paddingInline: '0' }}
+                          className={`font-medium text-center w-1/6 px-6 ${uStyles.deepPrimary}`}
                         >
                           狀態
                         </div>
                         <div
-                          className="font-medium text-center w-1/6 px-6"
-                          style={{ color: '#124365', paddingInline: '0' }}
+                          className={`font-medium text-center w-1/6 px-6 ${uStyles.deepPrimary}`}
                         >
                           操作
                         </div>
                       </div>
-                      <hr style={{ color: '#1d1d1d' }} />
+                      <hr className={uStyles.hrDark} />
                       {myApply.map((v) => {
                         return (
                           <div
@@ -466,38 +455,32 @@ export default function UserJam() {
                             key={v.id}
                           >
                             <div
-                              className="flex justify-center w-1/6 px-6"
-                              style={{ color: '#124365', paddingInline: '0' }}
+                              className={`flex justify-center w-1/6 px-6 ${uStyles.deepPrimary}`}
                             >
                               <Link
                                 href={`/jam/recruit-list/${v.juid}`}
-                                className="b-btn b-btn-primary"
-                                style={{ width: '50px', height: '32px' }}
+                                className={`b-btn b-btn-primary ${uStyles.btnSm}`}
                               >
                                 <FaExternalLinkAlt />
                               </Link>
                             </div>
                             <div
-                              className="text-center w-1/3 px-6"
-                              style={{ paddingInline: '0' }}
+                              className={`text-center w-1/3 px-6 ${uStyles.noPadH}`}
                             >
                               {v.title}
                             </div>
                             <div
-                              className="text-center w-1/6 px-6"
-                              style={{ paddingInline: '0' }}
+                              className={`text-center w-1/6 px-6 ${uStyles.noPadH}`}
                             >
                               {v.applier_playname}
                             </div>
                             <div
-                              className="text-center w-1/6 px-6"
-                              style={{ paddingInline: '0' }}
+                              className={`text-center w-1/6 px-6 ${uStyles.noPadH}`}
                             >
                               {switchSentence(v.state)}
                             </div>
                             <div
-                              className="flex justify-center w-1/6 px-6"
-                              style={{ color: '#124365', paddingInline: '0' }}
+                              className={`flex justify-center w-1/6 px-6 ${uStyles.deepPrimary}`}
                             >
                               {switchOption(
                                 v.state,

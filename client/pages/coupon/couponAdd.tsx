@@ -1,4 +1,5 @@
 // #region ---common ---
+import cStyles from './couponAdd.module.scss'
 import { useEffect, useState } from 'react'
 import Navbar from '@/components/common/navbar'
 import NavbarMb from '@/components/common/navbar-mb'
@@ -86,7 +87,7 @@ export default function Test() {
               <div className="breadcrumb-wrapper-ns">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>活動優惠領取</li>
+                  <li className={cStyles.bcItem1}>活動優惠領取</li>
                 </ul>
               </div>
             </div>
@@ -95,10 +96,7 @@ export default function Test() {
               <div className="container mx-auto px-6 custom-container">
                 <div className="flex flex-wrap -mx-3 p-0">
                   <div
-                    className="sm:w-5/6 px-6 w-full px-6"
-                    style={{
-                      backgroundColor: 'rgb(255, 255, 255)',
-                    }}
+                    className={`sm:w-5/6 px-6 w-full px-6 ${cStyles.bgWhite}`}
                   >
                     <div className="coupon-content w-full px-6">
                       {/* 活動領取 */}
@@ -120,11 +118,7 @@ export default function Test() {
                         </div>
                         <div className="w-1/4 px-6 flex items-center justify-center">
                           <button
-                            className="b-btn b-lesson-btn px-6 py-6"
-                            style={{
-                              backgroundColor: 'rgb(255, 255, 255)',
-                              border: '1px solid rgb(255, 255, 255)',
-                            }}
+                            className={`b-btn b-lesson-btn px-6 py-6 ${cStyles.btnWhite}`}
                             onClick={async () => {
                               const obj = {
                                 user_id: avatarUserID,
@@ -168,11 +162,7 @@ export default function Test() {
                         </div>
                         <div className="w-1/4 px-6 flex items-center justify-center">
                           <button
-                            className="b-btn b-lesson-btn px-6 py-6"
-                            style={{
-                              backgroundColor: 'rgb(255, 255, 255)',
-                              border: '1px solid rgb(255, 255, 255)',
-                            }}
+                            className={`b-btn b-lesson-btn px-6 py-6 ${cStyles.btnWhite}`}
                             onClick={async () => {
                               const obj = {
                                 user_id: avatarUserID,
@@ -212,11 +202,7 @@ export default function Test() {
                         </div>
                         <div className="w-1/4 px-6 flex items-center justify-center">
                           <button
-                            className="b-btn b-lesson-btn px-6 py-6"
-                            style={{
-                              backgroundColor: 'rgb(255, 255, 255)',
-                              border: '1px solid rgb(255, 255, 255)',
-                            }}
+                            className={`b-btn b-lesson-btn px-6 py-6 ${cStyles.btnWhite}`}
                             onClick={async () => {
                               const obj = {
                                 user_id: avatarUserID,

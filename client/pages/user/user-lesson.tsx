@@ -253,10 +253,7 @@ export default function Test() {
               <div className="container mx-auto px-6 custom-container">
                 <div className="flex flex-wrap -mx-3">
                   <div
-                    className="sm:w-5/6 px-6 w-full px-6"
-                    style={{
-                      backgroundColor: 'rgb(255, 255, 255)',
-                    }}
+                    className={`sm:w-5/6 px-6 w-full px-6 ${uStyles.bgWhite}`}
                   >
                     <div className="user-content w-full px-6">
                       <div className="user-content-top">

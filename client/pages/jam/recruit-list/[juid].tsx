@@ -64,11 +64,7 @@ export default function Info() {
       case 0:
         return (
           <div
-            className="b-btn-disable"
-            style={{
-              paddingInline: '38px',
-              backgroundColor: '#666666',
-            }}
+            className={`b-btn-disable ${jStyles.btnDisable}`}
             role="presentation"
           >
             已送出申請
@@ -77,10 +73,7 @@ export default function Info() {
       case 1:
         return (
           <Link
-            className="b-btn b-btn-primary"
-            style={{
-              paddingInline: '38px',
-            }}
+            className={`b-btn b-btn-primary ${jStyles.btnPadH}`}
             href="/user/user-jam"
           >
             至會員中心正式加入
@@ -89,11 +82,7 @@ export default function Info() {
       case 2:
         return (
           <div
-            className="b-btn-disable"
-            style={{
-              paddingInline: '38px',
-              backgroundColor: '#666666',
-            }}
+            className={`b-btn-disable ${jStyles.btnDisable}`}
             role="presentation"
           >
             已被拒絕
@@ -102,11 +91,7 @@ export default function Info() {
       case 3:
         return (
           <div
-            className="b-btn-disable"
-            style={{
-              paddingInline: '38px',
-              backgroundColor: '#666666',
-            }}
+            className={`b-btn-disable ${jStyles.btnDisable}`}
             role="presentation"
           >
             已取消申請
@@ -115,11 +100,7 @@ export default function Info() {
       case 4:
         return (
           <div
-            className="b-btn-disable"
-            style={{
-              paddingInline: '38px',
-              backgroundColor: '#666666',
-            }}
+            className={`b-btn-disable ${jStyles.btnDisable}`}
             role="presentation"
           >
             不得再次申請

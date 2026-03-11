@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styles from './navbar.module.scss'
 import { useRouter } from 'next/router'
 import { IoCart, IoMenu, IoMoon, IoSunny } from 'react-icons/io5'
 import { useDarkMode } from '@/hooks/useDarkMode'
@@ -229,8 +230,7 @@ export default function Navbar({
               }}
               //onclick 要加這個 不然ES會跳沒有給身障人士使用
               role="presentation"
-              className="mm-item-right logout-btn"
-              style={{ color: '#1581cc' }}
+              className={`mm-item-right logout-btn ${styles.logoutLink}`}
             >
               登出
               <ImExit size={16} className="ml-2 mt-1" />

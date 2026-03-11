@@ -72,3 +72,52 @@
   align-items: center;
   justify-content: center;
 }
+
+.coverImg {
+  object-fit: cover;
+}
+
+.cardTitle {
+  font-size: 18px;
+  color: #1d1d1d;
+  font-weight: 500;
+}
+
+.label {
+  color: #124365;
+  font-weight: bold;
+}
+
+.value {
+  color: #1d1d1d;
+}
+
+.warning {
+  color: #ec3f3f;
+}
+
+.badgeGroup {
+  gap: 8px;
+  flex: 1 0 0;
+}
+
+.genreRow {
+  gap: 8px;
+}
+
+.headerRow {
+  gap: 6px;
+}
+
+.authorName {
+  color: #124365;
+  font-weight: 500;
+}
+
+.authorDate {
+  color: #1d1d1d;
+}
+
+.row8 {
+  gap: 8px;
+}

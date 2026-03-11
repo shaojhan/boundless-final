@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { FaHeart } from 'react-icons/fa'
 import { formatPrice } from '@/lib/utils/formatPrice'
+import styles from './card.module.scss'
 
 export default function InstrumentCard({
   id: _id,
@@ -35,15 +36,9 @@ export default function InstrumentCard({
         <div className="product-card">
           <FaHeart
             size={24}
-            style={{
-              position: 'absolute',
-              zIndex: '30',
-              color: '#b9b9b9',
-              right: '14px',
-              top: '8px',
-            }}
+            className={styles.heartIcon}
           />
-          <div style={{ padding: '10px', width: '100%' }}>
+          <div className={styles.imagePad}>
             <div className="product-image-wrapper">
               <img
                 src={`/instrument/${category_name}/small/${img_small}`}

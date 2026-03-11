@@ -61,3 +61,16 @@
   font-size: 14px;
   font-family: Noto Sans TC, sans-serif;
 }
+
+.heartIcon {
+  position: absolute;
+  z-index: 30;
+  color: #b9b9b9;
+  right: 14px;
+  top: 8px;
+}
+
+.imagePad {
+  padding: 10px;
+  width: 100%;
+}

@@ -61,8 +61,7 @@ export default function Apply({
         return (
           <>
             <div
-              className="b-btn-disable px-6"
-              style={{ backgroundColor: '#1581cc' }}
+              className={`b-btn-disable px-6 ${styles.pendingBtn}`}
               role="presentation"
             >
               等待回覆
@@ -73,8 +72,7 @@ export default function Apply({
         return (
           <>
             <div
-              className="b-btn-disable px-6"
-              style={{ backgroundColor: '#666666' }}
+              className={`b-btn-disable px-6 ${styles.rejectedBtn}`}
               role="presentation"
             >
               已拒絕
@@ -91,8 +89,7 @@ export default function Apply({
         <>
           <div className="flex justify-between sm:items-start flex-col sm:flex-row px-1">
             <div
-              className="flex items-center flex-wrap"
-              style={{ gap: '10px' }}
+              className={`flex items-center flex-wrap ${styles.memberRow}`}
             >
               <div className={`${styles.cardBadge} ${styles.player}`}>
                 {play}
@@ -121,15 +118,7 @@ export default function Apply({
             </div>
 
             <Disclosure.Button
-              className="flex justify-end mt-1 sm:mt-0"
-              style={{
-                textDecoration: 'underline',
-                cursor: 'pointer',
-                color: '#1581cc',
-                background: 'none',
-                border: 'none',
-                padding: 0,
-              }}
+              className={`flex justify-end mt-1 sm:mt-0 ${styles.disclosureBtn}`}
             >
               查看訊息
             </Disclosure.Button>

@@ -234,3 +234,24 @@
     right: -12px;
   }
 }
+
+.memberRow {
+  gap: 10px;
+}
+
+.pendingBtn {
+  background-color: #1581cc;
+}
+
+.rejectedBtn {
+  background-color: #666666;
+}
+
+.disclosureBtn {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #1581cc;
+  background: none;
+  border: none;
+  padding: 0;
+}

@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './navbar-mb.module.scss'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -55,9 +56,8 @@ export default function NavbarMb() {
             </div>
           </div>
           <Link
-            className="mm-item"
+            className={`mm-item ${styles.menuSep}`}
             href="/user/user-info"
-            style={{ borderTop: '1px solid #b9b9b9' }}
           >
             會員中心
           </Link>
@@ -82,8 +82,7 @@ export default function NavbarMb() {
       </Link>
       {LoginUserData.id ? (
         <div
-          className="mm-item"
-          style={{ color: '#1581cc' }}
+          className={`mm-item ${styles.logoutLink}`}
           role="button"
           tabIndex={0}
           onClick={async () => {

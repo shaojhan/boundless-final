@@ -60,8 +60,7 @@ export default function RecruitCard({
       >
         {/* card-header */}
         <div
-          className="flex justify-between items-center flex-wrap"
-          style={{ gap: '6px' }}
+          className={`flex justify-between items-center flex-wrap ${styles.headerRow}`}
         >
           <div className={`${styles.former}`}>
             {/* 發起人頭像 */}
@@ -80,10 +79,10 @@ export default function RecruitCard({
                 </div>
               )}
             </div>
-            <span style={{ color: '#124365', fontWeight: '500' }}>
+            <span className={styles.authorName}>
               {former.nickname ? former.nickname : former.name}
             </span>
-            <span className="ml-2" style={{ color: '#1d1d1d' }}>
+            <span className={`ml-2 ${styles.authorDate}`}>
               {combineDate}
             </span>
           </div>
@@ -95,15 +94,15 @@ export default function RecruitCard({
           </div>
         </div>
         {/* card-title */}
-        <div style={{ fontSize: '18px', color: '#1d1d1d', fontWeight: '500' }}>
+        <div className={styles.cardTitle}>
           {title}
         </div>
         {/* player */}
-        <div className="flex items-start" style={{ gap: '8px' }}>
-          <span style={{ color: '#124365', fontWeight: 'bold' }}>
+        <div className={`flex items-start ${styles.row8}`}>
+          <span className={styles.label}>
             徵求樂手：
           </span>
-          <div className="flex flex-wrap" style={{ gap: '8px', flex: '1 0 0' }}>
+          <div className={`flex flex-wrap ${styles.badgeGroup}`}>
             {playerResult.map((v, i) => {
               return (
                 <div key={i} className={`${styles.cardBadge} ${styles.player}`}>
@@ -114,11 +113,11 @@ export default function RecruitCard({
           </div>
         </div>
         {/* genre */}
-        <div className="flex items-start" style={{ gap: '8px' }}>
-          <span style={{ color: '#124365', fontWeight: 'bold' }}>
+        <div className={`flex items-start ${styles.row8}`}>
+          <span className={styles.label}>
             音樂風格：
           </span>
-          <div className="flex flex-wrap" style={{ gap: '8px', flex: '1 0 0' }}>
+          <div className={`flex flex-wrap ${styles.badgeGroup}`}>
             {genreName.map((v, i) => {
               return (
                 <div key={i} className={`${styles.cardBadge} ${styles.genere}`}>
@@ -131,18 +130,14 @@ export default function RecruitCard({
         {/* region & deadline */}
         <div className="flex justify-between">
           <div>
-            <span style={{ color: '#124365', fontWeight: 'bold' }}>地區：</span>
-            <span style={{ color: '#1d1d1d' }}>{region}</span>
+            <span className={styles.label}>地區：</span>
+            <span className={styles.value}>{region}</span>
           </div>
           <div>
-            <span style={{ color: '#124365', fontWeight: 'bold' }}>
+            <span className={styles.label}>
               倒數期限：
             </span>
-            <span
-              style={
-                countDown <= 5 ? { color: '#ec3f3f' } : { color: '#1d1d1d' }
-              }
-            >
+            <span className={countDown <= 5 ? styles.warning : styles.value}>
               {countDown == 0 ? '今天' : countDown + ' 天'}
             </span>
           </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FaHeart } from 'react-icons/fa'
+import styles from './FavoriteButton.module.scss'
 
 interface FavoriteButtonProps {
   activeColor?: string
@@ -19,9 +20,9 @@ export function FavoriteButton({
   return (
     <div className="likesIcon icon-container">
       <FaHeart
-        className="likesIcon"
+        className={`likesIcon ${isLiked ? styles.liked : ''}`}
         size={size}
-        style={{ color: isLiked ? activeColor : '' }}
+        style={{ '--active-color': activeColor } as React.CSSProperties}
         onClick={() => setIsLiked((prev) => !prev)}
       />
     </div>

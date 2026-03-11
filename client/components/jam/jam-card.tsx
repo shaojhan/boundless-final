@@ -35,7 +35,7 @@ export default function JamCard({
             <Image
               src={`${process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3005'}/jam/${cover_img}`}
               fill
-              style={{ objectFit: 'cover' }}
+              className={styles.coverImg}
               alt={cover_img}
             />
           ) : (
@@ -45,16 +45,16 @@ export default function JamCard({
           )}
         </div>
         {/* card-title */}
-        <div style={{ fontSize: '18px', color: '#1d1d1d', fontWeight: '500' }}>
+        <div className={styles.cardTitle}>
           {name}
         </div>
         {/* player */}
         {/* genre */}
-        <div className="flex items-start" style={{ gap: '8px' }}>
-          <span style={{ color: '#124365', fontWeight: 'bold' }}>
+        <div className={`flex items-start ${styles.genreRow}`}>
+          <span className={styles.label}>
             音樂風格：
           </span>
-          <div className="flex flex-wrap" style={{ gap: '8px', flex: '1 0 0' }}>
+          <div className={`flex flex-wrap ${styles.badgeGroup}`}>
             {genreName.map((v, i) => {
               return (
                 <div key={i} className={`${styles.cardBadge} ${styles.genere}`}>
@@ -67,14 +67,14 @@ export default function JamCard({
         {/* region & deadline */}
         <div className="flex justify-between">
           <div>
-            <span style={{ color: '#124365', fontWeight: 'bold' }}>地區：</span>
-            <span style={{ color: '#1d1d1d' }}>{region}</span>
+            <span className={styles.label}>地區：</span>
+            <span className={styles.value}>{region}</span>
           </div>
           <div>
-            <span style={{ color: '#124365', fontWeight: 'bold' }}>
+            <span className={styles.label}>
               成立時間：
             </span>
-            <span style={{ color: '#1d1d1d' }}>{combineDate}</span>
+            <span className={styles.value}>{combineDate}</span>
           </div>
         </div>
       </Link>

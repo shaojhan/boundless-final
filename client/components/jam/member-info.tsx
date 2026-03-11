@@ -5,7 +5,7 @@ import { FaUser } from 'react-icons/fa'
 
 export default function MemberInfo({ uid, name, nickname, img, play }) {
   return (
-    <div className="flex items-center flex-wrap" style={{ gap: '10px' }}>
+    <div className={`flex items-center flex-wrap ${styles.memberRow}`}>
       <div className={`${styles.cardBadge} ${styles.player}`}>{play}</div>
       <div className={`${styles.userPhotoWrapper}`}>
         {img ? (

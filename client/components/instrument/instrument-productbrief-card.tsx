@@ -5,6 +5,7 @@ import { FaMinus } from 'react-icons/fa6'
 import { FaStar } from 'react-icons/fa'
 import { useRouter } from 'next/router'
 import { formatPrice } from '@/lib/utils/formatPrice'
+import styles from './instrument-productbrief-card.module.scss'
 //收藏的功能
 
 //跳轉頁面
@@ -64,8 +65,7 @@ export default function ProductBriefCard({
             <div className="star">
               <FaStar size={20} color="#faad14" />
               <div
-                className="ratingNumber"
-                style={{ color: reviews.length > 0 ? '' : '#666666' }}
+                className={`ratingNumber ${reviews.length > 0 ? '' : styles.noReview}`}
               >
                 {reviews.length > 0 ? (
                   <>{reviews.map((v) => v.stars / reviews.length)}</>
@@ -82,7 +82,7 @@ export default function ProductBriefCard({
             {/* 收藏功能 */}
             <FavoriteButton />
           </div>
-          <div className="Intro" style={{ textAlign: 'justify' }}>
+          <div className={`Intro ${styles.intro}`}>
             {data.info}
           </div>
           {/* 數量選擇器 */}
@@ -122,12 +122,8 @@ export default function ProductBriefCard({
 
           <div className="shoppingBtn">
             <div
-              className="cartBtn"
+              className={`cartBtn ${data.stock > 0 ? '' : styles.cartDisabled}`}
               role="presentation"
-              style={{
-                backgroundColor: data.stock > 0 ? '' : '#666666',
-                cursor: data.stock > 0 ? 'pointer' : 'default',
-              }}
               onClick={() => {
                 if (data.stock > 0) {
                   addInstrumentItem(data, quantity)
@@ -148,11 +144,7 @@ export default function ProductBriefCard({
             </div>
 
             <div
-              className="buyBtn"
-              style={{
-                backgroundColor: data.stock > 0 ? '' : '#1581cc',
-                cursor: data.stock > 0 ? 'pointer' : 'default',
-              }}
+              className={`buyBtn ${data.stock > 0 ? '' : styles.buyDisabled}`}
               role="button"
               tabIndex={0}
               onClick={() => {

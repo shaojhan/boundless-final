@@ -108,8 +108,7 @@ export default function Test() {
           </div>
           <div className={`flex justify-between ${styles['cart-process']}`}>
             <div
-              className={`flex items-center ${styles['ballbox']}`}
-              style={{ gap: 10 }}
+              className={`flex items-center ${styles['ballbox']} ${styles['ballboxGap']}`}
             >
               <div
                 className={`${styles['ball']} flex items-center justify-center ${styles['inactive']}`}
@@ -121,8 +120,7 @@ export default function Test() {
               </div>
             </div>
             <div
-              className={`flex items-center ${styles['ballbox']}`}
-              style={{ gap: 10 }}
+              className={`flex items-center ${styles['ballbox']} ${styles['ballboxGap']}`}
             >
               <div
                 className={`${styles['ball']} flex items-center justify-center ${styles['active']}`}
@@ -134,8 +132,7 @@ export default function Test() {
               </div>
             </div>
             <div
-              className={`flex items-center ${styles['ballbox']}`}
-              style={{ gap: 10 }}
+              className={`flex items-center ${styles['ballbox']} ${styles['ballboxGap']}`}
             >
               <div
                 className={`${styles['ball']} flex items-center justify-center ${styles['inactive']}`}
@@ -170,8 +167,7 @@ export default function Test() {
               />
             </div>
             <div
-              className={`sticky top-0 ${styles['flowcart']}`}
-              style={{ height: '100vh', paddingInline: 20, flex: '0 0 440px' }}
+              className={`sticky top-0 ${styles['flowcart']} ${styles['flowcartWrapper']}`}
             >
               <CartSummarySidebar {...summaryProps} />
             </div>

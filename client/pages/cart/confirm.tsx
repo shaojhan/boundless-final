@@ -20,6 +20,7 @@ import LessonConfirmList from '@/components/cart/confirm-lesson-items'
 import InstrumentConfirmList from '@/components/cart/confirm-instrument-items'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import cStyles from './confirm.module.scss'
 
 export default function Test() {
   // localStorage is browser-only; lazy initializer prevents SSR crash
@@ -161,19 +162,19 @@ export default function Test() {
             <h2>購物車</h2>
           </div>
           <div className="flex justify-between cart-process">
-            <div className="flex items-center ballbox" style={{ gap: 10 }}>
+            <div className={`flex items-center ballbox ${cStyles.ballboxGap}`}>
               <div className="ball flex items-center justify-center inactive">
                 1
               </div>
               <div className="h5 cart-process-text">修改訂單</div>
             </div>
-            <div className="flex items-center ballbox" style={{ gap: 10 }}>
+            <div className={`flex items-center ballbox ${cStyles.ballboxGap}`}>
               <div className="ball flex items-center justify-center inactive">
                 2
               </div>
               <div className="h5 cart-process-text">填寫訂單資料</div>
             </div>
-            <div className="flex items-center ballbox" style={{ gap: 10 }}>
+            <div className={`flex items-center ballbox ${cStyles.ballboxGap}`}>
               <div className="ball flex items-center justify-center active">
                 3
               </div>
@@ -263,14 +264,12 @@ export default function Test() {
               </div>
             </div>
             <div
-              className="flowcart sticky top-0"
-              style={{ height: '100vh', paddingInline: 20, flex: '0 0 440px' }}
+              className={`flowcart sticky top-0 ${cStyles.flowcartWrapper}`}
             >
               <div
-                className="flex flex-col sticky"
-                style={{ gap: 20, top: 110 }}
+                className={`flex flex-col sticky ${cStyles.sidebarGap}`}
               >
-                <div className="total flex flex-col" style={{ gap: 20 }}>
+                <div className={`total flex flex-col ${cStyles.innerGap}`}>
                   <div className="flex justify-between carttext">
                     <div>商品數量</div>
                     <div>
@@ -293,14 +292,12 @@ export default function Test() {
                 <div className="cart-btn">
                   <Link
                     href="/cart/info"
-                    className="b-btn b-btn-body flex w-full h-full justify-center"
-                    style={{ padding: '14px 0' }}
+                    className={`b-btn b-btn-body flex w-full h-full justify-center ${cStyles.btnPad}`}
                   >
                     回上一步
                   </Link>
                   <div
-                    className="b-btn b-btn-primary flex w-full h-full justify-center"
-                    style={{ padding: '14px 0' }}
+                    className={`b-btn b-btn-primary flex w-full h-full justify-center ${cStyles.btnPad}`}
                     role="button"
                     tabIndex={0}
                     onClick={async () => {
@@ -345,8 +342,8 @@ export default function Test() {
 
       {/* 手機版 */}
       <div className="flow-cart-mb">
-        <div className="flex flex-col sticky" style={{ gap: 20, top: 110 }}>
-          <div className="total flex flex-col" style={{ gap: 20 }}>
+        <div className={`flex flex-col sticky ${cStyles.sidebarGap}`}>
+          <div className={`total flex flex-col ${cStyles.innerGap}`}>
             <div className="flex justify-between carttext">
               <div>商品數量</div>
               <div>
@@ -369,14 +366,12 @@ export default function Test() {
           <div className="cart-btn">
             <Link
               href="/cart/info"
-              className="b-btn b-btn-body flex w-full h-full justify-center"
-              style={{ padding: '14px 0' }}
+              className={`b-btn b-btn-body flex w-full h-full justify-center ${cStyles.btnPad}`}
             >
               回上一步
             </Link>
             <div
-              className="b-btn b-btn-primary flex w-full h-full justify-center"
-              style={{ padding: '14px 0' }}
+              className={`b-btn b-btn-primary flex w-full h-full justify-center ${cStyles.btnPad}`}
               role="button"
               tabIndex={0}
               onClick={async () => {

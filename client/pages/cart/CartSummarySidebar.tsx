@@ -16,8 +16,8 @@ export default function CartSummarySidebar({
   calcTotalDiscount,
 }: Props) {
   return (
-    <div className="flex flex-col sticky" style={{ gap: 20, top: 110 }}>
-      <div className={`${styles['total']} flex flex-col`} style={{ gap: 20 }}>
+    <div className={`flex flex-col sticky ${styles['sidebarGap']}`}>
+      <div className={`${styles['total']} flex flex-col ${styles['innerGap']}`}>
         <div className={`flex justify-between ${styles['carttext']}`}>
           <div>商品數量</div>
           <div>
@@ -42,15 +42,13 @@ export default function CartSummarySidebar({
       <div className={styles['cart-btn']}>
         <Link
           href="/cart/check"
-          className="b-btn b-btn-body flex w-full h-full justify-center"
-          style={{ padding: '14px 0' }}
+          className={`b-btn b-btn-body flex w-full h-full justify-center ${styles['btnPad']}`}
         >
           回上一步
         </Link>
         <Link
           href="/cart/confirm"
-          className="b-btn b-btn-primary flex w-full h-full justify-center"
-          style={{ padding: '14px 0' }}
+          className={`b-btn b-btn-primary flex w-full h-full justify-center ${styles['btnPad']}`}
         >
           確認付款
         </Link>

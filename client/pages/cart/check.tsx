@@ -5,6 +5,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 
 //css module
+import cStyles from './check.module.scss'
 
 //cart-list
 import LessonList from '@/components/cart/lesson-cart-list'
@@ -84,8 +85,7 @@ export default function Test() {
           </div>
           <div className="flex justify-between cart-process">
             <div
-              className="flex items-center ballbox step1"
-              style={{ gap: 10 }}
+              className={`flex items-center ballbox step1 ${cStyles.ballboxGap}`}
             >
               <div className="ball flex items-center justify-center active">
                 1
@@ -93,8 +93,7 @@ export default function Test() {
               <div className="h5 cart-process-text">修改訂單</div>
             </div>
             <div
-              className="flex items-center ballbox step2"
-              style={{ gap: 10 }}
+              className={`flex items-center ballbox step2 ${cStyles.ballboxGap}`}
             >
               <div className="ball flex items-center justify-center inactive">
                 2
@@ -102,8 +101,7 @@ export default function Test() {
               <div className="h5 cart-process-text">填寫訂單資料</div>
             </div>
             <div
-              className="flex items-center ballbox step3"
-              style={{ gap: 10 }}
+              className={`flex items-center ballbox step3 ${cStyles.ballboxGap}`}
             >
               <div className="ball flex items-center justify-center inactive">
                 3
@@ -215,14 +213,12 @@ export default function Test() {
               </div>
             </div>
             <div
-              className="flowcart sticky top-0"
-              style={{ height: '100vh', paddingInline: 20, flex: '0 0 440px' }}
+              className={`flowcart sticky top-0 ${cStyles.flowcartWrapper}`}
             >
               <div
-                className="flex flex-col sticky"
-                style={{ gap: 20, top: 110 }}
+                className={`flex flex-col sticky ${cStyles.sidebarGap}`}
               >
-                <div className="total flex flex-col" style={{ gap: 20 }}>
+                <div className={`total flex flex-col ${cStyles.innerGap}`}>
                   <div className="flex justify-between carttext">
                     <div>商品數量</div>
                     <div>
@@ -247,8 +243,7 @@ export default function Test() {
                 <div className="cart-btn">
                   <Link
                     href="/cart/info"
-                    className="b-btn b-btn-primary flex w-full h-full justify-center"
-                    style={{ padding: '14px 0' }}
+                    className={`b-btn b-btn-primary flex w-full h-full justify-center ${cStyles.btnPad}`}
                   >
                     結帳
                   </Link>
@@ -259,8 +254,8 @@ export default function Test() {
         </>
       </div>
       <div className="flow-cart-mb">
-        <div className="flex flex-col sticky" style={{ gap: 20, top: 110 }}>
-          <div className="total flex flex-col" style={{ gap: 20 }}>
+        <div className={`flex flex-col sticky ${cStyles.sidebarGap}`}>
+          <div className={`total flex flex-col ${cStyles.innerGap}`}>
             <div className="flex justify-between carttext">
               <div>商品數量</div>
               <div>
@@ -285,8 +280,7 @@ export default function Test() {
           <div className="cart-btn">
             <Link
               href="/cart/info"
-              className="b-btn b-btn-primary flex w-full h-full justify-center"
-              style={{ padding: '14px 0' }}
+              className={`b-btn b-btn-primary flex w-full h-full justify-center ${cStyles.btnPad}`}
             >
               結帳
             </Link>

@@ -319,6 +319,8 @@
 }
 
 .creditcard {
+  width: 5rem;
+
   @media screen and (max-width: 576px) {
     padding: 0px 3px;
     width: fit-content !important;
@@ -497,4 +499,35 @@
 
 .btn-6 span:hover:after {
   width: 100%;
+}
+
+.ballboxGap {
+  gap: 10px;
+}
+
+.flowcartWrapper {
+  height: 100vh;
+  padding-inline: 20px;
+  flex: 0 0 440px;
+}
+
+.sidebarGap {
+  gap: 20px;
+  top: 110px;
+}
+
+.innerGap {
+  gap: 20px;
+}
+
+.btnPad {
+  padding: 14px 0;
+}
+
+.ecpayGreen {
+  background-color: green;
+}
+
+.inputCenter {
+  text-align: center;
 }

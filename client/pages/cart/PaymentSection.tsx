@@ -8,6 +8,8 @@ interface Props {
   sendOrder: () => void
 }
 
+const inputCls = `w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary`
+
 export default function PaymentSection({
   selected,
   onSelect,
@@ -73,8 +75,7 @@ export default function PaymentSection({
             <label htmlFor="mobliepayment">行動支付</label>
             <div className={styles['credit-card-pic']}>
               <div
-                className={styles['mobilepayment-pic-item']}
-                style={{ backgroundColor: 'green' }}
+                className={`${styles['mobilepayment-pic-item']} ${styles['ecpayGreen']}`}
               >
                 <Image src="/cart/ecpay_logo_w.svg" fill alt="" />
               </div>
@@ -103,7 +104,7 @@ export default function PaymentSection({
               <div className="sm:w-1/2 px-6 w-7/12 px-6">
                 <input
                   type="text"
-                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
+                  className={`${inputCls} ${styles['credit-card-input']}`}
                   id="name"
                   placeholder="Ex:HSIANG-AN, YANG"
                 />
@@ -116,49 +117,45 @@ export default function PaymentSection({
               >
                 信用卡卡號
               </label>
-              <div className={styles['creditcard']} style={{ width: '5rem' }}>
+              <div className={styles['creditcard']}>
                 <input
                   type="text"
-                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
+                  className={`${inputCls} ${styles['credit-card-input']} ${styles['inputCenter']}`}
                   id="credit-card-number"
                   maxLength={4}
-                  style={{ textAlign: 'center' }}
                 />
               </div>
               <div className={`w-auto ${styles['minussign']}`}>
                 <FiMinus />
               </div>
-              <div className={styles['creditcard']} style={{ width: '5rem' }}>
+              <div className={styles['creditcard']}>
                 <input
                   type="text"
-                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
+                  className={`${inputCls} ${styles['credit-card-input']} ${styles['inputCenter']}`}
                   id="credit-card-number"
                   maxLength={4}
-                  style={{ textAlign: 'center' }}
                 />
               </div>
               <div className={`w-auto ${styles['minussign']}`}>
                 <FiMinus />
               </div>
-              <div className={styles['creditcard']} style={{ width: '5rem' }}>
+              <div className={styles['creditcard']}>
                 <input
                   type="text"
-                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
+                  className={`${inputCls} ${styles['credit-card-input']} ${styles['inputCenter']}`}
                   id="credit-card-number"
                   maxLength={4}
-                  style={{ textAlign: 'center' }}
                 />
               </div>
               <div className={`w-auto ${styles['minussign']}`}>
                 <FiMinus />
               </div>
-              <div className={styles['creditcard']} style={{ width: '5rem' }}>
+              <div className={styles['creditcard']}>
                 <input
                   type="text"
-                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
+                  className={`${inputCls} ${styles['credit-card-input']} ${styles['inputCenter']}`}
                   id="credit-card-number"
                   maxLength={4}
-                  style={{ textAlign: 'center' }}
                 />
               </div>
             </div>
@@ -169,29 +166,27 @@ export default function PaymentSection({
               >
                 有效期限
               </label>
-              <div className={styles['creditcard']} style={{ width: '5rem' }}>
+              <div className={styles['creditcard']}>
                 <input
                   type="text"
-                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
+                  className={`${inputCls} ${styles['credit-card-input']} ${styles['inputCenter']}`}
                   id="expiration-date"
                   placeholder="MM"
                   maxLength={2}
                   min={1}
                   max={12}
-                  style={{ textAlign: 'center' }}
                 />
               </div>
               <div className={`w-auto ${styles['minussign']}`}>
                 <FiMinus />
               </div>
-              <div className={styles['creditcard']} style={{ width: '5rem' }}>
+              <div className={styles['creditcard']}>
                 <input
                   type="text"
-                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
+                  className={`${inputCls} ${styles['credit-card-input']} ${styles['inputCenter']}`}
                   id="expiration-date"
                   placeholder="YY"
                   maxLength={2}
-                  style={{ textAlign: 'center' }}
                 />
               </div>
             </div>
@@ -202,11 +197,10 @@ export default function PaymentSection({
               >
                 背面末三碼
               </label>
-              <div className={styles['creditcard']} style={{ width: '5rem' }}>
+              <div className={styles['creditcard']}>
                 <input
                   type="text"
-                  className={`w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${styles['credit-card-input']}`}
-                  style={{ textAlign: 'center' }}
+                  className={`${inputCls} ${styles['credit-card-input']} ${styles['inputCenter']}`}
                   id="3-number"
                   maxLength={3}
                 />

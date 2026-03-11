@@ -23,7 +23,7 @@ const storage =
 export const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['user', 'loginUserData', 'status'],
+  whitelist: ['user'],
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

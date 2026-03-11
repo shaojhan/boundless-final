@@ -111,7 +111,6 @@ export function useCart() {
   const handleLessonSelector = (raw: string) => {
     if (raw === 'none') {
       localStorage.removeItem('LessonCouponRaw')
-      localStorage.removeItem('LessonCoupon')
       localStorage.removeItem('LessonCouponCUID')
       dispatch(setLessonDiscountAction(0))
       return
@@ -121,7 +120,6 @@ export function useCart() {
       cuid: number
     }
     localStorage.setItem('LessonCouponRaw', raw)
-    localStorage.setItem('LessonCoupon', String(discount))
     localStorage.setItem('LessonCouponCUID', String(cuid))
     dispatch(setLessonDiscountAction(discount))
   }
@@ -129,7 +127,6 @@ export function useCart() {
   const handleInstrumentSelector = (raw: string) => {
     if (raw === 'none') {
       localStorage.removeItem('InstrumentCouponRaw')
-      localStorage.removeItem('InstrumentCoupon')
       localStorage.removeItem('InstrumentCouponCUID')
       dispatch(setInstrumentDiscountAction(0))
       return
@@ -139,7 +136,6 @@ export function useCart() {
       cuid: number
     }
     localStorage.setItem('InstrumentCouponRaw', raw)
-    localStorage.setItem('InstrumentCoupon', String(discount))
     localStorage.setItem('InstrumentCouponCUID', String(cuid))
     dispatch(setInstrumentDiscountAction(discount))
   }
@@ -161,10 +157,8 @@ export function useCart() {
 
   const confirmOrderSubmit = () => {
     dispatch(clearCart())
-    localStorage.removeItem('LessonCoupon')
     localStorage.removeItem('LessonCouponRaw')
     localStorage.removeItem('LessonCouponCUID')
-    localStorage.removeItem('InstrumentCoupon')
     localStorage.removeItem('InstrumentCouponRaw')
     localStorage.removeItem('InstrumentCouponCUID')
     mySwal

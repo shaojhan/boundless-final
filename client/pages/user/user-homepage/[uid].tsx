@@ -1,3 +1,4 @@
+import uStyles from '../user-layout.module.scss'
 import { useMemo, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Navbar from '@/components/common/navbar'
@@ -281,8 +282,7 @@ export default function Test() {
       </Head>
       <Navbar menuMbToggle={menuMbToggle} />
       <div
-        className="container mx-auto px-6 relative"
-        style={{ minHeight: '95svh' }}
+        className={`container mx-auto px-6 relative ${uStyles.minHeight95}`}
       >
         {/* 手機版主選單/navbar */}
         <div
@@ -302,9 +302,8 @@ export default function Test() {
             {/* <div>{LoginUserData.nickname}</div> */}
           </div>
           <Link
-            className="mm-item"
+            className={`mm-item ${uStyles.menuSep}`}
             href="/user/user-info"
-            style={{ borderTop: '1px solid #b9b9b9' }}
           >
             會員中心
           </Link>
@@ -320,7 +319,7 @@ export default function Test() {
           <Link className="mm-item" href="/article/article-list">
             樂友論壇
           </Link>
-          <div className="mm-item" style={{ color: '#1581cc' }}>
+          <div className={`mm-item ${uStyles.logoutLink}`}>
             登出
             <ImExit size={20} className="ml-2" />
           </div>
@@ -329,12 +328,11 @@ export default function Test() {
           <div className="w-full px-6">
             {/* 麵包屑 */}
             <div
-              className="breadcrumb-wrapper-ns"
-              style={{ paddingBlock: '20px 30px' }}
+              className={`breadcrumb-wrapper-ns ${uStyles.bcWrap}`}
             >
               <ul className="flex items-center p-0 m-0">
                 <IoHome size={20} />
-                <li style={{ marginLeft: '8px' }}>
+                <li className={uStyles.bcItem1}>
                   {userHomePageData.nickname}的個人首頁
                 </li>
                 {/* <FaChevronRight />

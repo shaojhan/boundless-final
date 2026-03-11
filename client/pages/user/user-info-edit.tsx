@@ -1,3 +1,4 @@
+import uStyles from './user-layout.module.scss'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Navbar from '@/components/common/navbar'
@@ -289,7 +290,7 @@ export default function UserInfoEdit() {
           {/* main */}
           <div className="w-full px-6 sm:w-5/6 page-control">
             {/* mobile sidebar */}
-            <div className={`sidebar-mb sm:hidden ${showSidebar ? 'sidebar-mb-show' : ''}`} style={{ top: '190px' }}>
+            <div className={`sidebar-mb sm:hidden ${showSidebar ? 'sidebar-mb-show' : ''} ${uStyles.sidebarMbTop}`}>
               <div className="sm-close">
                 <IoClose size={32} onClick={() => setShowSidebar(false)} />
               </div>
@@ -307,14 +308,14 @@ export default function UserInfoEdit() {
               <div className="breadcrumb-wrapper-ns">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>會員中心</li>
+                  <li className={uStyles.bcItem1}>會員中心</li>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>編輯資訊</li>
+                  <li className={uStyles.bcItem2}>編輯資訊</li>
                 </ul>
               </div>
               <div className="top-function-flex">
                 <div className="search-sidebarBtn">
-                  <div className="flex sm:hidden items-center b-btn b-btn-body" role="presentation" style={{ paddingInline: '16px' }} onClick={sidebarToggle}>
+                  <div className={`flex sm:hidden items-center b-btn b-btn-body ${uStyles.sidebarTrigger}`} role="presentation" onClick={sidebarToggle}>
                     選單
                   </div>
                 </div>

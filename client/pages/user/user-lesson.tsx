@@ -1,3 +1,4 @@
+import uStyles from './user-layout.module.scss'
 import Navbar from '@/components/common/navbar'
 import { useState, useEffect } from 'react'
 import Footer from '@/components/common/footer'
@@ -96,9 +97,8 @@ export default function Test() {
             <div>{LoginUserData.nickname}</div>
           </div>
           <Link
-            className="mm-item"
+            className={`mm-item ${uStyles.menuSep}`}
             href="/user/user-info"
-            style={{ borderTop: '1px solid #b9b9b9' }}
           >
             會員中心
           </Link>
@@ -119,8 +119,7 @@ export default function Test() {
             onClick={handleLogout}
             //onclick 要加這個 不然ES會跳沒有給身障人士使用
             role="presentation"
-            className="mm-item"
-            style={{ color: '#1581cc' }}
+            className={`mm-item ${uStyles.logoutLink}`}
           >
             登出
             <ImExit size={20} className="ml-2" />
@@ -220,9 +219,9 @@ export default function Test() {
               <div className="breadcrumb-wrapper-ns">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>會員中心</li>
+                  <li className={uStyles.bcItem1}>會員中心</li>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>我的收藏</li>
+                  <li className={uStyles.bcItem2}>我的課程</li>
                 </ul>
               </div>
 
@@ -230,9 +229,8 @@ export default function Test() {
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="flex sm:hidden items-center b-btn b-btn-body"
+                    className={`flex sm:hidden items-center b-btn b-btn-body ${uStyles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     選單

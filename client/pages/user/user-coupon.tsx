@@ -1,3 +1,4 @@
+import uStyles from './user-layout.module.scss'
 import { useEffect, useMemo, useState } from 'react'
 import Navbar from '@/components/common/navbar'
 import Footer from '@/components/common/footer'
@@ -173,7 +174,7 @@ export default function UserCoupon() {
 
             {/* 麵包屑 */}
             <div className="breadcrumb-wrapper-ns">
-              <ul className="flex items-center p-0 m-0" style={{ gap: 6 }}>
+              <ul className={`flex items-center p-0 m-0 ${uStyles.bcGap}`}>
                 <IoHome size={18} />
                 <li>會員中心</li>
                 <FaChevronRight size={12} />

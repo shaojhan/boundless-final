@@ -12,6 +12,7 @@ import Head from 'next/head'
 import 'animate.css'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 // scss
+import styles from './index.module.scss'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
 
 export default function Index() {
@@ -75,7 +76,7 @@ export default function Index() {
         <title>Boundless 線上音樂學習平台</title>
       </Head>
       <Navbar menuMbToggle={menuMbToggle} />
-      <div className="container-fill relative" style={{ minHeight: '95svh' }}>
+      <div className={`container-fill relative ${styles.minHeight95}`}>
         {/* 手機版主選單/navbar */}
         <div
           className={`menu-mb sm:hidden flex flex-col items-center ${
@@ -113,8 +114,7 @@ export default function Index() {
                     return (
                       <div
                         key={v.url ?? i}
-                        className="relative w-full shrink-0"
-                        style={{ cursor: 'pointer' }}
+                        className={`relative w-full shrink-0 ${styles.cursorPointer}`}
                         role="button"
                         tabIndex={0}
                         onClick={() => {
@@ -197,7 +197,7 @@ export default function Index() {
               <Image src="/asset/cloud1.png" width={240} height={160} alt="" />
             </div>
             <div className="w-1/2 px-6 hidden sm:flex flex-col justify-center items-center px-12">
-              <h2 className="mb-12 text-center" style={{ fontSize: '40px' }}>
+              <h2 className={`mb-12 text-center ${styles.title40}`}>
                 從休閒到專業
                 <br />
                 精彩課程拓展你的音樂邊界
@@ -235,8 +235,7 @@ export default function Index() {
             </div>
             <div className="w-1/2 px-6 hidden sm:flex flex-col justify-center items-center px-12">
               <h2
-                className="mb-12 text-center"
-                style={{ color: '#18a1ff', fontSize: '40px' }}
+                className={`mb-12 text-center ${styles.instrumentTitle}`}
               >
                 工欲善其事，必先利其器
                 <br />
@@ -251,7 +250,7 @@ export default function Index() {
             </div>
             {/* 樂器區塊-手機版 */}
             <div className="flex sm:hidden flex-col items-center">
-              <h2 className="text-center" style={{ color: '18a1ff' }}>
+              <h2 className={`text-center ${styles.instrumentTitleMb}`}>
                 工欲善其事，必先利其器
                 <br />
                 百種樂器任君挑選
@@ -296,7 +295,7 @@ export default function Index() {
               </div>
             </div>
             <div className="w-1/2 px-6 hidden sm:flex flex-col justify-center items-center px-12">
-              <h2 className="mb-12 text-center" style={{ fontSize: '40px' }}>
+              <h2 className={`mb-12 text-center ${styles.title40}`}>
                 滿腹想法無處傾瀉？
                 <br />
                 樂友論壇歡迎你的獨到見解

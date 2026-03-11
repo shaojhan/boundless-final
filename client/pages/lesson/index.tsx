@@ -27,6 +27,7 @@ import BS5Pagination from '@/components/common/pagination'
 import { useAuth } from '@/hooks/user/use-auth'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
+import styles from './index.module.scss'
 
 export default function LessonList() {
   const router = useRouter()
@@ -328,10 +329,7 @@ export default function LessonList() {
               <ul className="flex flex-col">
                 <Link href={'/lesson'} onClick={() => handleCategoryChange(0)}>
                   <li
-                    style={{
-                      color: selectedCategory === 0 ? '#18a1ff' : '',
-                      cursor: 'pointer',
-                    }}
+                    className={selectedCategory === 0 ? styles.activeCategory : styles.inactiveCategory}
                   >
                     全部
                   </li>
@@ -345,10 +343,7 @@ export default function LessonList() {
                       onClick={() => handleCategoryChange(v.id)}
                     >
                       <li
-                        style={{
-                          color: selectedCategory === v.id ? '#18a1ff' : '',
-                          cursor: 'pointer',
-                        }}
+                        className={selectedCategory === v.id ? styles.activeCategory : styles.inactiveCategory}
                       >
                         {v.name}
                       </li>
@@ -399,9 +394,9 @@ export default function LessonList() {
               <div className="breadcrumb-wrapper">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>探索課程</li>
+                  <li className={styles.bcItem1}>探索課程</li>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>線上課程</li>
+                  <li className={styles.bcItem2}>線上課程</li>
                 </ul>
               </div>
 
@@ -409,9 +404,8 @@ export default function LessonList() {
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="b-btn b-btn-body"
+                    className={`b-btn b-btn-body ${styles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     課程分類
@@ -603,7 +597,7 @@ export default function LessonList() {
               </div>
             </div>
             {/* 主內容 */}
-            <div className="content" style={{ minHeight: '95svh' }}>
+            <div className={`content ${styles.minHeight95}`}>
               {showHotCourses && (
                 <div className="hot-lesson">
                   <h4 className="text-primary">熱門課程</h4>

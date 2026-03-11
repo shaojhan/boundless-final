@@ -28,6 +28,7 @@ import React from 'react'
 import Head from 'next/head'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import pStyles from './puid.module.scss'
 // import ReactDOM from 'react-dom'
 
 // import App from '@/pages/_app'
@@ -142,25 +143,25 @@ export default function InstrumentDetailPage() {
           <NavbarMb />
         </div>
         {/* 麵包屑 */}
-        <div className="breadcrumb-wrapper-ns" style={{ paddingBlock: '20px' }}>
+        <div className={`breadcrumb-wrapper-ns ${pStyles.bcWrap}`}>
           <ul className="flex items-center flex-wrap p-0 m-0">
             <IoHome size={20} />
             <Link href="/instrument">
-              <li style={{ marginLeft: '8px' }}>樂器商城</li>
+              <li className={pStyles.bcItem1}>樂器商城</li>
             </Link>
             <FaChevronRight />
-            <li style={{ marginLeft: '10px' }}>
+            <li className={pStyles.bcItem2}>
               {InstrumentDetail.category_name}
             </li>
             <FaChevronRight />
-            <li style={{ marginLeft: '10px' }}>{InstrumentDetail.name}</li>
+            <li className={pStyles.bcItem2}>{InstrumentDetail.name}</li>
           </ul>
         </div>
 
         <div className="flex flex-wrap -mx-3">
           <div className="w-full px-6 sm:w-1/2">
             {/* 主內容 */}
-            <main className="content" style={{ paddingInline: '0' }}>
+            <main className={`content ${pStyles.noPadInline}`}>
               <div>
                 <div className="Left">
                   {/* prodBriefingArea */}
@@ -169,8 +170,7 @@ export default function InstrumentDetailPage() {
                     <div className="main-Pic">
                       <img
                         src={`/instrument/${InstrumentDetail.category_name}/${nameUnderline}/${selectedImg}`}
-                        className="h-full w-full"
-                        style={{ objectFit: 'contain' }}
+                        className={`h-full w-full ${pStyles.objectContain}`}
                         alt={InstrumentDetail.name}
                       />
                     </div>
@@ -217,8 +217,7 @@ export default function InstrumentDetailPage() {
                   {/* 手機版productbrief-card放這 */}
                   <div className="Right-mobile">
                     <div
-                      className="prodBriefing sticky-top"
-                      style={{ zIndex: '20' }}
+                      className={`prodBriefing sticky-top ${pStyles.zIndex20}`}
                     >
                       <div className="prodMainName">
                         {InstrumentDetail.name}
@@ -233,10 +232,7 @@ export default function InstrumentDetailPage() {
                             alt=""
                           />
                           <div
-                            className="ratingNumber"
-                            style={{
-                              color: reviews.length > 0 ? '' : '#666666',
-                            }}
+                            className={`ratingNumber ${reviews.length > 0 ? '' : pStyles.noReview}`}
                           >
                             {reviews.length > 0 ? (
                               <>
@@ -261,15 +257,14 @@ export default function InstrumentDetailPage() {
                         <div className="price">NT$ {price}</div>
                         <div className="likesIcon icon-container ">
                           <FaHeart
-                            className="likesIcon"
+                            className={`likesIcon ${colorChange ? pStyles.liked : ''}`}
                             size="32px"
-                            style={{ color: `${colorChange ? '#ec3f3f' : ''}` }}
                             onClick={colorToggle}
                           />
                         </div>
                       </div>
 
-                      <div className="Intro" style={{ textAlign: 'justify' }}>
+                      <div className={`Intro ${pStyles.textJustify}`}>
                         {InstrumentDetail.info}
                       </div>
                     </div>
@@ -302,8 +297,7 @@ export default function InstrumentDetailPage() {
           <div className="outline detail-wrapp mt40">
             <div className="detail-title">規格</div>
             <div
-              className="list py-6"
-              style={{ borderRadius: '5px' }}
+              className={`list py-6 ${pStyles.borderRadius5}`}
             >
               <ul className="m-0">
                 {specs.map((v) => {
@@ -317,8 +311,7 @@ export default function InstrumentDetailPage() {
           <div className="reviews mt40">
             <div className="detail-title">買家評論</div>
             <div
-              className="list py-6"
-              style={{ borderRadius: '5px' }}
+              className={`list py-6 ${pStyles.borderRadius5}`}
             >
               {reviews.length > 0 ? (
                 <>
@@ -355,8 +348,7 @@ export default function InstrumentDetailPage() {
                                 </div>
                               </div>
                               <div
-                                className="review-Star flex"
-                                style={{ gap: '3px' }}
+                                className={`review-Star flex ${pStyles.gap3}`}
                               >
                                 {statsDOM(v.stars)}
                               </div>
@@ -436,8 +428,7 @@ export default function InstrumentDetailPage() {
         </div>
       </div>
       <div
-        className="shoppingBtn sticky-top flex sm:hidden flex-col"
-        style={{ zIndex: '99' }}
+        className={`shoppingBtn sticky-top flex sm:hidden flex-col ${pStyles.zIndex99}`}
         id="shoppingBtn"
       >
         <div className="quantitySelector p-6">
@@ -452,7 +443,7 @@ export default function InstrumentDetailPage() {
           >
             <FaMinus color="#666666" />
           </div>
-          <div className="quantity" style={{ color: '#1d1d1d' }}>
+          <div className={`quantity ${pStyles.dark}`}>
             {quantity}
           </div>
           <div
@@ -467,10 +458,7 @@ export default function InstrumentDetailPage() {
             <FaPlus color="#fff" />
           </div>
           {InstrumentDetail.stock == 0 ? (
-            <div
-              className="ml-6"
-              style={{ color: '#1d1d1d', fontSize: '20px' }}
-            >
+            <div className={`ml-6 ${pStyles.darkText20}`}>
               暫無庫存
             </div>
           ) : (
@@ -478,14 +466,10 @@ export default function InstrumentDetailPage() {
           )}
         </div>
         <div
-          className="flex jusify-content-evenly px-2"
-          style={{ gap: '12px' }}
+          className={`flex jusify-content-evenly px-2 ${pStyles.gap12}`}
         >
           <div
-            className="cartBtn"
-            style={{
-              backgroundColor: `${InstrumentDetail.stock == 0 ? '#666666' : ''}`,
-            }}
+            className={`cartBtn ${InstrumentDetail.stock == 0 ? pStyles.cartBtnDisabled : ''}`}
           >
             <img
               loading="lazy"
@@ -514,10 +498,7 @@ export default function InstrumentDetailPage() {
             </div>
           </div>
           <div
-            className="buyBtn"
-            style={{
-              backgroundColor: `${InstrumentDetail.stock == 0 ? '#1581cc' : ''}`,
-            }}
+            className={`buyBtn ${InstrumentDetail.stock == 0 ? pStyles.buyBtnDisabled : ''}`}
             role="presentation"
             onClick={() => {
               if (InstrumentDetail.stock > 0) {

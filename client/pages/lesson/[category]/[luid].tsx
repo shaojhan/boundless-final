@@ -22,6 +22,7 @@ import { useCart } from '@/hooks/use-cart'
 import { format } from 'date-fns'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import styles from './luid.module.scss'
 
 function Section({
   title,
@@ -32,16 +33,10 @@ function Section({
 }) {
   return (
     <div>
-      <h2
-        className="text-2xl font-bold"
-        style={{ color: '#0d3652', marginBottom: '1rem' }}
-      >
+      <h2 className={`text-2xl font-bold ${styles.sectionTitle}`}>
         {title}
       </h2>
-      <div
-        className="bg-gray-50 rounded-xl border border-gray-100"
-        style={{ padding: '1.5rem' }}
-      >
+      <div className={`bg-gray-50 rounded-xl border border-gray-100 ${styles.sectionBody}`}>
         {children}
       </div>
     </div>
@@ -112,8 +107,7 @@ export default function LessonDetailPage() {
 
         {/* ── Hero: 圖左、描述右 ── */}
         <div
-          className="grid grid-cols-1 md:grid-cols-2"
-          style={{ gap: '2.5rem', marginBottom: '4rem' }}
+          className={`grid grid-cols-1 md:grid-cols-2 ${styles.heroGrid}`}
         >
           {/* 課程圖片 */}
           <div className="w-full aspect-video rounded-xl overflow-hidden bg-gray-100 shadow-sm self-start">
@@ -125,7 +119,7 @@ export default function LessonDetailPage() {
           </div>
 
           {/* 課程描述 */}
-          <div className="flex flex-col self-start" style={{ gap: '1.25rem' }}>
+          <div className={`flex flex-col self-start ${styles.descCol}`}>
             <h1 className="text-2xl font-bold text-gray-900 leading-snug">
               {LessonDetail.name}
             </h1>
@@ -208,8 +202,7 @@ export default function LessonDetailPage() {
 
         {/* ── 詳細內容（全寬置中）── */}
         <div
-          className="flex flex-col"
-          style={{ gap: '3rem', marginBottom: '4rem' }}
+          className={`flex flex-col ${styles.detailSection}`}
         >
           <Section title="單元一覽">
             <ul className="list-disc list-inside space-y-1.5 text-gray-700 text-sm">
@@ -257,8 +250,7 @@ export default function LessonDetailPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span
-                          className="font-semibold text-sm"
-                          style={{ color: '#124365' }}
+                          className={`font-semibold text-sm ${styles.reviewerName}`}
                         >
                           {review.name}
                         </span>
@@ -298,10 +290,7 @@ export default function LessonDetailPage() {
 
           {/* 講師資訊 */}
           <div>
-            <h2
-              className="text-2xl font-bold"
-              style={{ color: '#0d3652', marginBottom: '1rem' }}
-            >
+            <h2 className={`text-2xl font-bold ${styles.sectionTitle}`}>
               講師資訊
             </h2>
             <div className="flex gap-5 bg-gray-50 rounded-xl p-5 border border-gray-100">
@@ -326,7 +315,7 @@ export default function LessonDetailPage() {
 
         {/* 猜你喜歡 — 桌機 */}
         <div className="hidden md:block mb-10">
-          <h2 className="text-2xl font-bold mb-6" style={{ color: '#0d3652' }}>
+          <h2 className={`text-2xl font-bold mb-6 ${styles.deepPrimary}`}>
             猜你喜歡...
           </h2>
           <div className="flex gap-4 flex-wrap">
@@ -353,7 +342,7 @@ export default function LessonDetailPage() {
 
         {/* 猜你喜歡 — 手機 */}
         <div className="md:hidden mb-28">
-          <h2 className="text-2xl font-bold mb-5" style={{ color: '#0d3652' }}>
+          <h2 className={`text-2xl font-bold mb-5 ${styles.deepPrimary}`}>
             猜你喜歡...
           </h2>
           <div className="space-y-3">

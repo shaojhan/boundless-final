@@ -22,6 +22,7 @@ import BS5Pagination from '@/components/common/pagination'
 import { useAuth } from '@/hooks/user/use-auth'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import styles from './index.module.scss'
 
 export default function Test({ onSearch: _onSearch }) {
   // ----------------------會員登入狀態 & 會員資料獲取  ----------------------
@@ -441,8 +442,7 @@ export default function Test({ onSearch: _onSearch }) {
                 {InstrumentCategory.map((v) => {
                   return v.parent_id === 0 ? (
                     <li
-                      className="accordion"
-                      style={{ paddingBlock: '15px' }}
+                      className={`accordion ${styles.accordionPad}`}
                       key={v.id}
                     >
                       <div className="accordion-item">
@@ -522,8 +522,7 @@ export default function Test({ onSearch: _onSearch }) {
               {InstrumentCategory.map((v) => {
                 return v.parent_id === 0 ? (
                   <li
-                    className="accordion sm-item"
-                    style={{ paddingBlock: '19px' }}
+                    className={`accordion sm-item ${styles.accordionPadMb}`}
                     key={v.id}
                   >
                     <div className="accordion-item w-full">
@@ -574,7 +573,7 @@ export default function Test({ onSearch: _onSearch }) {
               <div className="breadcrumb-wrapper">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>樂器商域</li>
+                  <li className={styles.bcItem1}>樂器商域</li>
                 </ul>
               </div>
 
@@ -582,9 +581,8 @@ export default function Test({ onSearch: _onSearch }) {
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="b-btn b-btn-body"
+                    className={`b-btn b-btn-body ${styles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     選單
@@ -811,7 +809,7 @@ export default function Test({ onSearch: _onSearch }) {
             <main className="content">
               {showHotProducts && (
                 <div className="hot-instrument">
-                  <h4 style={{ color: '#1581cc' }}>熱銷商品</h4>
+                  <h4 className={styles.hotTitle}>熱銷商品</h4>
                   <div className="hot-instrument-card">
                     {instrument
                       .slice() // Create a copy of data array to avoid mutating original array

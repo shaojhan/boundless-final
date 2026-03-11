@@ -20,6 +20,7 @@ import { IoHome } from 'react-icons/io5'
 import { FaChevronRight } from 'react-icons/fa6'
 // scss
 import styles from '@/pages/jam/jam.module.scss'
+import jStyles from '../jam-shared.module.scss'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
 
 export default function Info() {
@@ -596,8 +597,7 @@ export default function Info() {
       </Head>
       <Navbar menuMbToggle={menuMbToggle} />
       <div
-        className="container mx-auto px-6 relative"
-        style={{ minHeight: '95svh' }}
+        className={`container mx-auto px-6 relative ${jStyles.minHeight95}`}
       >
         {/* 手機版主選單/navbar */}
         <div
@@ -610,14 +610,14 @@ export default function Info() {
           <div className="breadcrumb-wrapper-ns w-full">
             <ul className="flex items-center p-0 m-0">
               <IoHome size={20} />
-              <li style={{ marginLeft: '8px' }}>Let&apos;s JAM!</li>
+              <li className={jStyles.bcItem1}>Let&apos;s JAM!</li>
               <FaChevronRight />
               <Link href="/jam/recruit-list">
-                <li style={{ marginLeft: '10px' }}>團員募集</li>
+                <li className={jStyles.bcItem2}>團員募集</li>
               </Link>
 
               <FaChevronRight />
-              <li style={{ marginLeft: '10px' }}>JAM資訊</li>
+              <li className={jStyles.bcItem2}>JAM資訊</li>
             </ul>
           </div>
           {/*   ---------------------- 主要內容  ---------------------- */}
@@ -670,8 +670,7 @@ export default function Info() {
                     className={`${styles.itemInputWrapper} w-full px-6 sm:w-5/6 px-6`}
                   >
                     <div
-                      className="flex flex-wrap"
-                      style={{ gap: '8px', flex: '1 0 0' }}
+                      className={`flex flex-wrap ${jStyles.badgeGroup}`}
                     >
                       {genreName.map((v, i) => {
                         return (
@@ -697,8 +696,7 @@ export default function Info() {
                     className={`${styles.itemInputWrapper} w-full px-6 sm:w-5/6 px-6`}
                   >
                     <div
-                      className="flex flex-wrap"
-                      style={{ gap: '8px', flex: '1 0 0' }}
+                      className={`flex flex-wrap ${jStyles.badgeGroup}`}
                     >
                       {playerResult.map((v, i) => {
                         return (
@@ -723,7 +721,7 @@ export default function Info() {
                   <div
                     className={`${styles.infoText} w-full px-6 sm:w-5/6 px-6`}
                   >
-                    <span style={{ color: '#1581cc' }}>{nowNumber}</span> /{' '}
+                    <span className={jStyles.primary}>{nowNumber}</span> /{' '}
                     {totalNumber} 人
                   </div>
                 </div>
@@ -761,8 +759,7 @@ export default function Info() {
                     描述
                   </div>
                   <div
-                    className={`${styles.infoText} w-full px-6 sm:w-5/6 px-6`}
-                    style={{ textAlign: 'justify' }}
+                    className={`${styles.infoText} w-full px-6 sm:w-5/6 px-6 ${jStyles.textJustify}`}
                   >
                     {jam.description}
                   </div>
@@ -770,8 +767,7 @@ export default function Info() {
                 {LoginUserData.id === jam.former.id ? (
                   <div className="flex justify-center">
                     <Link
-                      className="b-btn b-btn-primary"
-                      style={{ paddingInline: '38px' }}
+                      className={`b-btn b-btn-primary ${jStyles.btnPadH}`}
                       href="/jam/recruit-list/edit"
                     >
                       修改表單
@@ -792,7 +788,7 @@ export default function Info() {
                       {LoginUserData.id === jam.former.id ? (
                         <>
                           {/* 發起人進入所屬樂團頁面 */}
-                          <hr style={{ margin: '6px' }} />
+                          <hr className={jStyles.hrMargin} />
                           <section className={`${styles.jamLeftSection} mt-2`}>
                             <div className={`${styles.jamTitle}`}>申請一覽</div>
                             {applies.map((v) => {
@@ -813,11 +809,10 @@ export default function Info() {
                         </>
                       ) : (
                         <>
-                          <hr style={{ margin: '6px' }} />
+                          <hr className={jStyles.hrMargin} />
                           <div className="flex justify-center">
                             <div
-                              className="b-btn b-btn-danger mt-1"
-                              style={{ paddingInline: '38px' }}
+                              className={`b-btn b-btn-danger mt-1 ${jStyles.btnPadH}`}
                               role="presentation"
                               onClick={() => {
                                 warningQuit()
@@ -836,13 +831,12 @@ export default function Info() {
               ) : (
                 <>
                   {/* 無所屬樂團，顯示申請表單 */}
-                  <hr style={{ margin: '6px' }} />
+                  <hr className={jStyles.hrMargin} />
                   <section className={`${styles.jamLeftSection}`}>
                     <div className={`${styles.jamTitle}`}>
                       入團申請
                       <div
-                        className={`${styles.noticeText}`}
-                        style={{ color: '#666666' }}
+                        className={`${styles.noticeText} ${jStyles.secondary}`}
                       >
                         ※ 可同時申請多個 JAM，但最終只能擇一加入。
                       </div>
@@ -859,8 +853,7 @@ export default function Info() {
                         className={`${styles.itemInputWrapper} w-full px-6 sm:w-5/6 px-6`}
                       >
                         <select
-                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
-                          style={{ width: 'auto' }}
+                          className={`w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white ${jStyles.autoWidth}`}
                           value={myPlayer}
                           name="myPlayer"
                           id="myPlayer"
@@ -930,8 +923,7 @@ export default function Info() {
                         <>{switchSentence(myApplyState.state)}</>
                       ) : (
                         <div
-                          className="b-btn b-btn-primary"
-                          style={{ paddingInline: '38px' }}
+                          className={`b-btn b-btn-primary ${jStyles.btnPadH}`}
                           role="presentation"
                           onClick={() => {
                             if (checkLogin(LoginUserData)) {
@@ -945,8 +937,7 @@ export default function Info() {
                     </div>
                     {complete === 0 ? (
                       <div
-                        className="flex justify-center"
-                        style={{ marginTop: '-8px' }}
+                        className={`flex justify-center ${jStyles.warningOffset}`}
                       >
                         <div className={`${styles.warningText}`}>
                           請遵照規則，並填寫所有必填內容
@@ -978,8 +969,7 @@ export default function Info() {
                   : `${countDown.day} 天 ${countDown.hour} 小時 ${countDown.minute} 分 ${countDown.second} 秒`}
               </div>
               <div
-                className={`${styles.jamTitle}`}
-                style={{ marginBlock: '10px' }}
+                className={`${styles.jamTitle} ${jStyles.marginBlock10}`}
               >
                 成員名單
               </div>

@@ -24,6 +24,7 @@ import { useAuth } from '@/hooks/user/use-auth'
 import { useJam } from '@/hooks/use-jam'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
+import jStyles from '../jam-shared.module.scss'
 
 export default function JamList() {
   const router = useRouter()
@@ -277,9 +278,9 @@ export default function JamList() {
               <div className="breadcrumb-wrapper">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>Let&apos;s JAM!</li>
+                  <li className={jStyles.bcItem1}>Let&apos;s JAM!</li>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>活動中的JAM</li>
+                  <li className={jStyles.bcItem2}>活動中的JAM</li>
                 </ul>
               </div>
 
@@ -287,9 +288,8 @@ export default function JamList() {
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn sm:flex items-center">
                   <div
-                    className="flex sm:hidden b-btn b-btn-body"
+                    className={`flex sm:hidden b-btn b-btn-body ${jStyles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     選單
@@ -323,8 +323,7 @@ export default function JamList() {
                   ) : (
                     <div
                       role="presentation"
-                      className="b-btn b-btn-primary px-6 hidden sm:block"
-                      style={{ height: '36px' }}
+                      className={`b-btn b-btn-primary px-6 hidden sm:block ${jStyles.height36}`}
                       onClick={() => {
                         checkLogin(LoginUserData)
                       }}
@@ -334,8 +333,7 @@ export default function JamList() {
                   )}
                   {/* 電腦版搜尋欄 */}
                   <div
-                    className="search hidden sm:flex ml-6"
-                    style={{ width: '250px' }}
+                    className={`search hidden sm:flex ml-6 ${jStyles.width250}`}
                   >
                     <input
                       type="text"
@@ -389,8 +387,7 @@ export default function JamList() {
                         {/* 音樂風格 */}
                         <div className="filter-item">
                           <div
-                            className="filter-title"
-                            style={{ color: '#faad14' }}
+                            className={`filter-title ${jStyles.yellow}`}
                           >
                             音樂風格
                           </div>
@@ -416,8 +413,7 @@ export default function JamList() {
                         {/* 地區 */}
                         <div className="filter-item">
                           <div
-                            className="filter-title"
-                            style={{ color: '#1d1d1d' }}
+                            className={`filter-title ${jStyles.dark}`}
                           >
                             地區
                           </div>
@@ -440,8 +436,7 @@ export default function JamList() {
                           </select>
                         </div>
                         <div
-                          className="flex justify-between gap-2 mt-2"
-                          style={{ paddingInline: '10px' }}
+                          className={`flex justify-between gap-2 mt-2 ${jStyles.padH10}`}
                         >
                           <div
                             className="filter-btn clean-btn w-full flex justify-center"

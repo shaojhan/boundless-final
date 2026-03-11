@@ -24,6 +24,7 @@ import { apiBaseUrl } from '@/configs'
 import { useJam } from '@/hooks/use-jam'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
+import jStyles from '../jam-shared.module.scss'
 
 export default function RecruitList() {
   const router = useRouter()
@@ -295,22 +296,20 @@ export default function RecruitList() {
               <div className="breadcrumb-wrapper">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>Let&apos;s JAM!</li>
+                  <li className={jStyles.bcItem1}>Let&apos;s JAM!</li>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>團員募集</li>
+                  <li className={jStyles.bcItem2}>團員募集</li>
                 </ul>
               </div>
 
               <div
-                className="top-function-flex"
-                style={{ paddingBlock: '2px' }}
+                className={`top-function-flex ${jStyles.padV2}`}
               >
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="flex sm:hidden b-btn b-btn-body"
+                    className={`flex sm:hidden b-btn b-btn-body ${jStyles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     選單
@@ -368,8 +367,7 @@ export default function RecruitList() {
                         {/* 技術程度 */}
                         <div className="filter-item">
                           <div
-                            className="filter-title"
-                            style={{ color: '#666666' }}
+                            className={`filter-title ${jStyles.secondary}`}
                           >
                             技術程度
                           </div>
@@ -389,8 +387,7 @@ export default function RecruitList() {
                         {/* 徵求樂手 */}
                         <div className="filter-item">
                           <div
-                            className="filter-title"
-                            style={{ color: '#18a1ff' }}
+                            className={`filter-title ${jStyles.lightPrimary}`}
                           >
                             徵求樂手
                           </div>
@@ -415,8 +412,7 @@ export default function RecruitList() {
                         {/* 音樂風格 */}
                         <div className="filter-item">
                           <div
-                            className="filter-title"
-                            style={{ color: '#faad14' }}
+                            className={`filter-title ${jStyles.yellow}`}
                           >
                             音樂風格
                           </div>
@@ -442,8 +438,7 @@ export default function RecruitList() {
                         {/* 地區 */}
                         <div className="filter-item">
                           <div
-                            className="filter-title"
-                            style={{ color: '#1d1d1d' }}
+                            className={`filter-title ${jStyles.dark}`}
                           >
                             地區
                           </div>
@@ -466,8 +461,7 @@ export default function RecruitList() {
                           </select>
                         </div>
                         <div
-                          className="flex justify-between gap-2 mt-2"
-                          style={{ paddingInline: '10px' }}
+                          className={`flex justify-between gap-2 mt-2 ${jStyles.padH10}`}
                         >
                           <div
                             className="filter-btn clean-btn w-full flex justify-center"

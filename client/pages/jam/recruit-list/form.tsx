@@ -21,6 +21,7 @@ import { FaChevronRight } from 'react-icons/fa6'
 import { FaCirclePlus } from 'react-icons/fa6'
 // scss
 import styles from '@/pages/jam/jam.module.scss'
+import jStyles from '../jam-shared.module.scss'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
 
 const mySwal = withReactContent(Swal)
@@ -203,8 +204,7 @@ export default function Form() {
       </Head>
       <Navbar menuMbToggle={menuMbToggle} />
       <div
-        className="container mx-auto px-6 relative"
-        style={{ minHeight: '95svh' }}
+        className={`container mx-auto px-6 relative ${jStyles.minHeight95}`}
       >
         {/* 手機版主選單/navbar */}
         <div
@@ -217,17 +217,17 @@ export default function Form() {
           <div className="breadcrumb-wrapper-ns w-full">
             <ul className="flex items-center p-0 m-0">
               <IoHome size={20} />
-              <li style={{ marginLeft: '8px' }}>Let&apos;s JAM!</li>
+              <li className={jStyles.bcItem1}>Let&apos;s JAM!</li>
               <FaChevronRight />
               <Link href="/jam/recruit-list">
-                <li style={{ marginLeft: '10px' }}>團員募集</li>
+                <li className={jStyles.bcItem2}>團員募集</li>
               </Link>
 
               <FaChevronRight />
-              <li style={{ marginLeft: '10px' }}>發起JAM</li>
+              <li className={jStyles.bcItem2}>發起JAM</li>
             </ul>
           </div>
-          <section className="w-full px-6 sm:w-2/3 px-6" style={{ padding: 0 }}>
+          <section className={`w-full px-6 sm:w-2/3 px-6 ${jStyles.noPad}`}>
             {/* 主內容 */}
             <div className={`${styles.jamLeft}`}>
               <div className="flex flex-wrap -mx-3 items-center">
@@ -235,14 +235,12 @@ export default function Form() {
                   發起表單
                 </div>
                 <div
-                  className="w-full px-6 sm:w-5/6 px-6 sm:mt-0"
-                  style={{ color: '#666666' }}
+                  className={`w-full px-6 sm:w-5/6 px-6 sm:mt-0 ${jStyles.secondary}`}
                 >
                   ※ 點擊&nbsp;
                   <FaCirclePlus
                     size={18}
-                    style={{ color: '#18a1ff' }}
-                    className="mb-1"
+                    className={`mb-1 ${jStyles.lightPrimary}`}
                   />
                   &nbsp;可增加項目
                 </div>
@@ -301,8 +299,7 @@ export default function Form() {
                 >
                   <select
                     defaultValue={''}
-                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
-                    style={{ width: 'auto' }}
+                    className={`w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white ${jStyles.autoWidth}`}
                     value={degree}
                     name="degree"
                     id="degree"
@@ -335,8 +332,7 @@ export default function Form() {
                         <select
                           defaultValue={''}
                           key={i}
-                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
-                          style={{ width: 'auto' }}
+                          className={`w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white ${jStyles.autoWidth}`}
                           value={genre[i]}
                           name="genre"
                           id="genre"
@@ -369,7 +365,7 @@ export default function Form() {
                             setgenreSelect(newArr)
                           }}
                         />
-                        <span className="mb-1" style={{ color: '#1d1d1d' }}>
+                        <span className={`mb-1 ${jStyles.dark}`}>
                           (剩餘 {3 - genreSelect.length})
                         </span>
                       </div>
@@ -380,8 +376,7 @@ export default function Form() {
                       ''
                     ) : (
                       <div
-                        className={`${styles.warningText} hidden sm:block`}
-                        style={{ marginTop: '5px' }}
+                        className={`${styles.warningText} hidden sm:block ${jStyles.marginTop5}`}
                       >
                         無法選擇重複曲風
                       </div>
@@ -411,8 +406,7 @@ export default function Form() {
                 >
                   <select
                     defaultValue={''}
-                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
-                    style={{ width: 'auto' }}
+                    className={`w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white ${jStyles.autoWidth}`}
                     value={myPlayer}
                     name="myPlayer"
                     id="myPlayer"
@@ -453,8 +447,7 @@ export default function Form() {
                         <select
                           defaultValue={''}
                           key={i}
-                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
-                          style={{ width: 'auto' }}
+                          className={`w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white ${jStyles.autoWidth}`}
                           value={players[i]}
                           name="players"
                           id="players"
@@ -487,7 +480,7 @@ export default function Form() {
                             setPlayersSelect(newArr)
                           }}
                         />
-                        <span style={{ color: '#1d1d1d' }}>
+                        <span className={jStyles.dark}>
                           (剩餘 {6 - playersSelect.length})
                         </span>
                       </div>
@@ -510,8 +503,7 @@ export default function Form() {
                 >
                   <select
                     defaultValue={''}
-                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
-                    style={{ width: 'auto' }}
+                    className={`w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white ${jStyles.autoWidth}`}
                     value={region}
                     name="region"
                     id="region"
@@ -614,8 +606,7 @@ export default function Form() {
 
               <div className="flex justify-center">
                 <div
-                  className="b-btn b-btn-primary"
-                  style={{ paddingInline: '38px' }}
+                  className={`b-btn b-btn-primary ${jStyles.btnPadH}`}
                   role="presentation"
                   onClick={() => {
                     sendForm(
@@ -636,8 +627,7 @@ export default function Form() {
               </div>
               {complete === 0 ? (
                 <div
-                  className="flex justify-center"
-                  style={{ marginTop: '-8px' }}
+                  className={`flex justify-center ${jStyles.warningOffset}`}
                 >
                   <div className={`${styles.warningText}`}>
                     請遵照規則，並填寫所有必填內容

@@ -17,6 +17,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import aStyles from '../article-shared.module.scss'
 export default function Auid() {
   // ----------------------手機版本  ----------------------
   // 主選單
@@ -101,14 +102,14 @@ export default function Auid() {
           <div className="breadcrumb-wrapper-ns">
             <ul className="flex items-center p-0 m-0">
               <IoHome size={20} />
-              <li style={{ marginLeft: '8px' }}>樂友論壇</li>
+              <li className={aStyles.bcItem1}>樂友論壇</li>
               <FaChevronRight />
               <Link href="/article/article-list">
-                <li style={{ marginLeft: '10px' }}>文章資訊</li>
+                <li className={aStyles.bcItem2}>文章資訊</li>
               </Link>
               <FaChevronRight />
               <Link href="/article/article-list">
-                <li style={{ marginLeft: '10px' }}>文章內文</li>
+                <li className={aStyles.bcItem2}>文章內文</li>
               </Link>
             </ul>
           </div>

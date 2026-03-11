@@ -19,6 +19,7 @@ import ArticleCard from '@/components/article/article-card'
 // 會員認證hook
 import { useAuth } from '@/hooks/user/use-auth'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import aStyles from './article-shared.module.scss'
 
 export default function ArticleList() {
   // ----------------------手機版本  ----------------------
@@ -211,10 +212,10 @@ export default function ArticleList() {
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
                   <Link href="/article/article-list">
-                    <li style={{ marginLeft: '8px' }}>樂友論壇</li>
+                    <li className={aStyles.bcItem1}>樂友論壇</li>
                   </Link>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>音樂評論</li>
+                  <li className={aStyles.bcItem2}>音樂評論</li>
                 </ul>
               </div>
 
@@ -222,9 +223,8 @@ export default function ArticleList() {
                 {/*  ---------------------- 手機搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="flex sm:hidden items-center b-btn b-btn-body"
+                    className={`flex sm:hidden items-center b-btn b-btn-body ${aStyles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     選單
@@ -297,7 +297,7 @@ export default function ArticleList() {
             {/* 主內容 */}
             <main className="content mr-2">
               <div className="flex justify-between items-center">
-                <h4 className="pt-2" style={{ color: '#1581cc' }}>
+                <h4 className={`pt-2 ${aStyles.primary}`}>
                   熱門文章
                 </h4>
                 <Link
@@ -306,7 +306,7 @@ export default function ArticleList() {
                 >
                   <MdNoteAdd
                     size={35}
-                    style={{ color: 'gray', cursor: 'pointer' }}
+                    className={aStyles.grayCursor}
                   />
                   發布文章
                 </Link>

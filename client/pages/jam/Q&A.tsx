@@ -14,6 +14,7 @@ import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa6'
 // 自製元件
 import { useAuth } from '@/hooks/user/use-auth'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import jStyles from './jam-shared.module.scss'
 
 export default function RecruitList() {
   // ----------------------會員登入狀態 & 會員資料獲取  ----------------------
@@ -96,29 +97,26 @@ export default function RecruitList() {
             </div>
             {/*  ---------------------- 頂部功能列  ---------------------- */}
             <div
-              className="top-function-container"
-              style={{ paddingBottom: '5px' }}
+              className={`top-function-container ${jStyles.padBottom5}`}
             >
               {/*  ---------------------- 麵包屑  ---------------------- */}
               <div className="breadcrumb-wrapper">
                 <ul className="flex items-center p-0 m-0">
                   <IoHome size={20} />
-                  <li style={{ marginLeft: '8px' }}>Let&apos;s JAM!</li>
+                  <li className={jStyles.bcItem1}>Let&apos;s JAM!</li>
                   <FaChevronRight />
-                  <li style={{ marginLeft: '10px' }}>什麼是JAM？</li>
+                  <li className={jStyles.bcItem2}>什麼是JAM？</li>
                 </ul>
               </div>
 
               <div
-                className="top-function-flex"
-                style={{ paddingBlock: '2px 5PX' }}
+                className={`top-function-flex ${jStyles.padV2_5}`}
               >
                 {/*  ---------------------- 搜尋欄  ---------------------- */}
                 <div className="search-sidebarBtn">
                   <div
-                    className="flex sm:hidden b-btn b-btn-body"
+                    className={`flex sm:hidden b-btn b-btn-body ${jStyles.sidebarTrigger}`}
                     role="presentation"
-                    style={{ paddingInline: '16px' }}
                     onClick={sidebarToggle}
                   >
                     選單
@@ -128,7 +126,7 @@ export default function RecruitList() {
             </div>
             {/* 主內容 */}
             <main className="content pt-2 sm:pt-0">
-              <div className="pb-6" style={{ fontSize: '18px' }}>
+              <div className={`pb-6 ${jStyles.text18}`}>
                 <FaQuoteLeft color="#666666" />
                 <p className="m-0">
                   <span className="spec ml-6">Jam </span>
@@ -206,8 +204,7 @@ export default function RecruitList() {
                           }}
                         >
                           <p
-                            className="mb-1 pl-1 font-bold"
-                            style={{ color: '#1d1d1d' }}
+                            className={`mb-1 pl-1 font-bold ${jStyles.dark}`}
                           >
                             申請人
                           </p>
@@ -238,8 +235,7 @@ export default function RecruitList() {
                             </li>
                           </ol>
                           <p
-                            className="mb-1 pl-1 font-bold mt-2"
-                            style={{ color: '#1d1d1d' }}
+                            className={`mb-1 pl-1 font-bold mt-2 ${jStyles.dark}`}
                           >
                             發起人
                           </p>

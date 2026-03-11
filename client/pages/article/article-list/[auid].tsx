@@ -17,6 +17,7 @@ import Datetime from '@/components/article/datetime'
 import { useAuth } from '@/hooks/user/use-auth'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import aStyles from './article-shared.module.scss'
 export default function Auid() {
   // ----------------------手機版本  ----------------------
   // 主選單
@@ -91,7 +92,7 @@ export default function Auid() {
             <ul className="flex items-center p-0 m-0 flex-wrap">
               <IoHome size={20} />
               <Link href="/article/article-list">
-                <li style={{ marginLeft: '8px' }}>樂友論壇</li>
+                <li className={aStyles.bcItem1}>樂友論壇</li>
               </Link>
               <FaChevronRight />
               <Link
@@ -101,14 +102,14 @@ export default function Auid() {
                     : '/article/article-list/comments'
                 }
               >
-                <li style={{ marginLeft: '10px' }}>
+                <li className={aStyles.bcItem2}>
                   {articleDetail.category_name == '技術'
                     ? '技術分享'
                     : '音樂評論'}
                 </li>
               </Link>
               <FaChevronRight />
-              <li style={{ marginLeft: '10px' }}>{articleDetail.title}</li>
+              <li className={aStyles.bcItem2}>{articleDetail.title}</li>
             </ul>
           </div>
           <div className="w-full">
@@ -122,7 +123,7 @@ export default function Auid() {
                   >
                     <RiUserSettingsFill
                       size={30}
-                      style={{ color: 'gray', cursor: 'pointer' }}
+                      className={aStyles.grayCursor}
                     />
                     編輯
                   </Link>

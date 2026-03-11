@@ -19,6 +19,7 @@ import { Tiptap } from '@/components/article/tiptapEditor'
 import { useAuth } from '@/hooks/user/use-auth'
 import { useFilterToggle } from '@/hooks/useFilterToggle'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
+import aStyles from './article-shared.module.scss'
 
 export default function Publish() {
   const mySwal = withReactContent(Swal)
@@ -161,13 +162,13 @@ export default function Publish() {
           <div className="breadcrumb-wrapper-ns w-full">
             <ul className="flex items-center p-0 m-0">
               <IoHome size={20} />
-              <li style={{ marginLeft: '8px' }}>樂友論壇</li>
+              <li className={aStyles.bcItem1}>樂友論壇</li>
               <FaChevronRight />
               <Link href="/article/article-list">
-                <li style={{ marginLeft: '10px' }}>文章資訊</li>
+                <li className={aStyles.bcItem2}>文章資訊</li>
               </Link>
               <FaChevronRight />
-              <li style={{ marginLeft: '10px' }}>文章發布</li>
+              <li className={aStyles.bcItem2}>文章發布</li>
             </ul>
           </div>
           <div className="w-full">
@@ -284,8 +285,7 @@ export default function Publish() {
           </div>
           {complete === 0 ? (
             <div
-              className="flex bad-words justify-center"
-              style={{ marginTop: '-8px' }}
+              className={`flex bad-words justify-center ${aStyles.warningOffset}`}
             >
               <div>請遵照規則，並填寫所有必填內容</div>
             </div>

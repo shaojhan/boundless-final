@@ -20,6 +20,7 @@ import { IoHome } from 'react-icons/io5'
 import { FaChevronRight } from 'react-icons/fa6'
 // scss
 import styles from '@/pages/jam/jam.module.scss'
+import jStyles from '../jam-shared.module.scss'
 import { useMenuToggle } from '@/hooks/useMenuToggle'
 
 export default function Info() {
@@ -224,8 +225,7 @@ export default function Info() {
       </Head>
       <Navbar menuMbToggle={menuMbToggle} />
       <div
-        className="container mx-auto px-6 relative"
-        style={{ minHeight: '95svh' }}
+        className={`container mx-auto px-6 relative ${jStyles.minHeight95}`}
       >
         {/* 手機版主選單/navbar */}
         <div
@@ -238,14 +238,14 @@ export default function Info() {
           <div className="breadcrumb-wrapper-ns">
             <ul className="flex items-center p-0 m-0">
               <IoHome size={20} />
-              <li style={{ marginLeft: '8px' }}>Let&apos;s JAM!</li>
+              <li className={jStyles.bcItem1}>Let&apos;s JAM!</li>
               <FaChevronRight />
               <Link href="/jam/jam-list">
-                <li style={{ marginLeft: '10px' }}>活動中的JAM</li>
+                <li className={jStyles.bcItem2}>活動中的JAM</li>
               </Link>
 
               <FaChevronRight />
-              <li style={{ marginLeft: '10px' }}>JAM資訊</li>
+              <li className={jStyles.bcItem2}>JAM資訊</li>
             </ul>
           </div>
           {/*   ---------------------- 主要內容  ---------------------- */}
@@ -264,7 +264,7 @@ export default function Info() {
                     <Image
                       src={`${process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3005'}/jam/${jam.cover_img}`}
                       fill
-                      style={{ objectFit: 'cover' }}
+                      className={jStyles.objectCover}
                       alt={jam.cover_img}
                     />
                   ) : (
@@ -297,8 +297,7 @@ export default function Info() {
                     className={`${styles.itemInputWrapper} w-full px-6 sm:w-5/6 px-6`}
                   >
                     <div
-                      className="flex flex-wrap"
-                      style={{ gap: '8px', flex: '1 0 0' }}
+                      className={`flex flex-wrap ${jStyles.badgeGroup}`}
                     >
                       {genreName.map((v, i) => {
                         return (
@@ -347,14 +346,13 @@ export default function Info() {
                     樂團介紹
                   </div>
                   <div
-                    className={`${styles.infoText} w-full px-6 sm:w-5/6 px-6`}
-                    style={{ textAlign: 'justify' }}
+                    className={`${styles.infoText} w-full px-6 sm:w-5/6 px-6 ${jStyles.textJustify}`}
                   >
                     {jam.introduce ? jam.introduce : '暫無介紹'}
                   </div>
                 </div>
               </section>
-              <hr style={{ margin: '6px' }} />
+              <hr className={jStyles.hrMargin} />
               <section className={`${styles.jamLeftSection}`}>
                 <div className={`${styles.jamTitle}`}>展示牆</div>
                 {jam.works_link ? (
@@ -365,7 +363,7 @@ export default function Info() {
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
-                      style={{ width: '100%', height: '100%' }}
+                      className={jStyles.wh100}
                     ></iframe>
                   </div>
                 ) : (
@@ -398,8 +396,7 @@ export default function Info() {
                     ) : (
                       <div className="flex justify-center">
                         <div
-                          className="b-btn b-btn-danger"
-                          style={{ paddingInline: '38px' }}
+                          className={`b-btn b-btn-danger ${jStyles.btnPadH}`}
                           role="presentation"
                           onClick={() => {
                             warningQuit()
@@ -423,8 +420,7 @@ export default function Info() {
           >
             <div className={`${styles.jamRight}`}>
               <div
-                className={`${styles.jamTitle}`}
-                style={{ marginBlock: '10px' }}
+                className={`${styles.jamTitle} ${jStyles.marginBlock10}`}
               >
                 成員名單
               </div>

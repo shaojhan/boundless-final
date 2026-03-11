@@ -78,12 +78,12 @@ export function useCart() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const addInstrumentItem = (item: any, qty: number) => {
-    dispatch(addInstrumentItemAction({ item: item as CartItem, qty }))
+    dispatch(addInstrumentItemAction({ item: { ...item, type: 1 } as CartItem, qty }))
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const addLessonItem = (item: any) => {
-    dispatch(addLessonItemAction({ item: item as CartItem }))
+    dispatch(addLessonItemAction({ item: { ...item, type: 2 } as CartItem }))
   }
 
   const remove = (_items: unknown, id: number) => {

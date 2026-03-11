@@ -665,7 +665,7 @@ export default function Test() {
                                         <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-5/12 px-6">
                                           <h5>購買日期</h5>
                                           <p>
-                                            {first.onshelf_time.split('T')[0]}
+                                            {String(first.created_time).split('T')[0]}
                                           </p>
                                         </div>
                                         <div className="user-order-item-instrument-detail-row-col lg:w-1/4 px-6 w-full px-6">

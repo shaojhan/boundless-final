@@ -222,6 +222,11 @@ export default function Navbar({
             <Link className="mm-item-right" href="/user/user-info">
               會員中心
             </Link>
+            {LoginUserData.isAdmin && (
+              <Link className="mm-item-right" href="/admin">
+                管理後台
+              </Link>
+            )}
             {}
             <div
               onClick={async () => {

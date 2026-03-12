@@ -182,8 +182,11 @@ export class PrismaProductRepository implements IProductRepository {
       where: {
         instrument_category_id: product.instrument_category_id ?? undefined,
         type: 1,
+        valid: 1,
+        NOT: { id: product.id },
       },
       include: { instrumentCategory: true },
+      orderBy: { sales: 'desc' },
       take: 5,
     });
     const youmaylike = (youmaylikeRaw as PrismaInstrumentProduct[]).map(toInstrumentProduct);
@@ -260,10 +263,12 @@ export class PrismaProductRepository implements IProductRepository {
       where: {
         lesson_category_id: product.lesson_category_id ?? undefined,
         type: 2,
-        reviews: { some: {} },
-        teacher: { isNot: null },
+        valid: 1,
+        NOT: { id: product.id },
       },
       include: { reviews: true, teacher: true, lessonCategory: true },
+      orderBy: { sales: 'desc' },
+      take: 5,
     });
     const youwilllike = (relatedRaw as PrismaLessonProduct[]).map(toLessonProduct);
 
@@ -284,7 +289,7 @@ export class PrismaProductRepository implements IProductRepository {
         puid: true,
         lessonCategory: { select: { name: true } },
       },
-      orderBy: { sales: 'asc' },
+      orderBy: { sales: 'desc' },
       take: 4,
     });
     return rows.map((r) => ({

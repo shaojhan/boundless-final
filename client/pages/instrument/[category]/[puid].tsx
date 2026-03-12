@@ -118,6 +118,17 @@ export default function InstrumentDetailPage() {
     }
   }, [InstrumentDetail])
 
+  // View tracking — fire-and-forget
+  useEffect(() => {
+    if (!router.isReady || !router.query.puid) return
+    fetch(`${apiBaseUrl}/recommendation/view`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ puid: router.query.puid }),
+    }).catch(() => {})
+  }, [router.isReady, router.query.puid])
+
   const _notify = () => toast('{InstrumentDetail[0].name)}已加入購物車.')
 
   // const quantity = localStorage.getItem('quantity')

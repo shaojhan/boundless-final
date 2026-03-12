@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/user/use-auth'
 import { apiBaseUrl } from '@/configs'
+import { authFetch } from '@/lib/api-client'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 import Navbar from '@/components/common/navbar'
@@ -19,8 +20,22 @@ export default function Index() {
   const router = useRouter()
   // ----------------------會員登入狀態 & 會員資料獲取  ----------------------
   //從hook 獲得使用者登入的資訊  儲存在變數LoginUserData裡面
-  const { LoginUserData } = useAuth()
+  const { LoginUserData, isAuth } = useAuth()
   const [carouselData, setCarouselData] = useState([])
+
+  // ── 個人化推薦 ──────────────────────────────────────────────────────────────
+  const [personalized, setPersonalized] = useState<{
+    instruments: { puid: string | null; name: string | null; img: string | null; price: number | null; category_name: string | null }[]
+    lessons: { puid: string | null; name: string | null; img: string | null; price: number | null; category_name: string | null }[]
+  } | null>(null)
+
+  useEffect(() => {
+    if (!isAuth) return
+    authFetch(`${apiBaseUrl}/recommendation/personalized?limit=4`)
+      .then((r) => r.json())
+      .then((res) => { if (res.status === 'success') setPersonalized(res.data) })
+      .catch(() => {})
+  }, [isAuth])
   const [currentSlide, setCurrentSlide] = useState(0)
   const slideIntervals = [6000, 6000, 6000, 6000, 4000]
   const carouselUseData =
@@ -184,6 +199,66 @@ export default function Index() {
               </button>
             </div>
           </section>
+          {/* 個人化推薦區塊（登入後顯示） */}
+          {isAuth && personalized && (personalized.instruments.length > 0 || personalized.lessons.length > 0) && (
+            <section className="my-10 px-4">
+              <h2 className="text-xl font-bold mb-6 text-center">為你推薦</h2>
+              {personalized.instruments.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="text-base font-semibold mb-3 text-gray-600">推薦樂器</h3>
+                  <div className="flex gap-4 overflow-x-auto pb-2">
+                    {personalized.instruments.map((v) => (
+                      <Link
+                        key={v.puid}
+                        href={`/instrument/${v.category_name ?? 'all'}/${v.puid}`}
+                        className="flex-shrink-0 w-36 text-center"
+                      >
+                        <div className="relative w-36 h-36 rounded-lg overflow-hidden bg-gray-100 mb-2">
+                          {v.img && (
+                            <Image
+                              src={`/樂器/instrument_img/${v.img}`}
+                              alt={v.name ?? ''}
+                              fill
+                              className="object-cover"
+                            />
+                          )}
+                        </div>
+                        <p className="text-sm truncate">{v.name}</p>
+                        <p className="text-sm text-gray-500">{v.price?.toLocaleString()} 元</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {personalized.lessons.length > 0 && (
+                <div>
+                  <h3 className="text-base font-semibold mb-3 text-gray-600">推薦課程</h3>
+                  <div className="flex gap-4 overflow-x-auto pb-2">
+                    {personalized.lessons.map((v) => (
+                      <Link
+                        key={v.puid}
+                        href={`/lesson/${v.category_name ?? 'all'}/${v.puid}`}
+                        className="flex-shrink-0 w-36 text-center"
+                      >
+                        <div className="relative w-36 h-36 rounded-lg overflow-hidden bg-gray-100 mb-2">
+                          {v.img && (
+                            <Image
+                              src={`/課程與師資/lesson_img/${v.img}`}
+                              alt={v.name ?? ''}
+                              fill
+                              className="object-cover"
+                            />
+                          )}
+                        </div>
+                        <p className="text-sm truncate">{v.name}</p>
+                        <p className="text-sm text-gray-500">{v.price?.toLocaleString()} 元</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
           {/* 課程區塊 */}
           <section className="lesson-section flex flex-wrap -mx-3 items-center mx-0">
             {/* 雲 */}

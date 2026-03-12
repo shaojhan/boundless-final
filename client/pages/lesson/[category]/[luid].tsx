@@ -71,6 +71,17 @@ export default function LessonDetailPage() {
     setYouWillLike(rawData.youwilllike)
   }, [rawData])
 
+  // View tracking — fire-and-forget
+  useEffect(() => {
+    if (!router.isReady || !router.query.luid) return
+    fetch(`${apiBaseUrl}/recommendation/view`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ puid: router.query.luid }),
+    }).catch(() => {})
+  }, [router.isReady, router.query.luid])
+
   const toLocalePrice = formatPrice(LessonDetail.price)
 
   return (

@@ -306,6 +306,7 @@ model Product {
   favorites          Favorite[]
   orderItems         OrderItem[]
   purchaseItems      PurchaseItem[]
+  views              ProductView[]
 
   @@map("product")
 }
@@ -484,6 +485,7 @@ model User {
   productReviewLikes  ProductReviewLike[]
   purchaseOrders      PurchaseOrder[]
   refreshTokens       RefreshToken[]
+  productViews        ProductView[]
 
   @@map("user")
 }
@@ -498,4 +500,16 @@ model RefreshToken {
   user User @relation(fields: [user_id], references: [id])
 
   @@map("refresh_token")
+}
+
+model ProductView {
+  id         Int      @id @default(autoincrement())
+  product_id Int
+  user_id    Int?
+  viewed_at  DateTime @default(now())
+
+  product Product @relation(fields: [product_id], references: [id])
+  user    User?   @relation(fields: [user_id], references: [id])
+
+  @@map("product_view")
 }

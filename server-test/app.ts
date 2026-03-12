@@ -29,7 +29,8 @@ import { createJamRouter } from './src/interfaces/routers/jamRouter.js';
 import { createUserRouter } from './src/interfaces/routers/userRouter.js';
 import { createCartRouter } from './src/interfaces/routers/cartRouter.js';
 import { createCouponRouter } from './src/interfaces/routers/couponRouter.js';
-import { authService, instrumentService, lessonService, articleService, jamService, userService, cartService, couponService } from './src/container.js';
+import { createRecommendationRouter } from './src/interfaces/routers/recommendationRouter.js';
+import { prisma, authService, instrumentService, lessonService, articleService, jamService, userService, cartService, couponService, recommendationService } from './src/container.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -95,6 +96,7 @@ app.use('/api/reset-password', forgetpasswordRouter);
 app.use('/api/order', ecpayorderRouter);
 app.use('/api/users', ecpayusersRouter);
 app.use('/api/auth', createAuthRouter(authService));
+app.use('/api/recommendation', createRecommendationRouter(recommendationService, prisma));
 // catch 404 and forward to error handler
 app.use(function (_req: Request, _res: Response, next: NextFunction) {
   next(createError(404));

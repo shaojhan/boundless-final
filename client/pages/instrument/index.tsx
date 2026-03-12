@@ -137,6 +137,14 @@ export default function Test({ onSearch: _onSearch }) {
   //-------------------連資料庫
 
   const [instrument, setInstrument] = useState([])
+  const [hotInstruments, setHotInstruments] = useState([])
+
+  useEffect(() => {
+    fetch(`${apiBaseUrl}/recommendation/popular/instruments?limit=4`)
+      .then((r) => r.json())
+      .then((res) => { if (res.status === 'success') setHotInstruments(res.data) })
+      .catch(() => {})
+  }, [])
   // const [brandData, setBrandData] = useState('')
   const getDatas = async (params, signal?: AbortSignal) => {
     // 用URLSearchParams產生查詢字串
@@ -811,11 +819,7 @@ export default function Test({ onSearch: _onSearch }) {
                 <div className="hot-instrument">
                   <h4 className={styles.hotTitle}>熱銷商品</h4>
                   <div className="hot-instrument-card">
-                    {instrument
-                      .slice() // Create a copy of data array to avoid mutating original array
-                      .sort((a, b) => b.sales - a.sales) // Sort courses based on sales volume
-                      .slice(0, 4) // Get top 4 courses */
-                      .map((v, i) => {
+                    {hotInstruments.map((v, i) => {
                         return (
                           <div className="hot-instrument-card-item" key={i}>
                             {/* 寫discount的判斷式 */}

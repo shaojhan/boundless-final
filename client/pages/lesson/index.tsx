@@ -77,6 +77,14 @@ export default function LessonList() {
   const [currentPage, setCurrentPage] = useState(0)
   const [totalPage, setTotalPage] = useState(0)
   const [LessonArray, setLessonArray] = useState([])
+  const [hotLessons, setHotLessons] = useState([])
+
+  useEffect(() => {
+    fetch(`${apiBaseUrl}/recommendation/popular/lessons?limit=4`)
+      .then((r) => r.json())
+      .then((res) => { if (res.status === 'success') setHotLessons(res.data) })
+      .catch(() => {})
+  }, [])
 
   function getLesson(signal?: AbortSignal) {
     return new Promise((resolve, reject) => {
@@ -602,10 +610,7 @@ export default function LessonList() {
                 <div className="hot-lesson">
                   <h4 className="text-primary">熱門課程</h4>
                   <div className="hot-lesson-card-group">
-                    {LessonArray.slice() // Create a copy of data array to avoid mutating original array
-                      .sort((a, b) => b.sales - a.sales) // Sort courses based on sales volume
-                      .slice(0, 4) // Get top 4 courses */
-                      .map((v, i) => {
+                    {hotLessons.map((v, i) => {
                         return (
                           <div className="hot-lesson-card" key={i}>
                             <Card

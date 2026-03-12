@@ -54,6 +54,13 @@ import { UserService } from './service/user/UserService.js';
 export const userProfileRepository = new PrismaUserProfileRepository(prisma);
 export const userService = new UserService(userProfileRepository);
 
+// ── Recommendation Context ─────────────────────────────────────────────────────
+import { PrismaRecommendationRepository } from './repository/recommendation/PrismaRecommendationRepository.js';
+import { RecommendationService } from './service/recommendation/RecommendationService.js';
+
+export const recommendationRepository = new PrismaRecommendationRepository(prisma);
+export const recommendationService = new RecommendationService(recommendationRepository);
+
 // ── Commerce Context ────────────────────────────────────────────────────────────
 import { PrismaCartRepository } from './repository/commerce/PrismaCartRepository.js';
 import { PrismaCouponRepository } from './repository/commerce/PrismaCouponRepository.js';

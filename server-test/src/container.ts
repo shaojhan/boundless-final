@@ -71,3 +71,10 @@ export const cartRepository = new PrismaCartRepository(prisma);
 export const couponRepository = new PrismaCouponRepository(prisma);
 export const cartService = new CartService(cartRepository);
 export const couponService = new CouponService(couponRepository);
+
+// ── Admin Context ──────────────────────────────────────────────────────────────
+import { PrismaAdminRepository } from './repository/admin/PrismaAdminRepository.js';
+import { AdminService } from './service/admin/AdminService.js';
+
+export const adminRepository = new PrismaAdminRepository(prisma);
+export const adminService = new AdminService(adminRepository);

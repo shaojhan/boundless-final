@@ -18,6 +18,7 @@ describe('User domain entity', () => {
     photoUrl: null,
     myJam: null,
     valid: 1,
+    isAdmin: false,
     createdTime: now,
     updatedTime: now,
   });
@@ -66,6 +67,7 @@ describe('UserPublic projection', () => {
       email: 'alice@example.com',
       img: null,
       myJam: null,
+      isAdmin: false,
     };
     expect(pub).not.toHaveProperty('passwordHash');
     expect(pub).not.toHaveProperty('googleUid');
@@ -74,7 +76,7 @@ describe('UserPublic projection', () => {
   });
 
   it('img and myJam accept string values', () => {
-    const pub: UserPublic = { id: 2, uid: 'u-xyz', name: 'Bob', email: 'bob@example.com', img: 'bob.png', myJam: 'j-999' };
+    const pub: UserPublic = { id: 2, uid: 'u-xyz', name: 'Bob', email: 'bob@example.com', img: 'bob.png', myJam: 'j-999', isAdmin: false };
     expect(pub.img).toBe('bob.png');
     expect(pub.myJam).toBe('j-999');
   });

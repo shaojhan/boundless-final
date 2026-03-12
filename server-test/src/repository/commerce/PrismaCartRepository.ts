@@ -13,6 +13,13 @@ export class PrismaCartRepository implements ICartRepository {
     return rows.map((r) => ({ id: r.id, price: Number(r.price), type: r.type }));
   }
 
+  async findProductStocks(ids: number[]): Promise<{ id: number; stock: number | null; type: number | null }[]> {
+    return this.prisma.product.findMany({
+      where: { id: { in: ids } },
+      select: { id: true, stock: true, type: true },
+    });
+  }
+
   async findValidCoupon(userId: number, templateId: number): Promise<{ id: number } | null> {
     return this.prisma.coupon.findFirst({
       where: { coupon_template_id: templateId, user_id: userId, valid: 1 },
@@ -39,6 +46,39 @@ export class PrismaCartRepository implements ICartRepository {
     ouid: string
   ): Promise<void> {
     await this.prisma.$transaction(async (tx) => {
+      // ── Stock validation & update ──────────────────────────────────────────
+      for (const entry of orderInput.cartEntries) {
+        const qty = Math.trunc(Number(entry.qty));
+        const product = await tx.product.findUnique({
+          where: { id: entry.id },
+          select: { id: true, name: true, stock: true, type: true },
+        });
+        if (!product) continue;
+
+        if (product.type === 1) {
+          // Instrument: validate stock and decrement
+          if (product.stock !== null && product.stock < qty) {
+            throw Object.assign(
+              new Error(`商品「${product.name ?? entry.id}」庫存不足（剩餘 ${product.stock}）`),
+              { statusCode: 400 },
+            );
+          }
+          await tx.product.update({
+            where: { id: entry.id },
+            data: {
+              ...(product.stock !== null ? { stock: { decrement: qty } } : {}),
+              sales: { increment: qty },
+            },
+          });
+        } else if (product.type === 2) {
+          // Lesson: no stock limit, only increment sales
+          await tx.product.update({
+            where: { id: entry.id },
+            data: { sales: { increment: 1 } },
+          });
+        }
+      }
+
       const orderTotalRecord = await tx.orderTotal.create({
         data: {
           user_id: orderInput.userUid,

@@ -145,6 +145,7 @@ function signAccessToken(user: UserPublic): string {
       email: user.email,
       img: user.img,
       my_jam: user.myJam,
+      isAdmin: user.isAdmin,
     },
     ACCESS_TOKEN_SECRET,
     { expiresIn: ACCESS_TOKEN_TTL },
@@ -158,6 +159,7 @@ function toPublic(user: {
   email: string;
   img: string | null;
   myJam: string | null;
+  isAdmin: boolean;
 }): UserPublic {
   return {
     id: user.id,
@@ -166,5 +168,6 @@ function toPublic(user: {
     email: user.email,
     img: user.img,
     myJam: user.myJam,
+    isAdmin: user.isAdmin,
   };
 }

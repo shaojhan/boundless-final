@@ -14,6 +14,7 @@ import { CartService } from '#src/service/commerce/CartService.js';
 function makeRepo(): ICartRepository {
   return {
     findProductPrices: vi.fn(),
+    findProductStocks: vi.fn(),
     findValidCoupon: vi.fn(),
     findCouponTemplate: vi.fn(),
     createOrderTransaction: vi.fn(),

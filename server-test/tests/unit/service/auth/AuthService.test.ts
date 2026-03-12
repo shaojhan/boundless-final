@@ -31,6 +31,7 @@ const mockUser: User = {
   photoUrl: null,
   myJam: null,
   valid: 1,
+  isAdmin: false,
   createdTime: new Date(),
   updatedTime: new Date(),
 };
@@ -42,6 +43,7 @@ const mockUserPublic = {
   email: mockUser.email,
   img: mockUser.img,
   myJam: mockUser.myJam,
+  isAdmin: false,
 };
 
 // ── Mock repositories ──────────────────────────────────────────────────────────

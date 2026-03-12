@@ -16,6 +16,7 @@ export interface User {
   photoUrl: string | null;
   myJam: string | null;
   valid: number;
+  isAdmin: boolean;
   createdTime: Date;
   updatedTime: Date;
 }
@@ -28,6 +29,7 @@ export interface UserPublic {
   email: string;
   img: string | null;
   myJam: string | null;
+  isAdmin: boolean;
 }
 
 /** Data required to create a new user */

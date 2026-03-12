@@ -474,6 +474,7 @@ model User {
   created_time    DateTime
   updated_time    DateTime
   valid           Int       @default(1)
+  is_admin        Boolean   @default(false)
 
   articles            Article[]
   articleComments     ArticleComment[]

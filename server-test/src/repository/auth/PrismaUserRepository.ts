@@ -11,6 +11,7 @@ const USER_PUBLIC_SELECT = {
   email: true,
   img: true,
   my_jam: true,
+  is_admin: true,
 } as const;
 
 export class PrismaUserRepository implements IUserRepository {
@@ -112,6 +113,7 @@ function toDomain(row: {
   photo_url: string | null;
   my_jam: string | null;
   valid: number;
+  is_admin: boolean;
   created_time: Date;
   updated_time: Date;
 }): User {
@@ -129,6 +131,7 @@ function toDomain(row: {
     photoUrl: row.photo_url,
     myJam: row.my_jam,
     valid: row.valid,
+    isAdmin: row.is_admin,
     createdTime: row.created_time,
     updatedTime: row.updated_time,
   };
@@ -141,6 +144,7 @@ function toPublic(row: {
   email: string;
   img: string | null;
   my_jam: string | null;
+  is_admin: boolean;
 }): UserPublic {
   return {
     id: row.id,
@@ -149,6 +153,7 @@ function toPublic(row: {
     email: row.email,
     img: row.img,
     myJam: row.my_jam,
+    isAdmin: row.is_admin,
   };
 }
 

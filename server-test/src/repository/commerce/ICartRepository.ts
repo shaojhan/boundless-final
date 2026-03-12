@@ -23,6 +23,7 @@ export interface UserEmailInfo {
 
 export interface ICartRepository {
   findProductPrices(ids: number[]): Promise<ProductPrice[]>;
+  findProductStocks(ids: number[]): Promise<{ id: number; stock: number | null; type: number | null }[]>;
   findValidCoupon(userId: number, templateId: number): Promise<{ id: number } | null>;
   findCouponTemplate(templateId: number): Promise<DiscountRule | null>;
   createOrderTransaction(

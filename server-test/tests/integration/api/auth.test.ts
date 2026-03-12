@@ -41,6 +41,7 @@ const mockUser: UserPublic = {
   email: 'test@example.com',
   img: null,
   myJam: null,
+  isAdmin: false,
 };
 
 const mockPayload: LoginPayload = {

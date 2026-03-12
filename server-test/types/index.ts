@@ -58,6 +58,7 @@ export interface JwtPayload {
   name: string;
   img?: string | null;
   my_jam?: string | null;
+  isAdmin?: boolean;
   iat?: number;
   exp?: number;
 }

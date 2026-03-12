@@ -338,6 +338,62 @@ describe('PrismaJamRepository.findMyApplies', () => {
 
 // ── findFormedJams ─────────────────────────────────────────────────────────────
 
+describe('PrismaJamRepository.findFormedJams (additional paths)', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it('帶 genre 篩選（非 all）→ where.genre 設定', async () => {
+    const prisma = makePrisma();
+    vi.mocked(prisma.genre.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.jam.count).mockResolvedValue(0);
+    vi.mocked(prisma.jam.findMany).mockResolvedValue([]);
+
+    const repo = new PrismaJamRepository(prisma);
+    await repo.findFormedJams({ genre: '1' });
+
+    const callArgs = vi.mocked(prisma.jam.findMany).mock.calls[0][0] as any;
+    expect(callArgs.where.genre).toBeDefined();
+  });
+
+  it('帶 genre=all → where 不含 genre', async () => {
+    const prisma = makePrisma();
+    vi.mocked(prisma.genre.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.jam.count).mockResolvedValue(0);
+    vi.mocked(prisma.jam.findMany).mockResolvedValue([]);
+
+    const repo = new PrismaJamRepository(prisma);
+    await repo.findFormedJams({ genre: 'all' });
+
+    const callArgs = vi.mocked(prisma.jam.findMany).mock.calls[0][0] as any;
+    expect(callArgs.where.genre).toBeUndefined();
+  });
+
+  it('帶 region（非 all）→ where.region 設定', async () => {
+    const prisma = makePrisma();
+    vi.mocked(prisma.genre.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.jam.count).mockResolvedValue(0);
+    vi.mocked(prisma.jam.findMany).mockResolvedValue([]);
+
+    const repo = new PrismaJamRepository(prisma);
+    await repo.findFormedJams({ region: '台南' });
+
+    const callArgs = vi.mocked(prisma.jam.findMany).mock.calls[0][0] as any;
+    expect(callArgs.where.region).toBe('台南');
+  });
+
+  it('genre.findMany 拋出 → genreData = undefined，仍繼續執行', async () => {
+    const prisma = makePrisma();
+    vi.mocked(prisma.genre.findMany).mockRejectedValue(new Error('genre DB error'));
+    vi.mocked(prisma.jam.count).mockResolvedValue(0);
+    vi.mocked(prisma.jam.findMany).mockResolvedValue([]);
+
+    const repo = new PrismaJamRepository(prisma);
+    const result = await repo.findFormedJams({});
+
+    expect(result.genreData).toBeUndefined();
+    expect(result.jamData).toHaveLength(0);
+  });
+});
+
 describe('PrismaJamRepository.findFormedJams', () => {
   beforeEach(() => vi.clearAllMocks());
 
@@ -427,6 +483,90 @@ describe('PrismaJamRepository.findFormedJamByJuid', () => {
     expect(result.status).toBe('success');
     expect((result.jamData!.former as any).uid).toBe('FORMER000001');
     expect((result.jamData!.genre as number[])).toEqual([1]);
+  });
+});
+
+// ── findFormedJamByJuid (additional paths) ─────────────────────────────────────
+
+describe('PrismaJamRepository.findFormedJamByJuid (additional paths)', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it('jam.findFirst.catch → 回傳 { status: error }', async () => {
+    const prisma = makePrisma();
+    vi.mocked(prisma.genre.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.player.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.jam.findFirst).mockRejectedValue(new Error('findFirst error'));
+
+    const repo = new PrismaJamRepository(prisma);
+    const result = await repo.findFormedJamByJuid(juid);
+
+    expect(result.status).toBe('error');
+  });
+
+  it('有成員 → member 正確解析並 enrich', async () => {
+    const prisma = makePrisma();
+    vi.mocked(prisma.genre.findMany).mockResolvedValue(genres as any);
+    vi.mocked(prisma.player.findMany).mockResolvedValue(players as any);
+    vi.mocked(prisma.jam.findFirst).mockResolvedValue({
+      juid, former: '{"id":10,"play":1}',
+      member: '[{"id":20,"play":2}]',
+      name: '搖滾樂團', cover_img: null, introduce: null,
+      works_link: null, genre: '[1]', region: '台北', formed_time: now,
+    } as any);
+    vi.mocked(prisma.user.findUnique).mockResolvedValue(formerUser as any);
+    vi.mocked(prisma.user.findMany).mockResolvedValue([
+      { id: 20, uid: 'MEMBER000002', name: '成員A', img: null, nickname: '小A' },
+    ] as any);
+
+    const repo = new PrismaJamRepository(prisma);
+    const result = await repo.findFormedJamByJuid(juid);
+
+    expect(result.status).toBe('success');
+    const members = result.jamData!.member as any[];
+    expect(members[0].uid).toBe('MEMBER000002');
+    expect(members[0].play).toBe('貝斯');
+  });
+
+  it('user.findUnique 拋出 → former 仍有基本欄位', async () => {
+    const prisma = makePrisma();
+    vi.mocked(prisma.genre.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.player.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.jam.findFirst).mockResolvedValue({
+      juid, former: '{"id":10,"play":1}', member: '[]',
+      name: '樂團', cover_img: null, introduce: null,
+      works_link: null, genre: '[1]', region: '台北', formed_time: now,
+    } as any);
+    vi.mocked(prisma.user.findUnique).mockRejectedValue(new Error('user lookup error'));
+    vi.mocked(prisma.user.findMany).mockResolvedValue([]);
+
+    const repo = new PrismaJamRepository(prisma);
+    const result = await repo.findFormedJamByJuid(juid);
+
+    // former.uid should be undefined (from failed lookup) but no throw
+    expect(result.status).toBe('success');
+    expect((result.jamData!.former as any).uid).toBeUndefined();
+  });
+
+  it('user.findMany（成員）拋出 → member 仍輸出（memberData=undefined）', async () => {
+    const prisma = makePrisma();
+    vi.mocked(prisma.genre.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.player.findMany).mockResolvedValue(players as any);
+    vi.mocked(prisma.jam.findFirst).mockResolvedValue({
+      juid, former: '{"id":10,"play":1}',
+      member: '[{"id":20,"play":2}]',
+      name: '樂團', cover_img: null, introduce: null,
+      works_link: null, genre: '[1]', region: '台北', formed_time: now,
+    } as any);
+    vi.mocked(prisma.user.findUnique).mockResolvedValue(formerUser as any);
+    vi.mocked(prisma.user.findMany).mockRejectedValue(new Error('findMany error'));
+
+    const repo = new PrismaJamRepository(prisma);
+    const result = await repo.findFormedJamByJuid(juid);
+
+    expect(result.status).toBe('success');
+    const members = result.jamData!.member as any[];
+    // uid will be undefined since memberData lookup failed
+    expect(members[0].uid).toBeUndefined();
   });
 });
 

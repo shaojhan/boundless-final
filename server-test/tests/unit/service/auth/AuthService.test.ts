@@ -228,6 +228,89 @@ describe('AuthService.requestOtp', () => {
   });
 });
 
+describe('AuthService.googleLogin', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it('有效 Google token → 查找已存在使用者 → 回傳 token + user', async () => {
+    const { userRepo, tokenRepo, otpRepo } = makeRepos();
+    vi.mocked(userRepo.findByGoogleUid).mockResolvedValue(mockUserPublic);
+    vi.mocked(tokenRepo.create).mockResolvedValue('refresh-g-token');
+
+    // Mock global fetch
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({ sub: 'g-uid-001', email: 'g@example.com', name: 'Google User' }),
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const service = new AuthService(userRepo, tokenRepo, otpRepo);
+    const result = await service.googleLogin('valid-google-access-token');
+
+    expect(result.token).toBeTruthy();
+    expect(result.refreshToken).toBe('refresh-g-token');
+    expect(userRepo.findByGoogleUid).toHaveBeenCalledWith('g-uid-001');
+    expect(userRepo.createGoogleUser).not.toHaveBeenCalled();
+
+    vi.unstubAllGlobals();
+  });
+
+  it('Google token 對應的使用者不存在 → 建立新帳號', async () => {
+    const { userRepo, tokenRepo, otpRepo } = makeRepos();
+    vi.mocked(userRepo.findByGoogleUid).mockResolvedValue(null);
+    vi.mocked(userRepo.createGoogleUser).mockResolvedValue(mockUserPublic);
+
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({ sub: 'g-uid-new', email: 'new@example.com', name: 'New Google', picture: 'https://pic.url' }),
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const service = new AuthService(userRepo, tokenRepo, otpRepo);
+    await service.googleLogin('new-google-token');
+
+    expect(userRepo.createGoogleUser).toHaveBeenCalledWith({
+      googleUid: 'g-uid-new',
+      email: 'new@example.com',
+      name: 'New Google',
+      photoUrl: 'https://pic.url',
+    });
+
+    vi.unstubAllGlobals();
+  });
+
+  it('Google API 回傳非 ok → 拋出 INVALID_GOOGLE_TOKEN', async () => {
+    const { userRepo, tokenRepo, otpRepo } = makeRepos();
+    const fetchMock = vi.fn().mockResolvedValue({ ok: false });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const service = new AuthService(userRepo, tokenRepo, otpRepo);
+    const err = await service.googleLogin('bad-token').catch((e) => e);
+
+    expect(err).toBeInstanceOf(AuthError);
+    expect(err.code).toBe('INVALID_GOOGLE_TOKEN');
+    expect(err.httpStatus).toBe(401);
+
+    vi.unstubAllGlobals();
+  });
+
+  it('Google 回傳資料缺少 sub → 拋出 INCOMPLETE_GOOGLE_USER', async () => {
+    const { userRepo, tokenRepo, otpRepo } = makeRepos();
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({ email: 'no-sub@example.com' }), // no sub
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const service = new AuthService(userRepo, tokenRepo, otpRepo);
+    const err = await service.googleLogin('partial-token').catch((e) => e);
+
+    expect(err).toBeInstanceOf(AuthError);
+    expect(err.code).toBe('INCOMPLETE_GOOGLE_USER');
+
+    vi.unstubAllGlobals();
+  });
+});
+
 describe('AuthService.resetPassword', () => {
   beforeEach(() => vi.clearAllMocks());
 

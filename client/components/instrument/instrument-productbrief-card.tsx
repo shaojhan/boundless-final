@@ -80,7 +80,7 @@ export default function ProductBriefCard({
           <div className="productPrice">
             <div className="price">NT$ {toLocalePrice}</div>
             {/* 收藏功能 */}
-            <FavoriteButton />
+            <FavoriteButton pid={data.id} />
           </div>
           <div className={`Intro ${styles.intro}`}>
             {data.info}

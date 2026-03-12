@@ -72,6 +72,13 @@ export const couponRepository = new PrismaCouponRepository(prisma);
 export const cartService = new CartService(cartRepository);
 export const couponService = new CouponService(couponRepository);
 
+// ── Favorite Context ───────────────────────────────────────────────────────────
+import { PrismaFavoriteRepository } from './repository/catalog/PrismaFavoriteRepository.js';
+import { FavoriteService } from './service/catalog/FavoriteService.js';
+
+export const favoriteRepository = new PrismaFavoriteRepository(prisma);
+export const favoriteService = new FavoriteService(favoriteRepository);
+
 // ── Admin Context ──────────────────────────────────────────────────────────────
 import { PrismaAdminRepository } from './repository/admin/PrismaAdminRepository.js';
 import { AdminService } from './service/admin/AdminService.js';

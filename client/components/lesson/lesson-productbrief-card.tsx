@@ -101,7 +101,7 @@ export default function ProductBriefCard({
           <div className="text-2xl font-bold text-gray-900">
             NT$ {toLocalePrice}
           </div>
-          <FavoriteButton />
+          <FavoriteButton pid={id} />
         </div>
 
         {/* Course meta */}

@@ -9,13 +9,22 @@ import Head from 'next/head'
 // 會員認證hook
 import { useAuth } from '@/hooks/user/use-auth'
 import { useAvatarImage } from '@/hooks/useAvatarImage'
+import { authFetch } from '@/lib/api-client'
 
-// lessoncard
-//instrument
+// Cards
 import InstrumentCard from '@/components/instrument/card'
+import CourseCard from '@/components/lesson/lesson-card'
 
-//ArticleCard
-import ArticleCard from '@/components/article/article-card'
+interface FavoriteItem {
+  id: number
+  pid: number
+  puid: string
+  name: string
+  price: number | null
+  img: string | null
+  type: number | null
+  created_at: string
+}
 
 // icons
 import { IoHome } from 'react-icons/io5'
@@ -70,6 +79,21 @@ export default function Test() {
 
   // ----------------------條件篩選  ----------------------
   useFilterToggle()
+
+  // ----------------------收藏資料----------------------
+  const [favorites, setFavorites] = useState<FavoriteItem[]>([])
+
+  useEffect(() => {
+    authFetch('/api/favorite')
+      .then((r) => r.json())
+      .then((data: FavoriteItem[]) => {
+        if (Array.isArray(data)) setFavorites(data)
+      })
+      .catch(() => {})
+  }, [])
+
+  const instrumentFavorites = favorites.filter((f) => f.type === 1)
+  const lessonFavorites = favorites.filter((f) => f.type === 2)
 
   return (
     <>
@@ -447,14 +471,27 @@ export default function Test() {
                             <div className="user-favorite-cardList-row-titleText">
                               樂器
                             </div>
-                            <div className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary user-favorite-cardList-row-btn">
+                            <Link
+                              href="/instrument/instrument-list"
+                              className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary user-favorite-cardList-row-btn"
+                            >
                               查看更多
-                            </div>
+                            </Link>
                           </div>
                           <div className="user-favorite-cardList-item">
-                            <InstrumentCard />
-                            <InstrumentCard />
-                            <InstrumentCard />
+                            {instrumentFavorites.length === 0 ? (
+                              <p className="text-gray-400">尚無收藏樂器</p>
+                            ) : (
+                              instrumentFavorites.slice(0, 3).map((f) => (
+                                <InstrumentCard
+                                  key={f.id}
+                                  puid={f.puid}
+                                  name={f.name}
+                                  price={f.price ?? undefined}
+                                  img_small={f.img ?? undefined}
+                                />
+                              ))
+                            )}
                           </div>
                         </div>
 
@@ -463,29 +500,27 @@ export default function Test() {
                             <div className="user-favorite-cardList-row-titleText">
                               課程
                             </div>
-                            <div className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary user-favorite-cardList-row-btn">
+                            <Link
+                              href="/lesson/lesson-list"
+                              className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary user-favorite-cardList-row-btn"
+                            >
                               查看更多
-                            </div>
+                            </Link>
                           </div>
                           <div className="user-favorite-cardList-item">
-                            {/* {isSmallScreen ? <Cardrwd /> : <Card />}
-                            {isSmallScreen ? <Cardrwd /> : <Card />}
-                            {isSmallScreen ? <Cardrwd /> : <Card />} */}
-                          </div>
-                        </div>
-
-                        <div className="user-favorite-cardList-row">
-                          <div className="user-favorite-cardList-row-title">
-                            <div className="user-favorite-cardList-row-titleText">
-                              文章
-                            </div>
-                            <div className="inline-flex items-center justify-center px-4 py-2 rounded font-medium cursor-pointer transition-colors bg-primary text-white hover:bg-deep-primary user-favorite-cardList-row-btn">
-                              查看更多
-                            </div>
-                          </div>
-                          <div className="user-favorite-cardList-item">
-                            <ArticleCard />
-                            <ArticleCard />
+                            {lessonFavorites.length === 0 ? (
+                              <p className="text-gray-400">尚無收藏課程</p>
+                            ) : (
+                              lessonFavorites.slice(0, 3).map((f) => (
+                                <CourseCard
+                                  key={f.id}
+                                  luid={f.puid}
+                                  name={f.name}
+                                  price={f.price ?? undefined}
+                                  img={f.img ?? undefined}
+                                />
+                              ))
+                            )}
                           </div>
                         </div>
                       </div>

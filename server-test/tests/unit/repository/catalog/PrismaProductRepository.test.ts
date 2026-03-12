@@ -416,7 +416,7 @@ describe('PrismaProductRepository.findHomepageLessons', () => {
     expect(result[0].puid).toBe('P001');
   });
 
-  it('查詢 where 含 lessonCategory isNot null，take 4，orderBy sales asc', async () => {
+  it('查詢 where 含 lessonCategory isNot null，take 4，orderBy sales desc', async () => {
     const prisma = makePrisma();
     vi.mocked(prisma.product.findMany).mockResolvedValue([]);
 
@@ -426,6 +426,6 @@ describe('PrismaProductRepository.findHomepageLessons', () => {
     const callArg = vi.mocked(prisma.product.findMany).mock.calls[0][0];
     expect(callArg.where).toEqual({ lessonCategory: { isNot: null } });
     expect(callArg.take).toBe(4);
-    expect(callArg.orderBy).toEqual({ sales: 'asc' });
+    expect(callArg.orderBy).toEqual({ sales: 'desc' });
   });
 });

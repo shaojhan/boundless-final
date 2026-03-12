@@ -65,6 +65,14 @@ describe('CouponService.findAll', () => {
     const service = new CouponService(repo);
     expect(await service.findAll(42)).toEqual([]);
   });
+
+  it('repo 拋出例外 → 錯誤向上傳遞', async () => {
+    const repo = makeRepo();
+    vi.mocked(repo.findByUserId).mockRejectedValue(new Error('DB 連線失敗'));
+
+    const service = new CouponService(repo);
+    await expect(service.findAll(42)).rejects.toThrow('DB 連線失敗');
+  });
 });
 
 // ── create ─────────────────────────────────────────────────────────────────────
@@ -90,6 +98,14 @@ describe('CouponService.create', () => {
     const service = new CouponService(repo);
     expect(await service.create(42, 999)).toBe(false);
   });
+
+  it('repo 拋出例外 → 錯誤向上傳遞', async () => {
+    const repo = makeRepo();
+    vi.mocked(repo.create).mockRejectedValue(new Error('寫入失敗'));
+
+    const service = new CouponService(repo);
+    await expect(service.create(42, 3)).rejects.toThrow('寫入失敗');
+  });
 });
 
 // ── invalidate ─────────────────────────────────────────────────────────────────
@@ -114,6 +130,14 @@ describe('CouponService.invalidate', () => {
 
     const service = new CouponService(repo);
     expect(await service.invalidate(999)).toBe(false);
+  });
+
+  it('repo 拋出例外 → 錯誤向上傳遞', async () => {
+    const repo = makeRepo();
+    vi.mocked(repo.invalidateById).mockRejectedValue(new Error('更新失敗'));
+
+    const service = new CouponService(repo);
+    await expect(service.invalidate(10)).rejects.toThrow('更新失敗');
   });
 });
 
@@ -175,5 +199,36 @@ describe('CouponService.redeem', () => {
 
     expect(result.success).toBe(false);
     expect(result.coupon).toBeUndefined();
+  });
+
+  it('已是大寫 → 原樣傳遞（idempotent）', async () => {
+    const repo = makeRepo();
+    vi.mocked(repo.redeem).mockResolvedValue(redeemSuccess);
+
+    const service = new CouponService(repo);
+    await service.redeem(42, 'SAVE100');
+
+    expect(repo.redeem).toHaveBeenCalledWith(42, 'SAVE100');
+  });
+
+  it('僅空白字元 → trim 後傳空字串給 repo', async () => {
+    const repo = makeRepo();
+    vi.mocked(repo.redeem).mockResolvedValue({
+      success: false,
+      message: '折扣碼無效或已過期',
+    });
+
+    const service = new CouponService(repo);
+    await service.redeem(42, '   ');
+
+    expect(repo.redeem).toHaveBeenCalledWith(42, '');
+  });
+
+  it('repo 拋出例外 → 錯誤向上傳遞', async () => {
+    const repo = makeRepo();
+    vi.mocked(repo.redeem).mockRejectedValue(new Error('兌換 DB 錯誤'));
+
+    const service = new CouponService(repo);
+    await expect(service.redeem(42, 'SAVE100')).rejects.toThrow('兌換 DB 錯誤');
   });
 });

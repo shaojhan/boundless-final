@@ -9,6 +9,7 @@ export interface RecommendedProduct {
   puid: string | null;
   name: string | null;
   img: string | null;
+  img_small: string | null;
   price: number | null;
   discount: number | null;
   discount_state: number | null;

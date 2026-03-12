@@ -22,6 +22,7 @@ const mockProduct: RecommendedProduct = {
   puid: 'p-001',
   name: '吉他入門',
   img: null,
+  img_small: null,
   price: 5000,
   discount: null,
   discount_state: null,

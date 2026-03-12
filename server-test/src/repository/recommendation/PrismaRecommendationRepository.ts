@@ -15,6 +15,7 @@ type RawProduct = {
   puid: string | null;
   name: string | null;
   img: string | null;
+  img_small: string | null;
   price: number | null;
   discount: unknown;
   discount_state: number | null;
@@ -52,6 +53,7 @@ function toRecommended(p: RawProduct): RecommendedProduct {
     puid: p.puid,
     name: p.name,
     img: p.img,
+    img_small: p.img_small,
     price: p.price,
     discount: p.discount != null ? Number(p.discount) : null,
     discount_state: p.discount_state,

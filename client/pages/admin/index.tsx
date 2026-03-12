@@ -41,6 +41,34 @@ interface AdminStats {
   productCount: number
 }
 
+interface InstrumentCategory {
+  id: number
+  name: string
+}
+
+interface LessonCategory {
+  id: number
+  name: string
+}
+
+interface CreateForm {
+  name: string
+  type: 1 | 2
+  price: string
+  stock: string
+  instrument_category_id: string
+  lesson_category_id: string
+}
+
+const EMPTY_FORM: CreateForm = {
+  name: '',
+  type: 1,
+  price: '',
+  stock: '0',
+  instrument_category_id: '',
+  lesson_category_id: '',
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function AdminPage() {
@@ -57,6 +85,14 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true)
   const [productPage, setProductPage] = useState(1)
   const PAGE_SIZE = 20
+
+  // Create product modal state
+  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [createForm, setCreateForm] = useState<CreateForm>(EMPTY_FORM)
+  const [creating, setCreating] = useState(false)
+  const [createError, setCreateError] = useState('')
+  const [instrumentCategories, setInstrumentCategories] = useState<InstrumentCategory[]>([])
+  const [lessonCategories, setLessonCategories] = useState<LessonCategory[]>([])
 
   // ── Guard ─────────────────────────────────────────────────────────────────
 
@@ -112,6 +148,68 @@ export default function AdminPage() {
 
   // ── Actions ───────────────────────────────────────────────────────────────
 
+  // Fetch categories when modal opens
+  useEffect(() => {
+    if (!showCreateModal) return
+    const fetchCategories = async () => {
+      const [iRes, lRes] = await Promise.all([
+        fetch(`${apiBaseUrl}/instrument/categories`),
+        fetch(`${apiBaseUrl}/lesson/categories`),
+      ])
+      if (iRes.ok) {
+        const d = await iRes.json()
+        setInstrumentCategories(d.data ?? d ?? [])
+      }
+      if (lRes.ok) {
+        const d = await lRes.json()
+        setLessonCategories(d.data ?? d ?? [])
+      }
+    }
+    fetchCategories()
+  }, [showCreateModal])
+
+  const handleCreateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setCreateError('')
+    setCreating(true)
+    try {
+      const body: Record<string, unknown> = {
+        name: createForm.name.trim(),
+        type: createForm.type,
+        price: parseInt(createForm.price, 10),
+      }
+      if (createForm.type === 1) {
+        body.stock = parseInt(createForm.stock, 10)
+        if (createForm.instrument_category_id) {
+          body.instrument_category_id = parseInt(createForm.instrument_category_id, 10)
+        }
+      } else {
+        if (createForm.lesson_category_id) {
+          body.lesson_category_id = parseInt(createForm.lesson_category_id, 10)
+        }
+      }
+
+      const res = await authFetch(`${apiBaseUrl}/admin/products`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      if (res.ok) {
+        const d = await res.json()
+        setProducts((prev) => [d.data, ...prev])
+        setProductTotal((t) => t + 1)
+        setStats((s) => s ? { ...s, productCount: s.productCount + 1 } : s)
+        setShowCreateModal(false)
+        setCreateForm(EMPTY_FORM)
+      } else {
+        const d = await res.json()
+        setCreateError(d.message ?? '新增失敗')
+      }
+    } finally {
+      setCreating(false)
+    }
+  }
+
   const handleStockChange = (puid: string, value: string) => {
     const num = parseInt(value, 10)
     if (!isNaN(num) && num >= 0) {
@@ -158,10 +256,144 @@ export default function AdminPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
         <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>管理後台</h1>
-        <Link href="/" style={{ color: '#124365', textDecoration: 'none', fontSize: 14 }}>
-          ← 返回首頁
-        </Link>
+        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+          <button
+            onClick={() => setShowCreateModal(true)}
+            style={{
+              padding: '8px 18px',
+              background: '#124365',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 6,
+              cursor: 'pointer',
+              fontSize: 14,
+              fontWeight: 600,
+            }}
+          >
+            + 新增商品
+          </button>
+          <Link href="/" style={{ color: '#124365', textDecoration: 'none', fontSize: 14 }}>
+            ← 返回首頁
+          </Link>
+        </div>
       </div>
+
+      {/* Create product modal */}
+      {showCreateModal && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000,
+          }}
+          onClick={() => setShowCreateModal(false)}
+        >
+          <div
+            style={{
+              background: '#fff', borderRadius: 10, padding: '28px 32px',
+              width: 480, maxWidth: '95vw', boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 700 }}>新增商品</h3>
+            <form onSubmit={handleCreateSubmit}>
+              <FormRow label="商品名稱">
+                <input
+                  required
+                  value={createForm.name}
+                  onChange={(e) => setCreateForm((f) => ({ ...f, name: e.target.value }))}
+                  style={inputStyle}
+                  placeholder="請輸入商品名稱"
+                />
+              </FormRow>
+
+              <FormRow label="商品類型">
+                <select
+                  value={createForm.type}
+                  onChange={(e) => setCreateForm((f) => ({ ...f, type: Number(e.target.value) as 1 | 2 }))}
+                  style={inputStyle}
+                >
+                  <option value={1}>樂器</option>
+                  <option value={2}>課程</option>
+                </select>
+              </FormRow>
+
+              <FormRow label="售價 (NT$)">
+                <input
+                  required
+                  type="number"
+                  min={0}
+                  value={createForm.price}
+                  onChange={(e) => setCreateForm((f) => ({ ...f, price: e.target.value }))}
+                  style={inputStyle}
+                  placeholder="0"
+                />
+              </FormRow>
+
+              {createForm.type === 1 && (
+                <>
+                  <FormRow label="庫存數量">
+                    <input
+                      type="number"
+                      min={0}
+                      value={createForm.stock}
+                      onChange={(e) => setCreateForm((f) => ({ ...f, stock: e.target.value }))}
+                      style={inputStyle}
+                    />
+                  </FormRow>
+                  <FormRow label="樂器分類">
+                    <select
+                      value={createForm.instrument_category_id}
+                      onChange={(e) => setCreateForm((f) => ({ ...f, instrument_category_id: e.target.value }))}
+                      style={inputStyle}
+                    >
+                      <option value="">（不指定）</option>
+                      {instrumentCategories.map((c) => (
+                        <option key={c.id} value={c.id}>{c.name}</option>
+                      ))}
+                    </select>
+                  </FormRow>
+                </>
+              )}
+
+              {createForm.type === 2 && (
+                <FormRow label="課程分類">
+                  <select
+                    value={createForm.lesson_category_id}
+                    onChange={(e) => setCreateForm((f) => ({ ...f, lesson_category_id: e.target.value }))}
+                    style={inputStyle}
+                  >
+                    <option value="">（不指定）</option>
+                    {lessonCategories.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                </FormRow>
+              )}
+
+              {createError && (
+                <p style={{ color: '#e53e3e', fontSize: 13, margin: '8px 0' }}>{createError}</p>
+              )}
+
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 24 }}>
+                <button
+                  type="button"
+                  onClick={() => { setShowCreateModal(false); setCreateForm(EMPTY_FORM); setCreateError('') }}
+                  style={{ padding: '8px 18px', border: '1px solid #ccc', borderRadius: 6, cursor: 'pointer', background: '#fff', fontSize: 14 }}
+                >
+                  取消
+                </button>
+                <button
+                  type="submit"
+                  disabled={creating}
+                  style={{ padding: '8px 18px', background: '#124365', color: '#fff', border: 'none', borderRadius: 6, cursor: creating ? 'default' : 'pointer', fontSize: 14, fontWeight: 600 }}
+                >
+                  {creating ? '新增中...' : '確認新增'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Stats cards */}
       {stats && (
@@ -353,6 +585,24 @@ function Th({ children }: { children: React.ReactNode }) {
 
 function Td({ children }: { children: React.ReactNode }) {
   return <td style={{ padding: '10px 12px' }}>{children}</td>
+}
+
+function FormRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#444', marginBottom: 4 }}>{label}</label>
+      {children}
+    </div>
+  )
+}
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '7px 10px',
+  border: '1px solid #ccc',
+  borderRadius: 5,
+  fontSize: 14,
+  boxSizing: 'border-box',
 }
 
 const paginBtnStyle: React.CSSProperties = {

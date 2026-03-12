@@ -1,7 +1,7 @@
 import express from 'express';
 import { checkAdmin } from '#middleware/checkAdmin.js';
 import type { AdminService } from '#service/admin/AdminService.js';
-import { PaginationSchema, UpdateStockSchema, PuidParamSchema } from '#interfaces/schemas/adminSchema.js';
+import { PaginationSchema, UpdateStockSchema, PuidParamSchema, CreateProductSchema } from '#interfaces/schemas/adminSchema.js';
 
 export function createAdminRouter(adminService: AdminService) {
   const router = express.Router();
@@ -30,6 +30,21 @@ export function createAdminRouter(adminService: AdminService) {
       return res.json({ status: 'success', ...result });
     } catch (err) {
       next(err);
+    }
+  });
+
+  // POST /api/admin/products
+  router.post('/products', async (req, res, next) => {
+    const parsed = CreateProductSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ status: 'error', message: '無效參數', details: parsed.error.flatten() });
+    }
+    try {
+      const product = await adminService.createProduct(parsed.data as import('#domain/admin/Admin.js').CreateProductInput);
+      return res.status(201).json({ status: 'success', data: product });
+    } catch (err) {
+      const statusCode = (err as { statusCode?: number }).statusCode ?? 500;
+      return res.status(statusCode).json({ status: 'error', message: (err as Error).message });
     }
   });
 

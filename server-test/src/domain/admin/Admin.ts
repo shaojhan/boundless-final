@@ -34,3 +34,12 @@ export interface AdminStats {
   totalRevenue: number;
   productCount: number;
 }
+
+export interface CreateProductInput {
+  name: string;
+  type: 1 | 2; // 1=Instrument, 2=Lesson
+  price: number;
+  stock?: number; // Instrument only
+  instrument_category_id?: number;
+  lesson_category_id?: number;
+}

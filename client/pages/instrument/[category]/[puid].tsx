@@ -105,7 +105,7 @@ export default function InstrumentDetailPage() {
     setInstrumentDetail(rawData.data)
     const reviewData = rawData.reviewData.map((v) => ({
       ...v,
-      created_time: v.created_time.split('T')[0],
+      created_time: v.created_time?.split('T')[0] ?? '',
     }))
     setReviews(reviewData)
     setYoumaylike(rawData.youmaylike)

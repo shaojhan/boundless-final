@@ -10,6 +10,12 @@ export default defineConfig({
     environment: 'node',
     include: ['tests/**/*.test.ts'],
     setupFiles: ['tests/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],   // text 印在終端，html 生成網頁報告
+      include: ['src/**/*.ts', 'routes/**/*.ts', 'controller/**/*.ts'],
+      exclude: ['tests/**', 'generated/**', 'node_modules/**'],
+    },
   },
   resolve: {
     alias: [

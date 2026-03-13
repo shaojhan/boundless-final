@@ -235,12 +235,12 @@ export default function Navbar({
             <div className="mm-divider" />
             <Link className="mm-item-right" href="/user/user-info">
               <RiUser3Line size={16} className="mm-item-icon" />
-              會員中心
+              <span>會員中心</span>
             </Link>
             {LoginUserData.isAdmin && (
               <Link className="mm-item-right" href="/admin">
                 <RiSettings4Line size={16} className="mm-item-icon" />
-                管理後台
+                <span>管理後台</span>
               </Link>
             )}
             <div className="mm-divider" />
@@ -253,7 +253,7 @@ export default function Navbar({
               className={`mm-item-right logout-btn ${styles.logoutLink}`}
             >
               <ImExit size={15} className="mm-item-icon" />
-              登出
+              <span>登出</span>
             </div>
           </div>
         </nav>
@@ -371,9 +371,8 @@ export default function Navbar({
           }
 
           .mm-item-icon {
-            font-size: 15px;
             flex-shrink: 0;
-            display: block;
+            vertical-align: middle;
           }
 
           .logout-btn {

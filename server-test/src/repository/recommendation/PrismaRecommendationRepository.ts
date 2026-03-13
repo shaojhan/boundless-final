@@ -21,9 +21,11 @@ type RawProduct = {
   discount_state: number | null;
   type: number | null;
   sales: number | null;
+  length: number | null;
   onshelf_time: string | null;
   instrumentCategory: { name: string } | null;
   lessonCategory: { name: string } | null;
+  teacher: { name: string } | null;
   _count: { favorites: number };
   reviews: { stars: number }[];
 };
@@ -48,6 +50,9 @@ function isRecentOnshelf(onshelfTime: string | null): boolean {
 }
 
 function toRecommended(p: RawProduct): RecommendedProduct {
+  const review_count = p.reviews.length;
+  const average_rating =
+    review_count > 0 ? p.reviews.reduce((a, r) => a + r.stars, 0) / review_count : null;
   return {
     id: p.id,
     puid: p.puid,
@@ -59,6 +64,10 @@ function toRecommended(p: RawProduct): RecommendedProduct {
     discount_state: p.discount_state,
     type: p.type,
     sales: p.sales,
+    length: p.length,
+    teacher_name: p.teacher?.name ?? null,
+    average_rating,
+    review_count,
     category_name: p.instrumentCategory?.name ?? p.lessonCategory?.name ?? null,
     score: computeScore(p),
   };
@@ -69,6 +78,7 @@ const PRODUCT_INCLUDE = {
   reviews: { select: { stars: true } },
   instrumentCategory: { select: { name: true } },
   lessonCategory: { select: { name: true } },
+  teacher: { select: { name: true } },
 } as const;
 
 // ── Repository ────────────────────────────────────────────────────────────────

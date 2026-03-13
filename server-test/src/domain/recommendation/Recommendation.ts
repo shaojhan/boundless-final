@@ -17,6 +17,10 @@ export interface RecommendedProduct {
   type: number | null;
   sales: number | null;
   category_name: string | null;
+  teacher_name: string | null;
+  average_rating: number | null;
+  review_count: number;
+  length: number | null;
   /** Computed popularity score (higher = more recommended) */
   score: number;
 }

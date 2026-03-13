@@ -214,9 +214,9 @@ export default function Index() {
                         className="flex-shrink-0 w-36 text-center"
                       >
                         <div className="relative w-36 h-36 rounded-lg overflow-hidden bg-gray-100 mb-2">
-                          {v.img && (
+                          {v.img_small && v.category_name && (
                             <Image
-                              src={`/樂器/instrument_img/${v.img}`}
+                              src={`/instrument/${v.category_name}/small/${v.img_small}`}
                               alt={v.name ?? ''}
                               fill
                               className="object-cover"

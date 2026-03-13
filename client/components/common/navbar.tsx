@@ -210,35 +210,49 @@ export default function Navbar({
           </div>
           {/* 登入狀態下 點擊右上角叫出小視窗          */}
           <div
-            className={`avatar-menu hidden  sm:flex  flex-col items-center ${avatarActivestatus}`}
+            className={`avatar-menu hidden sm:flex flex-col items-center ${avatarActivestatus}`}
           >
-            {/* 用戶資訊 */}
-            <div className="mm-user-info">
-              歡迎，
-              {LoginUserData.nickname
-                ? LoginUserData.nickname
-                : LoginUserData.name}
+            {/* 用戶資訊區塊 */}
+            <div className="mm-header">
+              <div className="mm-avatar">
+                <Image
+                  src={avatarImage}
+                  alt="user-avatar"
+                  fill={true}
+                  sizes="(max-width: 56px)"
+                />
+              </div>
+              <div className="mm-user-info">
+                <span className="mm-greeting">歡迎回來</span>
+                <span className="mm-username">
+                  {LoginUserData.nickname
+                    ? LoginUserData.nickname
+                    : LoginUserData.name}
+                </span>
+              </div>
             </div>
+            <div className="mm-divider" />
             <Link className="mm-item-right" href="/user/user-info">
+              <span className="mm-item-icon">👤</span>
               會員中心
             </Link>
             {LoginUserData.isAdmin && (
               <Link className="mm-item-right" href="/admin">
+                <span className="mm-item-icon">⚙️</span>
                 管理後台
               </Link>
             )}
-            {}
+            <div className="mm-divider" />
             <div
               onClick={async () => {
                 await handleLogout()
                 logoutAlert()
               }}
-              //onclick 要加這個 不然ES會跳沒有給身障人士使用
               role="presentation"
               className={`mm-item-right logout-btn ${styles.logoutLink}`}
             >
+              <ImExit size={15} className="mm-item-icon" />
               登出
-              <ImExit size={16} className="ml-2 mt-1" />
             </div>
           </div>
         </nav>
@@ -265,52 +279,125 @@ export default function Navbar({
           }
         }
         .avatar-menu {
-          width: 160px;
+          width: 200px;
           position: absolute;
-          top: 59px;
-          right: -20px;
+          top: 64px;
+          right: -12px;
           background-color: #fff;
-          border-inline: 1px solid;
-          border-bottom: 1px solid;
-          border-color: #b9b9b9;
-          border-radius: 0 0 3px 3px;
-          a {
-            color: #1581cc;
+          border: 1px solid rgba(0, 0, 0, 0.08);
+          border-radius: 12px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+          overflow: hidden;
+          animation: dropIn 0.18s ease;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 28px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-left: 1px solid rgba(0, 0, 0, 0.08);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            transform: rotate(45deg);
+          }
+
+          .mm-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4ff 100%);
+          }
+
+          .mm-avatar {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid #1581cc;
           }
 
           .mm-user-info {
-            border-radius: 0px;
-            width: 100%;
-            padding-block: 8px;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 400;
-            color: #000;
-            font-size: 16px;
+            flex-direction: column;
+            min-width: 0;
           }
-          .mm-item-right {
-            border-radius: 0px;
-            width: 100%;
-            padding-block: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+
+          .mm-greeting {
+            font-size: 11px;
+            color: #888;
+            font-weight: 400;
+          }
+
+          .mm-username {
+            font-size: 14px;
             font-weight: 600;
-            color: var($primary);
+            color: #1a1a1a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 110px;
+          }
+
+          .mm-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.07);
+          }
+
+          .mm-item-right {
+            width: 100%;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: #333;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background 0.15s;
             &:hover {
-              background-color: #ececec;
+              background-color: #f5f5f5;
+              color: #1581cc;
             }
           }
 
+          .mm-item-icon {
+            font-size: 15px;
+            flex-shrink: 0;
+          }
+
           .logout-btn {
-            font-size: 16px;
+            color: #e53e3e;
+            &:hover {
+              background-color: #fff5f5;
+              color: #c53030;
+            }
+          }
+
+          a {
+            color: #333;
           }
         }
         .menu-active {
-          top: -580px;
+          top: -999px;
+          opacity: 0;
+          pointer-events: none;
+        }
+        @keyframes dropIn {
+          from {
+            opacity: 0;
+            transform: translateY(-6px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
         .dark-toggle {
           background: none;

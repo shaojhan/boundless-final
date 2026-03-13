@@ -360,6 +360,7 @@ export default function Navbar({
             color: #333;
             cursor: pointer;
             font-size: 14px;
+            line-height: 1;
             text-decoration: none;
             transition: background 0.15s, color 0.15s;
             white-space: nowrap;
@@ -372,6 +373,7 @@ export default function Navbar({
           .mm-item-icon {
             font-size: 15px;
             flex-shrink: 0;
+            display: block;
           }
 
           .logout-btn {

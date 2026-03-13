@@ -357,14 +357,15 @@ export default function Navbar({
             align-items: center;
             gap: 8px;
             font-weight: 500;
-            color: #333;
+            color: #333 !important;
             cursor: pointer;
             font-size: 14px;
-            text-decoration: none;
-            transition: background 0.15s;
+            text-decoration: none !important;
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
             &:hover {
               background-color: #f5f5f5;
-              color: #1581cc;
+              color: #1581cc !important;
             }
           }
 
@@ -374,15 +375,11 @@ export default function Navbar({
           }
 
           .logout-btn {
-            color: #e53e3e;
+            color: #e53e3e !important;
             &:hover {
               background-color: #fff5f5;
-              color: #c53030;
+              color: #c53030 !important;
             }
-          }
-
-          a {
-            color: #333;
           }
         }
         .menu-active {

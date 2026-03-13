@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import styles from './navbar.module.scss'
 import { useRouter } from 'next/router'
 import { IoCart, IoMenu, IoMoon, IoSunny } from 'react-icons/io5'
@@ -66,6 +66,21 @@ export default function Navbar({
       )
   }
   const cartState = items.length > 0
+
+  const itemStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '10px 16px',
+    width: '100%',
+    fontSize: '14px',
+    fontWeight: 500,
+    color: '#333',
+    textDecoration: 'none',
+    whiteSpace: 'nowrap',
+    lineHeight: 1,
+    cursor: 'pointer',
+  }
 
   return (
     <>
@@ -233,13 +248,13 @@ export default function Navbar({
               </div>
             </div>
             <div className="mm-divider" />
-            <Link className="mm-item-right" href="/user/user-info">
-              <RiUser3Line size={16} className="mm-item-icon" />
+            <Link className="mm-item-right" href="/user/user-info" style={itemStyle}>
+              <RiUser3Line size={15} style={{ flexShrink: 0 }} />
               <span>會員中心</span>
             </Link>
             {LoginUserData.isAdmin && (
-              <Link className="mm-item-right" href="/admin">
-                <RiSettings4Line size={16} className="mm-item-icon" />
+              <Link className="mm-item-right" href="/admin" style={itemStyle}>
+                <RiSettings4Line size={15} style={{ flexShrink: 0 }} />
                 <span>管理後台</span>
               </Link>
             )}
@@ -251,8 +266,9 @@ export default function Navbar({
               }}
               role="presentation"
               className={`mm-item-right logout-btn ${styles.logoutLink}`}
+              style={{ ...itemStyle, color: '#e53e3e' }}
             >
-              <ImExit size={15} className="mm-item-icon" />
+              <ImExit size={15} style={{ flexShrink: 0 }} />
               <span>登出</span>
             </div>
           </div>

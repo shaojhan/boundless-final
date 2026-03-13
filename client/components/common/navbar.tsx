@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styles from './navbar.module.scss'
 import { useRouter } from 'next/router'
 import { IoCart, IoMenu, IoMoon, IoSunny } from 'react-icons/io5'
@@ -35,15 +35,39 @@ export default function Navbar({
   const avatarImage = useAvatarImage()
 
   //--------------------------登入狀態下 點擊右上角叫出小視窗-------------------
-  // 定義狀態來追蹤 className
   const [avatarActive, setavatarActive] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const autoCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // 點擊事件處理函式
+  const closeMenu = () => setavatarActive(false)
+
   const handleClick = () => {
-    // 更改狀態，切換 className
-    setavatarActive(!avatarActive)
+    setavatarActive((prev) => {
+      const next = !prev
+      if (next) {
+        // 開啟時啟動 5 秒自動關閉
+        if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current)
+        autoCloseTimer.current = setTimeout(closeMenu, 5000)
+      } else {
+        if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current)
+      }
+      return next
+    })
   }
-  // 根據狀態設置不同的 className 針對右上角小視窗
+
+  // 點擊選單外部關閉
+  useEffect(() => {
+    if (!avatarActive) return
+    const handleOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        closeMenu()
+        if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current)
+      }
+    }
+    document.addEventListener('mousedown', handleOutside)
+    return () => document.removeEventListener('mousedown', handleOutside)
+  }, [avatarActive])
+
   const avatarActivestatus = avatarActive ? '' : 'menu-active'
   //----------------------------sweetalert--------------------------------------
   //登出
@@ -226,6 +250,7 @@ export default function Navbar({
           </div>
           {/* 登入狀態下 點擊右上角叫出小視窗          */}
           <div
+            ref={menuRef}
             className={`avatar-menu hidden sm:flex flex-col ${avatarActivestatus}`}
           >
             {/* 用戶資訊區塊 */}

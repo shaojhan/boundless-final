@@ -283,6 +283,22 @@ export default function Navbar({
                 <span>管理後台</span>
               </Link>
             )}
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={toggleDark}
+              onKeyDown={(e) => e.key === 'Enter' && toggleDark()}
+              style={{ ...itemStyle, justifyContent: 'space-between' }}
+              className="mm-item-right"
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {isDark ? <IoSunny size={15} style={{ flexShrink: 0 }} /> : <IoMoon size={15} style={{ flexShrink: 0 }} />}
+                <span>{isDark ? '淺色模式' : '深色模式'}</span>
+              </span>
+              <span className="dark-toggle-track">
+                <span className={`dark-toggle-thumb ${isDark ? 'on' : ''}`} />
+              </span>
+            </div>
             <div className="mm-divider" />
             <div
               onClick={async () => {
@@ -422,6 +438,34 @@ export default function Navbar({
               background-color: #fff5f5;
               color: #c53030;
             }
+          }
+
+          .dark-toggle-track {
+            width: 32px;
+            height: 18px;
+            border-radius: 9px;
+            background: #ccc;
+            position: relative;
+            flex-shrink: 0;
+            transition: background 0.2s;
+          }
+
+          .dark-toggle-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform 0.2s;
+            &.on {
+              transform: translateX(14px);
+            }
+          }
+
+          .dark-toggle-track:has(.on) {
+            background: #1581cc;
           }
         }
         .menu-active {

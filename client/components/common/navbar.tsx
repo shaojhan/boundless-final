@@ -136,15 +136,6 @@ export default function Navbar({
             <li>
               <Link href="/article/article-list">樂友論壇</Link>
             </li>
-            <li>
-              <button
-                onClick={toggleDark}
-                aria-label="切換暗黑模式"
-                className="dark-toggle"
-              >
-                {isDark ? <IoSunny size={22} /> : <IoMoon size={22} />}
-              </button>
-            </li>
             <li className="ml-6 cart-icon">
               <div
                 className="cart"

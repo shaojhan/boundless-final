@@ -8,6 +8,7 @@ import logo from '@/assets/logo.svg'
 import logoMb from '@/assets/logo_mb.svg'
 import Link from 'next/link'
 import { ImExit } from 'react-icons/im'
+import { RiUser3Line, RiSettings4Line } from 'react-icons/ri'
 // sweetalert
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -210,7 +211,7 @@ export default function Navbar({
           </div>
           {/* 登入狀態下 點擊右上角叫出小視窗          */}
           <div
-            className={`avatar-menu hidden sm:flex flex-col items-center ${avatarActivestatus}`}
+            className={`avatar-menu hidden sm:flex flex-col ${avatarActivestatus}`}
           >
             {/* 用戶資訊區塊 */}
             <div className="mm-header">
@@ -233,12 +234,12 @@ export default function Navbar({
             </div>
             <div className="mm-divider" />
             <Link className="mm-item-right" href="/user/user-info">
-              <span className="mm-item-icon">👤</span>
+              <RiUser3Line size={16} className="mm-item-icon" />
               會員中心
             </Link>
             {LoginUserData.isAdmin && (
               <Link className="mm-item-right" href="/admin">
-                <span className="mm-item-icon">⚙️</span>
+                <RiSettings4Line size={16} className="mm-item-icon" />
                 管理後台
               </Link>
             )}

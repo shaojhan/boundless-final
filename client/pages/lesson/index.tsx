@@ -617,7 +617,8 @@ export default function LessonList() {
                               id={v.id}
                               luid={v.puid}
                               name={v.name}
-                              average_rating={v.average_rating}
+                              average_rating={v.average_rating != null ? Math.round(v.average_rating * 10) / 10 : undefined}
+                              review_count={v.review_count}
                               price={v.price}
                               teacher_name={v.teacher_name}
                               img={v.img}

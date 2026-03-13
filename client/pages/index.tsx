@@ -25,7 +25,7 @@ export default function Index() {
 
   // ── 個人化推薦 ──────────────────────────────────────────────────────────────
   const [personalized, setPersonalized] = useState<{
-    instruments: { puid: string | null; name: string | null; img: string | null; price: number | null; category_name: string | null }[]
+    instruments: { puid: string | null; name: string | null; img: string | null; img_small: string | null; price: number | null; category_name: string | null }[]
     lessons: { puid: string | null; name: string | null; img: string | null; price: number | null; category_name: string | null }[]
   } | null>(null)
 
@@ -37,6 +37,8 @@ export default function Index() {
       .catch(() => {})
   }, [isAuth])
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [instrCarouselIdx, setInstrCarouselIdx] = useState(0)
+  const [lessonCarouselIdx, setLessonCarouselIdx] = useState(0)
   const slideIntervals = [6000, 6000, 6000, 6000, 4000]
   const carouselUseData =
     carouselData.length > 0
@@ -201,62 +203,130 @@ export default function Index() {
           </section>
           {/* 個人化推薦區塊（登入後顯示） */}
           {isAuth && personalized && (personalized.instruments.length > 0 || personalized.lessons.length > 0) && (
-            <section className="my-10 px-4">
-              <h2 className="text-xl font-bold mb-6 text-center">為你推薦</h2>
-              {personalized.instruments.length > 0 && (
-                <div className="mb-8">
-                  <h3 className="text-base font-semibold mb-3 text-gray-600">推薦樂器</h3>
-                  <div className="flex gap-4 overflow-x-auto pb-2">
-                    {personalized.instruments.map((v) => (
-                      <Link
-                        key={v.puid}
-                        href={`/instrument/${v.category_name ?? 'all'}/${v.puid}`}
-                        className="flex-shrink-0 w-36 text-center"
-                      >
-                        <div className="relative w-36 h-36 rounded-lg overflow-hidden bg-gray-100 mb-2">
-                          {v.img_small && v.category_name && (
-                            <Image
-                              src={`/instrument/${v.category_name}/small/${v.img_small}`}
-                              alt={v.name ?? ''}
-                              fill
-                              className="object-cover"
-                            />
-                          )}
+            <section className="my-12 px-8">
+              <div className="max-w-5xl mx-auto">
+                <h2 className="text-2xl font-bold mb-8 text-center">為你推薦</h2>
+
+                {/* 推薦樂器 */}
+                {personalized.instruments.length > 0 && (
+                  <div className="mb-12">
+                    <h3 className="text-sm font-semibold mb-4 text-gray-400 tracking-widest uppercase">推薦樂器</h3>
+                    <div className="relative">
+                      <div className="overflow-hidden">
+                        <div
+                          className="flex gap-4 transition-transform duration-500 ease-in-out"
+                          style={{ transform: `translateX(-${instrCarouselIdx * 208}px)` }}
+                        >
+                          {personalized.instruments.map((v) => (
+                            <Link
+                              key={v.puid}
+                              href={`/instrument/${v.category_name ?? 'all'}/${v.puid}`}
+                              className="flex-shrink-0 w-48 bg-white rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden"
+                            >
+                              <div className="relative w-48 h-48 bg-gray-50">
+                                {v.img_small && v.category_name && (
+                                  <Image
+                                    src={`/instrument/${v.category_name}/small/${v.img_small}`}
+                                    alt={v.name ?? ''}
+                                    fill
+                                    className="object-contain"
+                                  />
+                                )}
+                              </div>
+                              <div className="px-3 pt-2 pb-3">
+                                <p className="text-sm font-medium text-gray-800 truncate">{v.name}</p>
+                                <p className="text-sm font-semibold text-[#18a1ff] mt-1">
+                                  NT$ {v.price?.toLocaleString() ?? '—'}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
                         </div>
-                        <p className="text-sm truncate">{v.name}</p>
-                        <p className="text-sm text-gray-500">{v.price?.toLocaleString()} 元</p>
-                      </Link>
-                    ))}
+                      </div>
+                      {instrCarouselIdx > 0 && (
+                        <button
+                          type="button"
+                          aria-label="Previous instrument"
+                          onClick={() => setInstrCarouselIdx((i) => i - 1)}
+                          className="absolute left-0 top-1/2 -translate-x-5 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-white border border-gray-200 rounded-full shadow-md hover:bg-gray-50 text-gray-600 z-10"
+                        >
+                          <FaChevronLeft size={14} />
+                        </button>
+                      )}
+                      {instrCarouselIdx < personalized.instruments.length - 3 && (
+                        <button
+                          type="button"
+                          aria-label="Next instrument"
+                          onClick={() => setInstrCarouselIdx((i) => i + 1)}
+                          className="absolute right-0 top-1/2 translate-x-5 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-white border border-gray-200 rounded-full shadow-md hover:bg-gray-50 text-gray-600 z-10"
+                        >
+                          <FaChevronRight size={14} />
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-              {personalized.lessons.length > 0 && (
-                <div>
-                  <h3 className="text-base font-semibold mb-3 text-gray-600">推薦課程</h3>
-                  <div className="flex gap-4 overflow-x-auto pb-2">
-                    {personalized.lessons.map((v) => (
-                      <Link
-                        key={v.puid}
-                        href={`/lesson/${v.category_name ?? 'all'}/${v.puid}`}
-                        className="flex-shrink-0 w-36 text-center"
-                      >
-                        <div className="relative w-36 h-36 rounded-lg overflow-hidden bg-gray-100 mb-2">
-                          {v.img && (
-                            <Image
-                              src={`/課程與師資/lesson_img/${v.img}`}
-                              alt={v.name ?? ''}
-                              fill
-                              className="object-cover"
-                            />
-                          )}
+                )}
+
+                {/* 推薦課程 */}
+                {personalized.lessons.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold mb-4 text-gray-400 tracking-widest uppercase">推薦課程</h3>
+                    <div className="relative">
+                      <div className="overflow-hidden">
+                        <div
+                          className="flex gap-4 transition-transform duration-500 ease-in-out"
+                          style={{ transform: `translateX(-${lessonCarouselIdx * 208}px)` }}
+                        >
+                          {personalized.lessons.map((v) => (
+                            <Link
+                              key={v.puid}
+                              href={`/lesson/${v.category_name ?? 'all'}/${v.puid}`}
+                              className="flex-shrink-0 w-48 bg-white rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden"
+                            >
+                              <div className="relative w-48 h-48 bg-gray-50">
+                                {v.img && (
+                                  <Image
+                                    src={`/課程與師資/lesson_img/${v.img}`}
+                                    alt={v.name ?? ''}
+                                    fill
+                                    className="object-cover"
+                                  />
+                                )}
+                              </div>
+                              <div className="px-3 pt-2 pb-3">
+                                <p className="text-sm font-medium text-gray-800 truncate">{v.name}</p>
+                                <p className="text-sm font-semibold text-[#18a1ff] mt-1">
+                                  NT$ {v.price?.toLocaleString() ?? '—'}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
                         </div>
-                        <p className="text-sm truncate">{v.name}</p>
-                        <p className="text-sm text-gray-500">{v.price?.toLocaleString()} 元</p>
-                      </Link>
-                    ))}
+                      </div>
+                      {lessonCarouselIdx > 0 && (
+                        <button
+                          type="button"
+                          aria-label="Previous lesson"
+                          onClick={() => setLessonCarouselIdx((i) => i - 1)}
+                          className="absolute left-0 top-1/2 -translate-x-5 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-white border border-gray-200 rounded-full shadow-md hover:bg-gray-50 text-gray-600 z-10"
+                        >
+                          <FaChevronLeft size={14} />
+                        </button>
+                      )}
+                      {lessonCarouselIdx < personalized.lessons.length - 3 && (
+                        <button
+                          type="button"
+                          aria-label="Next lesson"
+                          onClick={() => setLessonCarouselIdx((i) => i + 1)}
+                          className="absolute right-0 top-1/2 translate-x-5 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-white border border-gray-200 rounded-full shadow-md hover:bg-gray-50 text-gray-600 z-10"
+                        >
+                          <FaChevronRight size={14} />
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </section>
           )}
           {/* 課程區塊 */}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styles from './navbar.module.scss'
 import { useRouter } from 'next/router'
 import { IoCart, IoMenu, IoMoon, IoSunny } from 'react-icons/io5'
@@ -357,15 +357,15 @@ export default function Navbar({
             align-items: center;
             gap: 8px;
             font-weight: 500;
-            color: #333 !important;
+            color: #333;
             cursor: pointer;
             font-size: 14px;
-            text-decoration: none !important;
+            text-decoration: none;
             transition: background 0.15s, color 0.15s;
             white-space: nowrap;
             &:hover {
               background-color: #f5f5f5;
-              color: #1581cc !important;
+              color: #1581cc;
             }
           }
 
@@ -375,10 +375,10 @@ export default function Navbar({
           }
 
           .logout-btn {
-            color: #e53e3e !important;
+            color: #e53e3e;
             &:hover {
               background-color: #fff5f5;
-              color: #c53030 !important;
+              color: #c53030;
             }
           }
         }

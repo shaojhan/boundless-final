@@ -43,6 +43,19 @@ header {
   }
 }
 
+.navbar-wrapper .avatar-menu a {
+  display: flex;
+  padding: 10px 16px;
+  border-radius: 0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  &:hover {
+    color: #1581cc;
+    background-color: #f5f5f5;
+  }
+}
+
 .navbar-mb {
   color: #fff;
 }

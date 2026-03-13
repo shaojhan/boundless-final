@@ -223,6 +223,25 @@ const seed = async () => {
   });
   console.log('✓ 測試帳號 test@test.com / test1234');
 
+  const adminHashedPassword = await bcrypt.hash('admin1234', 10);
+  await prisma.user.upsert({
+    where: { id: 117 },
+    update: { password: adminHashedPassword, is_admin: true },
+    create: {
+      id: 117,
+      uid: 'admin00000001',
+      name: '管理員',
+      email: 'admin@test.com',
+      password: adminHashedPassword,
+      birthday: new Date('1990-01-01'),
+      created_time: new Date(),
+      updated_time: new Date(),
+      valid: 1,
+      is_admin: true,
+    },
+  });
+  console.log('✓ 管理員帳號 admin@test.com / admin1234');
+
   await prisma.$disconnect();
   console.log(`\n完成：成功 ${success} 筆，失敗 ${failed} 筆`);
 };

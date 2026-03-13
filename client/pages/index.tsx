@@ -31,7 +31,7 @@ export default function Index() {
 
   useEffect(() => {
     if (!isAuth) return
-    authFetch(`${apiBaseUrl}/recommendation/personalized?limit=4`)
+    authFetch(`${apiBaseUrl}/recommendation/personalized?limit=7`)
       .then((r) => r.json())
       .then((res) => { if (res.status === 'success') setPersonalized(res.data) })
       .catch(() => {})
@@ -253,7 +253,7 @@ export default function Index() {
                           <FaChevronLeft size={14} />
                         </button>
                       )}
-                      {instrCarouselIdx < personalized.instruments.length - 3 && (
+                      {instrCarouselIdx < personalized.instruments.length - 4 && (
                         <button
                           type="button"
                           aria-label="Next instrument"
@@ -313,7 +313,7 @@ export default function Index() {
                           <FaChevronLeft size={14} />
                         </button>
                       )}
-                      {lessonCarouselIdx < personalized.lessons.length - 3 && (
+                      {lessonCarouselIdx < personalized.lessons.length - 4 && (
                         <button
                           type="button"
                           aria-label="Next lesson"
